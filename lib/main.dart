@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:henshin/splash/splash_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+// void main() async {
+//   runApp(MyApp());
+// }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
