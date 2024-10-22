@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class JoinPageWidget extends StatefulWidget {
-  const JoinPageWidget({Key? key}) : super(key: key);
+  const JoinPageWidget({super.key});
 
   @override
   _JoinPageWidgetState createState() => _JoinPageWidgetState();
@@ -32,14 +32,14 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
       duration: 600,
       delay: 1100,
       fadeIn: true,
-      slideOffset: Offset(0, -70),
+      slideOffset: const Offset(0, -70),
     ),
     'textOnPageLoadAnimation2': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       delay: 1100,
       fadeIn: true,
-      slideOffset: Offset(0, -100),
+      slideOffset: const Offset(0, -100),
     ),
   };
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -68,7 +68,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                 child: Image.asset(
                   'assets/images/shot-cropped-1576957517751.png',
                   width: 140,
@@ -83,12 +83,12 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                 child: Text(
                   'Henshin',
                   style: HenshinTheme.title1.override(
                     fontFamily: 'NatoSansKhmer',
-                    color: Color(0xFF313131),
+                    color: const Color(0xFF313131),
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     useGoogleFonts: false,
@@ -102,12 +102,12 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 120),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 120),
                 child: Text(
                   'Job and Freelancing Marketplace !',
                   style: HenshinTheme.bodyText1.override(
                     fontFamily: 'NatoSansKhmer',
-                    color: Color(0xBF696969),
+                    color: const Color(0xBF696969),
                     useGoogleFonts: false,
                   ),
                 ).animated([animationsMap['textOnPageLoadAnimation2']]),
@@ -129,13 +129,13 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                  padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                   child: Container(
                     width: 100,
                     height: 45,
@@ -147,13 +147,13 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.mail,
                           color: Colors.white,
                           size: 24,
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Continue with E-mail',
                             style: HenshinTheme.subtitle2.override(
@@ -176,7 +176,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                  padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                   child: Container(
                     width: 100,
                     height: 45,
@@ -184,7 +184,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(36),
                       border: Border.all(
-                        color: Color(0x40313131),
+                        color: const Color(0x40313131),
                       ),
                     ),
                     child: Row(
@@ -195,7 +195,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                           width: 25,
                           height: 25,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: SvgPicture.asset(
@@ -203,7 +203,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Continue with Google',
                             style: HenshinTheme.subtitle2.override(
@@ -226,7 +226,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                  padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                   child: Container(
                     width: 100,
                     height: 45,
@@ -238,13 +238,13 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FaIcon(
+                        const FaIcon(
                           FontAwesomeIcons.apple,
                           color: Colors.white,
                           size: 24,
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Continue with Apple',
                             style: HenshinTheme.subtitle2.override(
@@ -263,7 +263,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             ],
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 16),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 16),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -273,13 +273,13 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                   style: HenshinTheme.bodyText1,
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                   child: InkWell(
                     onTap: () async {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginWithEmailPageWidget(),
+                          builder: (context) => const LoginWithEmailPageWidget(),
                         ),
                       );
                     },
@@ -298,9 +298,9 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -310,7 +310,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                   style: HenshinTheme.bodyText1,
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                   child: Text(
                     'Term of Service',
                     style: HenshinTheme.bodyText1.override(
@@ -326,7 +326,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -336,7 +336,7 @@ class _JoinPageWidgetState extends State<JoinPageWidget>
                   style: HenshinTheme.bodyText1,
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                   child: Text(
                     'Privacy Policy',
                     style: HenshinTheme.bodyText1.override(

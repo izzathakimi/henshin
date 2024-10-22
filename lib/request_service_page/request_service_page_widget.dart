@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class RequestServicePageWidget extends StatefulWidget {
-  const RequestServicePageWidget({Key? key}) : super(key: key);
+  const RequestServicePageWidget({super.key});
 
   @override
   _RequestServicePageWidgetState createState() =>
@@ -31,13 +31,13 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -45,7 +45,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -54,7 +54,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Request Service',
                           style: HenshinTheme.title2,
@@ -66,12 +66,12 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Overview (1 of 2 steps)',
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0x96303030),
+                            color: const Color(0x96303030),
                             useGoogleFonts: false,
                           ),
                         ),
@@ -79,14 +79,14 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Reference Images',
                               style: HenshinTheme.bodyText1.override(
@@ -105,12 +105,12 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Choose your file to upload',
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0x96303030),
+                            color: const Color(0x96303030),
                             useGoogleFonts: false,
                           ),
                         ),
@@ -123,14 +123,14 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: Container(
                             height: 140,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: Color(0x65757575),
+                                color: const Color(0x65757575),
                                 width: 1,
                               ),
                             ),
@@ -162,7 +162,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                                   children: [
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             0, 8, 0, 0),
                                         child: Text(
                                           'PNG JPEG, WEBP (10Mb max)',
@@ -170,7 +170,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
                                           ),
@@ -187,14 +187,14 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Describe your needs',
                               style: HenshinTheme.bodyText1.override(
@@ -215,7 +215,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController,
                             obscureText: false,
@@ -224,18 +224,18 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                                   'eg. I want you to design a simple and minimalist ..',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x9A303030),
+                                color: const Color(0x9A303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -254,10 +254,10 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-1, 1),
+            alignment: const AlignmentDirectional(-1, 1),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(0),
@@ -274,7 +274,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                   Expanded(
                     child: Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -289,13 +289,13 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 16),
                                     child: FFButtonWidget(
                                       onPressed: () {
@@ -312,7 +312,7 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                                           color: Colors.white,
                                           useGoogleFonts: false,
                                         ),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.transparent,
                                           width: 1,
                                         ),
@@ -330,14 +330,14 @@ class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 32),
                                   child: Text(
                                     'You won\'t be charged now',
                                     textAlign: TextAlign.center,
                                     style: HenshinTheme.bodyText1.override(
                                       fontFamily: 'NatoSansKhmer',
-                                      color: Color(0xCF303030),
+                                      color: const Color(0xCF303030),
                                       useGoogleFonts: false,
                                     ),
                                   ),

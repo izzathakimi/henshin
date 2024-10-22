@@ -2,8 +2,9 @@ import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
+
 class FreelancerPageWidget extends StatefulWidget {
-  const FreelancerPageWidget({Key? key}) : super(key: key);
+  const FreelancerPageWidget({super.key});
 
   @override
   _FreelancerPageWidgetState createState() => _FreelancerPageWidgetState();
@@ -36,13 +37,13 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -50,7 +51,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -60,7 +61,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Freelancer Information',
                             style: HenshinTheme.title2,
@@ -74,12 +75,12 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Personal (1 of 4 steps)',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
-                              color: Color(0x96303030),
+                              color: const Color(0x96303030),
                               useGoogleFonts: false,
                             ),
                           ),
@@ -88,14 +89,14 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Name',
                               style: HenshinTheme.bodyText1.override(
@@ -116,7 +117,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController1,
                             obscureText: false,
@@ -124,18 +125,18 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                               hintText: 'eg. Bong Thorn',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x98303030),
+                                color: const Color(0x98303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -154,7 +155,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                           child: Text(
                             'About',
                             style: HenshinTheme.bodyText1.override(
@@ -174,7 +175,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController2,
                             obscureText: false,
@@ -183,18 +184,18 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                                   'eg. Experience conducting research and some ...',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x98303030),
+                                color: const Color(0x98303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -214,7 +215,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                           child: Text(
                             'Country',
                             style: HenshinTheme.bodyText1.override(
@@ -234,7 +235,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController3,
                             obscureText: false,
@@ -242,24 +243,24 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                               hintText: 'Cambodia',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x98303030),
+                                color: const Color(0x98303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.keyboard_arrow_down,
                               ),
                             ),
@@ -275,7 +276,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                           child: Text(
                             'Country',
                             style: HenshinTheme.bodyText1.override(
@@ -295,7 +296,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController4,
                             obscureText: false,
@@ -303,24 +304,24 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                               hintText: 'Phnom Penh',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x98303030),
+                                color: const Color(0x98303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.keyboard_arrow_down,
                               ),
                             ),
@@ -335,10 +336,10 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-1, 1),
+            alignment: const AlignmentDirectional(-1, 1),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(0),
@@ -355,7 +356,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                   Expanded(
                     child: Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -370,13 +371,13 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 32),
                                     child: FFButtonWidget(
                                       onPressed: () {
@@ -393,7 +394,7 @@ class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                                           color: Colors.white,
                                           useGoogleFonts: false,
                                         ),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.transparent,
                                           width: 1,
                                         ),

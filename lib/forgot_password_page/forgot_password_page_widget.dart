@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordPageWidget extends StatefulWidget {
-  const ForgotPasswordPageWidget({Key? key}) : super(key: key);
+  const ForgotPasswordPageWidget({super.key});
 
   @override
   _ForgotPasswordPageWidgetState createState() =>
@@ -31,13 +31,13 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -49,7 +49,7 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                 child: Text(
                   'Forgot Password',
                   style: HenshinTheme.bodyText1.override(
@@ -67,13 +67,13 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 32, 16, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 32, 16, 0),
                   child: Text(
                     'Enter your e-mail address bellow to receive the code for setting up a new password.',
                     textAlign: TextAlign.center,
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
-                      color: Color(0xCB303030),
+                      color: const Color(0xCB303030),
                       useGoogleFonts: false,
                     ),
                   ),
@@ -82,13 +82,13 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
             ],
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
                     child: TextFormField(
                       controller: textController,
                       obscureText: false,
@@ -96,18 +96,18 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                         hintText: 'Email Address',
                         hintStyle: HenshinTheme.bodyText1.override(
                           fontFamily: 'NatoSansKhmer',
-                          color: Color(0xB3303030),
+                          color: const Color(0xB3303030),
                           useGoogleFonts: false,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x98757575),
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(18),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x98757575),
                             width: 1,
                           ),
@@ -126,7 +126,7 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
                   child: FFButtonWidget(
                     onPressed: () {
                       print('Button pressed ...');
@@ -141,7 +141,7 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                         color: Colors.white,
                         useGoogleFonts: false,
                       ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),

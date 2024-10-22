@@ -10,10 +10,12 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
@@ -26,14 +28,14 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     Future.delayed(
-        Duration(seconds: 1), () => setState(() => displaySplashImage = false));
+        const Duration(seconds: 1), () => setState(() => displaySplashImage = false));
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Henshin-App',
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -50,7 +52,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             )
-          : SplashWidget(),
+          : const SplashWidget(),
     );
   }
 }

@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class FreelancerPage2Widget extends StatefulWidget {
-  const FreelancerPage2Widget({Key? key}) : super(key: key);
+  const FreelancerPage2Widget({super.key});
 
   @override
   _FreelancerPage2WidgetState createState() => _FreelancerPage2WidgetState();
@@ -30,13 +30,13 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -44,7 +44,7 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -54,7 +54,7 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Freelancer Information',
                             style: HenshinTheme.title2,
@@ -68,12 +68,12 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Link Account (3 of 4 steps)',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
-                              color: Color(0x96303030),
+                              color: const Color(0x96303030),
                               useGoogleFonts: false,
                             ),
                           ),
@@ -82,14 +82,14 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Social Media',
                               style: HenshinTheme.bodyText1.override(
@@ -105,32 +105,32 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                           child: Text(
                             'Facebook',
                             style: HenshinTheme.title3,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Color(0x4C303030),
+                                color: const Color(0x4C303030),
                                 width: 1,
                               ),
                             ),
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(10, 3, 10, 3),
+                                  const EdgeInsetsDirectional.fromSTEB(10, 3, 10, 3),
                               child: Text(
                                 'Connect',
                                 style: HenshinTheme.bodyText1,
@@ -142,32 +142,32 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                           child: Text(
                             'Google',
                             style: HenshinTheme.title3,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Color(0x4C303030),
+                                color: const Color(0x4C303030),
                                 width: 1,
                               ),
                             ),
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(10, 3, 10, 3),
+                                  const EdgeInsetsDirectional.fromSTEB(10, 3, 10, 3),
                               child: Text(
                                 'Connect',
                                 style: HenshinTheme.bodyText1,
@@ -179,32 +179,32 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                           child: Text(
                             'Behance',
                             style: HenshinTheme.title3,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Color(0x4C303030),
+                                color: const Color(0x4C303030),
                                 width: 1,
                               ),
                             ),
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(10, 3, 10, 3),
+                                  const EdgeInsetsDirectional.fromSTEB(10, 3, 10, 3),
                               child: Text(
                                 'Connect',
                                 style: HenshinTheme.bodyText1,
@@ -216,14 +216,14 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Personal Website',
                               style: HenshinTheme.bodyText1.override(
@@ -244,7 +244,7 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController,
                             obscureText: false,
@@ -252,18 +252,18 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                               hintText: 'eg. www.bongthorn.dev',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x98303030),
+                                color: const Color(0x98303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -281,10 +281,10 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-1, 1),
+            alignment: const AlignmentDirectional(-1, 1),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(0),
@@ -301,7 +301,7 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                   Expanded(
                     child: Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -316,13 +316,13 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 32),
                                     child: FFButtonWidget(
                                       onPressed: () {
@@ -339,7 +339,7 @@ class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                                           color: Colors.white,
                                           useGoogleFonts: false,
                                         ),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.transparent,
                                           width: 1,
                                         ),

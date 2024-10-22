@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class RequestServicePage1Widget extends StatefulWidget {
-  const RequestServicePage1Widget({Key? key}) : super(key: key);
+  const RequestServicePage1Widget({super.key});
 
   @override
   _RequestServicePage1WidgetState createState() =>
@@ -24,13 +24,13 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -38,7 +38,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -47,7 +47,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Request Service',
                           style: HenshinTheme.title2,
@@ -59,12 +59,12 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Package & Pricing (2 of 2 steps)',
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0x96303030),
+                            color: const Color(0x96303030),
                             useGoogleFonts: false,
                           ),
                         ),
@@ -72,28 +72,28 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color(0xFFF2F7FE),
+                                color: const Color(0xFFF2F7FE),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16, 32, 16, 28),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 0, 32),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -106,7 +106,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(0, 0, 0, 12),
                                                 child: Text(
                                                   'Price',
@@ -132,12 +132,12 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                           ),
                                           Container(
                                             decoration: BoxDecoration(
-                                              color: Color(0xFF23AE10),
+                                              color: const Color(0xFF23AE10),
                                               borderRadius:
                                                   BorderRadius.circular(18),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(8, 2, 8, 4),
                                               child: Text(
                                                 'On-Sale',
@@ -154,12 +154,12 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                         ],
                                       ),
                                     ),
-                                    Divider(
+                                    const Divider(
                                       height: 1.2,
                                       color: Color(0x66757575),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0, 16, 0, 12),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -180,7 +180,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Padding(
+                                        const Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   16, 0, 0, 0),
@@ -194,14 +194,14 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                         Expanded(
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12, 0, 0, 0),
                                             child: Text(
                                               'High Resolution Files',
                                               style: HenshinTheme.bodyText1
                                                   .override(
                                                 fontFamily: 'NatoSansKhmer',
-                                                color: Color(0xCD303030),
+                                                color: const Color(0xCD303030),
                                                 useGoogleFonts: false,
                                               ),
                                             ),
@@ -210,14 +210,14 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                       ],
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0, 3, 0, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     16, 0, 0, 0),
@@ -230,7 +230,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 0, 0, 0),
                                               child: Text(
                                                 'All Project Source Files',
@@ -238,7 +238,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                                     .bodyText1
                                                     .override(
                                                   fontFamily: 'NatoSansKhmer',
-                                                  color: Color(0xCD303030),
+                                                  color: const Color(0xCD303030),
                                                   useGoogleFonts: false,
                                                 ),
                                               ),
@@ -248,14 +248,14 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0, 3, 0, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     16, 0, 0, 0),
@@ -268,7 +268,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 0, 0, 0),
                                               child: Text(
                                                 'Up to 2 Reviews',
@@ -276,7 +276,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                                     .bodyText1
                                                     .override(
                                                   fontFamily: 'NatoSansKhmer',
-                                                  color: Color(0xCD303030),
+                                                  color: const Color(0xCD303030),
                                                   useGoogleFonts: false,
                                                 ),
                                               ),
@@ -286,14 +286,14 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           0, 3, 0, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     16, 0, 0, 0),
@@ -306,7 +306,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 0, 0, 0),
                                               child: Text(
                                                 '2 Days Delivery',
@@ -314,7 +314,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                                     .bodyText1
                                                     .override(
                                                   fontFamily: 'NatoSansKhmer',
-                                                  color: Color(0xCD303030),
+                                                  color: const Color(0xCD303030),
                                                   useGoogleFonts: false,
                                                 ),
                                               ),
@@ -337,10 +337,10 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-1, 1),
+            alignment: const AlignmentDirectional(-1, 1),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(0),
@@ -357,7 +357,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                   Expanded(
                     child: Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -372,13 +372,13 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 16),
                                     child: FFButtonWidget(
                                       onPressed: () {
@@ -395,7 +395,7 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                           color: Colors.white,
                                           useGoogleFonts: false,
                                         ),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.transparent,
                                           width: 1,
                                         ),
@@ -413,14 +413,14 @@ class _RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 32),
                                   child: Text(
                                     'You won\'t be charged now',
                                     textAlign: TextAlign.center,
                                     style: HenshinTheme.bodyText1.override(
                                       fontFamily: 'NatoSansKhmer',
-                                      color: Color(0xCF303030),
+                                      color: const Color(0xCF303030),
                                       useGoogleFonts: false,
                                     ),
                                   ),

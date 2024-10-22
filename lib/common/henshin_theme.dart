@@ -9,43 +9,43 @@ class HenshinTheme {
 
   String primaryFontFamily = 'Poppins';
   String secondaryFontFamily = 'Roboto';
-  static TextStyle get title1 => TextStyle(
+  static TextStyle get title1 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF303030),
         fontWeight: FontWeight.w600,
         fontSize: 24,
       );
-  static TextStyle get title2 => TextStyle(
+  static TextStyle get title2 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF303030),
         fontWeight: FontWeight.w500,
         fontSize: 22,
       );
-  static TextStyle get title3 => TextStyle(
+  static TextStyle get title3 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF303030),
         fontWeight: FontWeight.w500,
         fontSize: 20,
       );
-  static TextStyle get subtitle1 => TextStyle(
+  static TextStyle get subtitle1 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF757575),
         fontWeight: FontWeight.w500,
         fontSize: 18,
       );
-  static TextStyle get subtitle2 => TextStyle(
+  static TextStyle get subtitle2 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF616161),
         fontWeight: FontWeight.normal,
         fontSize: 16,
       );
-  static TextStyle get bodyText1 => TextStyle(
+  static TextStyle get bodyText1 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF303030),
         fontWeight: FontWeight.normal,
         fontSize: 14,
       );
-  static TextStyle get bodyText2 => TextStyle(
+  static TextStyle get bodyText2 => const TextStyle(
         fontFamily: 'NatoSansKhmer',
         color: Color(0xFF424242),
         fontWeight: FontWeight.normal,

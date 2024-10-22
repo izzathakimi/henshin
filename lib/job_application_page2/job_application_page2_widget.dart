@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class JobApplicationPage2Widget extends StatefulWidget {
-  const JobApplicationPage2Widget({Key? key}) : super(key: key);
+  const JobApplicationPage2Widget({super.key});
 
   @override
   _JobApplicationPage2WidgetState createState() =>
@@ -24,13 +24,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -43,7 +43,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                   child: Text(
                     'Job Applicatons',
                     style: HenshinTheme.title2,
@@ -52,7 +52,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               ],
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -70,7 +70,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         color: Colors.black,
                         useGoogleFonts: false,
                       ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),
@@ -91,7 +91,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         color: Colors.white,
                         useGoogleFonts: false,
                       ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),
@@ -106,13 +106,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x66757575),
+                          color: const Color(0x66757575),
                         ),
                       ),
                       child: Row(
@@ -121,7 +121,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -130,7 +130,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 12, 12, 12),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -147,13 +147,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 0, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -192,19 +192,19 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x99303030),
+                                                      color: const Color(0x99303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 8, 8, 8, 0),
                                                     child: Container(
                                                       width: 3,
                                                       height: 3,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         color:
                                                             Color(0xC3313131),
                                                         shape: BoxShape.circle,
@@ -218,7 +218,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x98303030),
+                                                      color: const Color(0x98303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
@@ -229,14 +229,14 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   16, 0, 16, 0),
                                           child: Text(
                                             '11:29',
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0x99303030),
+                                              color: const Color(0x99303030),
                                               useGoogleFonts: false,
                                             ),
                                           ),
@@ -245,7 +245,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 8, 0, 16),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -258,12 +258,12 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             border: Border.all(
-                                              color: Color(0x4C757575),
+                                              color: const Color(0x4C757575),
                                             ),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12, 4, 12, 4),
                                             child: Text(
                                               'Resume',
@@ -273,7 +273,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   12, 0, 0, 0),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -281,11 +281,11 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                color: Color(0x4C757575),
+                                                color: const Color(0x4C757575),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 4, 12, 4),
                                               child: Text(
                                                 'Portfolio',
@@ -314,13 +314,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x66757575),
+                          color: const Color(0x66757575),
                         ),
                       ),
                       child: Row(
@@ -329,7 +329,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -338,7 +338,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 12, 12, 12),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -355,13 +355,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 0, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -400,19 +400,19 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x99303030),
+                                                      color: const Color(0x99303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 8, 8, 8, 0),
                                                     child: Container(
                                                       width: 3,
                                                       height: 3,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         color:
                                                             Color(0xC3313131),
                                                         shape: BoxShape.circle,
@@ -426,7 +426,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x98303030),
+                                                      color: const Color(0x98303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
@@ -437,14 +437,14 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   16, 0, 16, 0),
                                           child: Text(
                                             '11:29',
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0x99303030),
+                                              color: const Color(0x99303030),
                                               useGoogleFonts: false,
                                             ),
                                           ),
@@ -453,7 +453,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 8, 0, 16),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -466,12 +466,12 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             border: Border.all(
-                                              color: Color(0x4C757575),
+                                              color: const Color(0x4C757575),
                                             ),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12, 4, 12, 4),
                                             child: Text(
                                               'Resume',
@@ -481,7 +481,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   12, 0, 0, 0),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -489,11 +489,11 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                color: Color(0x4C757575),
+                                                color: const Color(0x4C757575),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 4, 12, 4),
                                               child: Text(
                                                 'Portfolio',
@@ -522,13 +522,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x66757575),
+                          color: const Color(0x66757575),
                         ),
                       ),
                       child: Row(
@@ -537,7 +537,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -546,7 +546,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 12, 12, 12),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -563,13 +563,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 0, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -608,19 +608,19 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x99303030),
+                                                      color: const Color(0x99303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 8, 8, 8, 0),
                                                     child: Container(
                                                       width: 3,
                                                       height: 3,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         color:
                                                             Color(0xC3313131),
                                                         shape: BoxShape.circle,
@@ -634,7 +634,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x98303030),
+                                                      color: const Color(0x98303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
@@ -645,14 +645,14 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   16, 0, 16, 0),
                                           child: Text(
                                             '11:29',
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0x99303030),
+                                              color: const Color(0x99303030),
                                               useGoogleFonts: false,
                                             ),
                                           ),
@@ -661,7 +661,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 8, 0, 16),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -674,12 +674,12 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             border: Border.all(
-                                              color: Color(0x4C757575),
+                                              color: const Color(0x4C757575),
                                             ),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12, 4, 12, 4),
                                             child: Text(
                                               'Resume',
@@ -689,7 +689,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   12, 0, 0, 0),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -697,11 +697,11 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                color: Color(0x4C757575),
+                                                color: const Color(0x4C757575),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 4, 12, 4),
                                               child: Text(
                                                 'Portfolio',
@@ -730,13 +730,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x66757575),
+                          color: const Color(0x66757575),
                         ),
                       ),
                       child: Row(
@@ -745,7 +745,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -754,7 +754,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 12, 12, 12),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -771,13 +771,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 0, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -816,19 +816,19 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x99303030),
+                                                      color: const Color(0x99303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 8, 8, 8, 0),
                                                     child: Container(
                                                       width: 3,
                                                       height: 3,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         color:
                                                             Color(0xC3313131),
                                                         shape: BoxShape.circle,
@@ -842,7 +842,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x98303030),
+                                                      color: const Color(0x98303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
@@ -853,14 +853,14 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   16, 0, 16, 0),
                                           child: Text(
                                             '11:29',
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0x99303030),
+                                              color: const Color(0x99303030),
                                               useGoogleFonts: false,
                                             ),
                                           ),
@@ -869,7 +869,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 8, 0, 16),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -882,12 +882,12 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             border: Border.all(
-                                              color: Color(0x4C757575),
+                                              color: const Color(0x4C757575),
                                             ),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12, 4, 12, 4),
                                             child: Text(
                                               'Resume',
@@ -897,7 +897,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   12, 0, 0, 0),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -905,11 +905,11 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                color: Color(0x4C757575),
+                                                color: const Color(0x4C757575),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 4, 12, 4),
                                               child: Text(
                                                 'Portfolio',
@@ -938,13 +938,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 32),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 10, 16, 32),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x66757575),
+                          color: const Color(0x66757575),
                         ),
                       ),
                       child: Row(
@@ -953,7 +953,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -962,7 +962,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 12, 12, 12),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -979,13 +979,13 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 0, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -1024,19 +1024,19 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x99303030),
+                                                      color: const Color(0x99303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
                                                                 8, 8, 8, 0),
                                                     child: Container(
                                                       width: 3,
                                                       height: 3,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         color:
                                                             Color(0xC3313131),
                                                         shape: BoxShape.circle,
@@ -1050,7 +1050,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         .override(
                                                       fontFamily:
                                                           'NatoSansKhmer',
-                                                      color: Color(0x98303030),
+                                                      color: const Color(0x98303030),
                                                       useGoogleFonts: false,
                                                     ),
                                                   ),
@@ -1061,14 +1061,14 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   16, 0, 16, 0),
                                           child: Text(
                                             '11:29',
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0x99303030),
+                                              color: const Color(0x99303030),
                                               useGoogleFonts: false,
                                             ),
                                           ),
@@ -1077,7 +1077,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 8, 0, 16),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -1090,12 +1090,12 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             border: Border.all(
-                                              color: Color(0x4C757575),
+                                              color: const Color(0x4C757575),
                                             ),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12, 4, 12, 4),
                                             child: Text(
                                               'Resume',
@@ -1105,7 +1105,7 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   12, 0, 0, 0),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -1113,11 +1113,11 @@ class _JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                color: Color(0x4C757575),
+                                                color: const Color(0x4C757575),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(12, 4, 12, 4),
                                               child: Text(
                                                 'Portfolio',

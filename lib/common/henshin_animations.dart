@@ -56,11 +56,11 @@ void startPageLoadAnimations(
 
 void setupTriggerAnimations(
     Iterable<AnimationInfo> animations, TickerProvider vsync) {
-  animations.forEach((animation) {
+  for (var animation in animations) {
     createAnimation(animation, vsync);
     (animation.curvedAnimation.parent as AnimationController)
         .forward(from: 1.0);
-  });
+  }
 }
 
 extension AnimatedWidgetExtension on Widget {
@@ -73,8 +73,8 @@ extension AnimatedWidgetExtension on Widget {
         if (animationInfo.slideOffset != null) {
           final animationValue = 1 - animationInfo.curvedAnimation.value;
           returnedWidget = Transform.translate(
-            child: returnedWidget,
             offset: animationInfo.slideOffset! * -animationValue,
+            child: returnedWidget,
           );
         }
         if (animationInfo.scale > 0 && animationInfo.scale != 1.0) {

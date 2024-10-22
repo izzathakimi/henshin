@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ServiceRequestPageWidget extends StatefulWidget {
-  const ServiceRequestPageWidget({Key? key}) : super(key: key);
+  const ServiceRequestPageWidget({super.key});
 
   @override
   _ServiceRequestPageWidgetState createState() =>
@@ -24,13 +24,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -43,7 +43,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                   child: Text(
                     'Service Request',
                     style: HenshinTheme.title2,
@@ -52,7 +52,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               ],
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -70,7 +70,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         color: Colors.white,
                         useGoogleFonts: false,
                       ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),
@@ -91,7 +91,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         color: Colors.black,
                         useGoogleFonts: false,
                       ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),
@@ -106,13 +106,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x4D757575),
+                          color: const Color(0x4D757575),
                         ),
                       ),
                       child: Row(
@@ -121,7 +121,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -143,13 +143,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -171,7 +171,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 2, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -185,7 +185,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
@@ -193,13 +193,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF23AE10),
+                                            color: const Color(0xFF23AE10),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     8, 4, 8, 4),
                                             child: Text(
                                               'Premium',
@@ -233,13 +233,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x4D757575),
+                          color: const Color(0x4D757575),
                         ),
                       ),
                       child: Row(
@@ -248,7 +248,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -270,13 +270,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -298,7 +298,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 2, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -312,7 +312,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
@@ -320,13 +320,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF6710AE),
+                                            color: const Color(0xFF6710AE),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     8, 4, 8, 4),
                                             child: Text(
                                               'Standard',
@@ -360,13 +360,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x4D757575),
+                          color: const Color(0x4D757575),
                         ),
                       ),
                       child: Row(
@@ -375,7 +375,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -397,13 +397,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -425,7 +425,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 2, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -439,7 +439,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
@@ -447,13 +447,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xFFE4451C),
+                                            color: const Color(0xFFE4451C),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     8, 4, 8, 4),
                                             child: Text(
                                               'Business',
@@ -487,13 +487,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x4D757575),
+                          color: const Color(0x4D757575),
                         ),
                       ),
                       child: Row(
@@ -502,7 +502,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -524,13 +524,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -552,7 +552,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 2, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -566,7 +566,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
@@ -574,13 +574,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xFFE4451C),
+                                            color: const Color(0xFFE4451C),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     8, 4, 8, 4),
                                             child: Text(
                                               'Business',
@@ -614,13 +614,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x4D757575),
+                          color: const Color(0x4D757575),
                         ),
                       ),
                       child: Row(
@@ -629,7 +629,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -651,13 +651,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -679,7 +679,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 2, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -693,7 +693,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
@@ -701,13 +701,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF23AE10),
+                                            color: const Color(0xFF23AE10),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     8, 4, 8, 4),
                                             child: Text(
                                               'Premium',
@@ -741,13 +741,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 32),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 32),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0x4D757575),
+                          color: const Color(0x4D757575),
                         ),
                       ),
                       child: Row(
@@ -756,7 +756,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                             child: Container(
                               width: 65,
                               height: 65,
@@ -778,13 +778,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -806,7 +806,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 2, 16, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -820,7 +820,7 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
@@ -828,13 +828,13 @@ class _ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
                                         ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF6710AE),
+                                            color: const Color(0xFF6710AE),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     8, 4, 8, 4),
                                             child: Text(
                                               'Standard',

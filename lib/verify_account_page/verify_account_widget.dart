@@ -3,7 +3,7 @@ import '../common/henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class VerifyAccountPageWidget extends StatefulWidget {
-  const VerifyAccountPageWidget({Key? key}) : super(key: key);
+  const VerifyAccountPageWidget({super.key});
 
   @override
   _VerifyAccountPageWidgetState createState() =>
@@ -31,13 +31,13 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -49,7 +49,7 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                 child: Text(
                   'Verify Account',
                   style: HenshinTheme.bodyText1.override(
@@ -67,13 +67,13 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 32, 16, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 32, 16, 0),
                   child: Text(
                     'Enter the code or click on the link received via e-mail, to confirm your account.',
                     textAlign: TextAlign.center,
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
-                      color: Color(0xCB303030),
+                      color: const Color(0xCB303030),
                       useGoogleFonts: false,
                     ),
                   ),
@@ -82,13 +82,13 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
             ],
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
                     child: TextFormField(
                       controller: textController,
                       obscureText: false,
@@ -96,18 +96,18 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
                         hintText: 'Enter OPT code',
                         hintStyle: HenshinTheme.bodyText1.override(
                           fontFamily: 'NatoSansKhmer',
-                          color: Color(0xB3303030),
+                          color: const Color(0xB3303030),
                           useGoogleFonts: false,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x98757575),
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(18),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x98757575),
                             width: 1,
                           ),
@@ -122,20 +122,20 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 45, 16, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                   child: Text(
                     'Didn\'t recieve?',
                     style: HenshinTheme.bodyText1,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                   child: Text(
                     'Resend code',
                     style: HenshinTheme.bodyText1.override(
@@ -154,7 +154,7 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
                   child: FFButtonWidget(
                     onPressed: () {
                       print('Button pressed ...');
@@ -169,7 +169,7 @@ class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
                         color: Colors.white,
                         useGoogleFonts: false,
                       ),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),

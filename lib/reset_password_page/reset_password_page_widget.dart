@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordPageWidget extends StatefulWidget {
-  const ResetPasswordPageWidget({Key? key}) : super(key: key);
+  const ResetPasswordPageWidget({super.key});
 
   @override
   _ResetPasswordPageWidgetState createState() =>
@@ -41,13 +41,13 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
             onTap: () async {
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.keyboard_arrow_left_outlined,
               color: Colors.black,
               size: 24,
             ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0,
         ),
@@ -59,7 +59,7 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                   child: Text(
                     'Reset Password',
                     style: HenshinTheme.bodyText1.override(
@@ -77,13 +77,13 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 32, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 32, 16, 0),
                     child: Text(
                       'Set up the new password bellow.',
                       textAlign: TextAlign.center,
                       style: HenshinTheme.bodyText1.override(
                         fontFamily: 'NatoSansKhmer',
-                        color: Color(0xCB303030),
+                        color: const Color(0xCB303030),
                         useGoogleFonts: false,
                       ),
                     ),
@@ -92,13 +92,13 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
               ],
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
                       child: TextFormField(
                         controller: textController1,
                         obscureText: !passwordVisibility1,
@@ -106,18 +106,18 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
                           hintText: 'New Password',
                           hintStyle: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0xB3303030),
+                            color: const Color(0xB3303030),
                             useGoogleFonts: false,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x98757575),
                               width: 1,
                             ),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x98757575),
                               width: 1,
                             ),
@@ -131,7 +131,7 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
                               passwordVisibility1
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: Color(0xB2757575),
+                              color: const Color(0xB2757575),
                               size: 20,
                             ),
                           ),
@@ -153,13 +153,13 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
                       child: TextFormField(
                         controller: textController2,
                         obscureText: !passwordVisibility2,
@@ -167,18 +167,18 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
                           hintText: 'Confirm Password',
                           hintStyle: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0xB3303030),
+                            color: const Color(0xB3303030),
                             useGoogleFonts: false,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x98757575),
                               width: 1,
                             ),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x98757575),
                               width: 1,
                             ),
@@ -192,7 +192,7 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
                               passwordVisibility2
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: Color(0xB2757575),
+                              color: const Color(0xB2757575),
                               size: 20,
                             ),
                           ),
@@ -218,7 +218,7 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
                     child: FFButtonWidget(
                       onPressed: () {
                         print('Button pressed ...');
@@ -233,7 +233,7 @@ class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
                           color: Colors.white,
                           useGoogleFonts: false,
                         ),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),

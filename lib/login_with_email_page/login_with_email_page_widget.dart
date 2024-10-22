@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginWithEmailPageWidget extends StatefulWidget {
-  const LoginWithEmailPageWidget({Key? key}) : super(key: key);
+  const LoginWithEmailPageWidget({super.key});
 
   @override
   _LoginWithEmailPageWidgetState createState() =>
@@ -42,13 +42,13 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
             onTap: () async {
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.keyboard_arrow_left,
               color: Colors.black,
               size: 24,
             ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0,
         ),
@@ -62,7 +62,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
                     child: Text(
                       'Hello, you\'e been missed here',
                       textAlign: TextAlign.center,
@@ -77,12 +77,12 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
                   child: Text(
                     'Welcome back! Sign in to continue.',
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
-                      color: Color(0xCB303030),
+                      color: const Color(0xCB303030),
                       useGoogleFonts: false,
                     ),
                   ),
@@ -90,13 +90,13 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               ],
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
                       child: TextFormField(
                         controller: textController1,
                         obscureText: false,
@@ -104,18 +104,18 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           hintText: 'Email Address',
                           hintStyle: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0x9A696969),
+                            color: const Color(0x9A696969),
                             useGoogleFonts: false,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0xA6696969),
                               width: 1,
                             ),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0xA6696969),
                               width: 1,
                             ),
@@ -137,13 +137,13 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
                       child: TextFormField(
                         controller: textController2,
                         obscureText: !passwordVisibility,
@@ -151,18 +151,18 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           hintText: 'Password',
                           hintStyle: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0x9A696969),
+                            color: const Color(0x9A696969),
                             useGoogleFonts: false,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0xA6696969),
                               width: 1,
                             ),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0xA6696969),
                               width: 1,
                             ),
@@ -176,7 +176,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                               passwordVisibility
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: Color(0x98757575),
+                              color: const Color(0x98757575),
                               size: 18,
                             ),
                           ),
@@ -200,7 +200,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 16, 32, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 32, 0),
                   child: Text(
                     'Forgot Password?',
                     style: HenshinTheme.bodyText1.override(
@@ -217,7 +217,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
                     child: FFButtonWidget(
                       onPressed: () {
                         print('Button pressed ...');
@@ -232,7 +232,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           color: Colors.white,
                           useGoogleFonts: false,
                         ),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
@@ -243,25 +243,25 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.2,
                       height: 2,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFEEEEEE),
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                   child: Text(
                     'or',
                     style: HenshinTheme.bodyText1,
@@ -269,11 +269,11 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 32, 0),
                     child: Container(
                       width: 100,
                       height: 2,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFEEEEEE),
                       ),
                     ),
@@ -281,13 +281,13 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                     child: Container(
                       width: 100,
                       height: 45,
@@ -295,7 +295,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(36),
                         border: Border.all(
-                          color: Color(0x3F313131),
+                          color: const Color(0x3F313131),
                         ),
                       ),
                       child: Row(
@@ -306,7 +306,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                             width: 25,
                             height: 25,
                             clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
                             child: SvgPicture.asset(
@@ -315,7 +315,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                             child: Text(
                               'Continue with Google',
                               style: HenshinTheme.subtitle2.override(
@@ -338,7 +338,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                     child: Container(
                       width: 100,
                       height: 45,
@@ -350,14 +350,14 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          FaIcon(
+                          const FaIcon(
                             FontAwesomeIcons.apple,
                             color: Colors.white,
                             size: 24,
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                             child: Text(
                               'Continue with Apple',
                               style: HenshinTheme.subtitle2.override(
@@ -376,7 +376,7 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               ],
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 32),
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 32),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -386,13 +386,13 @@ class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                     style: HenshinTheme.bodyText1,
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                     child: InkWell(
                       onTap: () async {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignupWithEmailPageWidget(),
+                            builder: (context) => const SignupWithEmailPageWidget(),
                           ),
                         );
                       },

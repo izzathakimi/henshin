@@ -4,7 +4,7 @@ import '../welcome_page/welcome_page_widget.dart';
 import 'package:flutter/material.dart';
 
 class SplashWidget extends StatefulWidget {
-  const SplashWidget({Key? key}) : super(key: key);
+  const SplashWidget({super.key});
 
   @override
   _SplashWidgetState createState() => _SplashWidgetState();
@@ -36,14 +36,14 @@ class _SplashWidgetState extends State<SplashWidget>
       duration: 600,
       delay: 1100,
       fadeIn: true,
-      slideOffset: Offset(0, -70),
+      slideOffset: const Offset(0, -70),
     ),
     'textOnPageLoadAnimation2': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       delay: 1100,
       fadeIn: true,
-      slideOffset: Offset(0, -100),
+      slideOffset: const Offset(0, -100),
     ),
   };
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -62,11 +62,11 @@ class _SplashWidgetState extends State<SplashWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xFF1E2429),
+      backgroundColor: const Color(0xFF1E2429),
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: InkWell(
@@ -74,7 +74,7 @@ class _SplashWidgetState extends State<SplashWidget>
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => WelcomePageWidget(),
+                builder: (context) => const WelcomePageWidget(),
               ),
             );
           },
@@ -89,12 +89,12 @@ class _SplashWidgetState extends State<SplashWidget>
                 fit: BoxFit.fitHeight,
               ).animated([animationsMap['imageOnPageLoadAnimation']]),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                 child: Text(
                   'henshin',
                   style: HenshinTheme.title1.override(
                     fontFamily: 'NatoSansKhmer',
-                    color: Color(0xFF313131),
+                    color: const Color(0xFF313131),
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     useGoogleFonts: false,
@@ -102,12 +102,12 @@ class _SplashWidgetState extends State<SplashWidget>
                 ).animated([animationsMap['textOnPageLoadAnimation1']]),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 120),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 120),
                 child: Text(
                   'Job and Freelancing Marketplace !',
                   style: HenshinTheme.bodyText1.override(
                     fontFamily: 'NatoSansKhmer',
-                    color: Color(0xBF696969),
+                    color: const Color(0xBF696969),
                     useGoogleFonts: false,
                   ),
                 ).animated([animationsMap['textOnPageLoadAnimation2']]),

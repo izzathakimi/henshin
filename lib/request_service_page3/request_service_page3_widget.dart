@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class RequestServicePage3Widget extends StatefulWidget {
-  const RequestServicePage3Widget({Key? key}) : super(key: key);
+  const RequestServicePage3Widget({super.key});
 
   @override
   _RequestServicePage3WidgetState createState() =>
@@ -24,13 +24,13 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -38,7 +38,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -48,7 +48,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Request Service',
                             style: HenshinTheme.title2,
@@ -62,12 +62,12 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                           child: Text(
                             'Package & Pricing (2 of 2 steps)',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
-                              color: Color(0x96303030),
+                              color: const Color(0x96303030),
                               useGoogleFonts: false,
                             ),
                           ),
@@ -76,14 +76,14 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Choose Package',
                               style: HenshinTheme.bodyText1.override(
@@ -104,17 +104,17 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: Color(0x66757575),
+                                color: const Color(0x66757575),
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16, 16, 16, 16),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -134,7 +134,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16, 0, 0, 0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -148,7 +148,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0xCC000000),
+                                              color: const Color(0xCC000000),
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
                                             ),
@@ -165,11 +165,11 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                         style:
                                             HenshinTheme.subtitle2.override(
                                           fontFamily: 'NatoSansKhmer',
-                                          color: Color(0xE5000000),
+                                          color: const Color(0xE5000000),
                                           useGoogleFonts: false,
                                         ),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.keyboard_arrow_right,
                                         color: Colors.black,
                                         size: 24,
@@ -190,17 +190,17 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: HenshinTheme.primaryColor,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: Color(0x66757575),
+                                color: const Color(0x66757575),
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16, 16, 16, 16),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -210,11 +210,11 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                   Container(
                                     width: 25,
                                     height: 25,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Color(0xFFEEEEEE),
                                       shape: BoxShape.circle,
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.check_outlined,
                                       color: HenshinTheme.primaryColor,
                                       size: 22,
@@ -222,7 +222,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16, 0, 0, 0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -236,7 +236,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0xFF46E447),
+                                              color: const Color(0xFF46E447),
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
                                             ),
@@ -246,7 +246,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                             style: HenshinTheme.bodyText1
                                                 .override(
                                               fontFamily: 'NatoSansKhmer',
-                                              color: Color(0xE5FFFFFF),
+                                              color: const Color(0xE5FFFFFF),
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
                                             ),
@@ -263,11 +263,11 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                         style:
                                             HenshinTheme.subtitle2.override(
                                           fontFamily: 'NatoSansKhmer',
-                                          color: Color(0xFFF2F7FE),
+                                          color: const Color(0xFFF2F7FE),
                                           useGoogleFonts: false,
                                         ),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.keyboard_arrow_right,
                                         color: Color(0xE5FFFFFF),
                                         size: 24,
@@ -283,24 +283,24 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(18),
                                 border: Border.all(
-                                  color: Color(0x66757575),
+                                  color: const Color(0x66757575),
                                 ),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16, 16, 16, 16),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -320,7 +320,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                     ),
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             16, 0, 0, 0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -334,7 +334,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                               style: HenshinTheme.bodyText1
                                                   .override(
                                                 fontFamily: 'NatoSansKhmer',
-                                                color: Color(0xCC000000),
+                                                color: const Color(0xCC000000),
                                                 fontWeight: FontWeight.bold,
                                                 useGoogleFonts: false,
                                               ),
@@ -351,11 +351,11 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                           style: HenshinTheme.subtitle2
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0xE5000000),
+                                            color: const Color(0xE5000000),
                                             useGoogleFonts: false,
                                           ),
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Icons.keyboard_arrow_right,
                                           color: Colors.black,
                                           size: 24,
@@ -376,10 +376,10 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-1, 1),
+            alignment: const AlignmentDirectional(-1, 1),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(0),
@@ -396,7 +396,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                   Expanded(
                     child: Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -411,13 +411,13 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 16),
                                     child: FFButtonWidget(
                                       onPressed: () {
@@ -434,7 +434,7 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                                           color: Colors.white,
                                           useGoogleFonts: false,
                                         ),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.transparent,
                                           width: 1,
                                         ),
@@ -452,14 +452,14 @@ class _RequestServicePage3WidgetState extends State<RequestServicePage3Widget> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 32),
                                   child: Text(
                                     'You won\'t be charged now',
                                     textAlign: TextAlign.center,
                                     style: HenshinTheme.bodyText1.override(
                                       fontFamily: 'NatoSansKhmer',
-                                      color: Color(0xCF303030),
+                                      color: const Color(0xCF303030),
                                       useGoogleFonts: false,
                                     ),
                                   ),

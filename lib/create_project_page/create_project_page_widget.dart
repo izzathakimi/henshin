@@ -3,7 +3,7 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
 class CreateProjectPageWidget extends StatefulWidget {
-  const CreateProjectPageWidget({Key? key}) : super(key: key);
+  const CreateProjectPageWidget({super.key});
 
   @override
   _CreateProjectPageWidgetState createState() =>
@@ -35,13 +35,13 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
           onTap: () async {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,
             size: 24,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -49,7 +49,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -58,7 +58,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Create Project',
                           style: HenshinTheme.title2,
@@ -67,14 +67,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Upload File',
                               style: HenshinTheme.bodyText1.override(
@@ -93,12 +93,12 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                         child: Text(
                           'Choose your file to upload',
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: Color(0x96303030),
+                            color: const Color(0x96303030),
                             useGoogleFonts: false,
                           ),
                         ),
@@ -111,14 +111,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: Container(
                             height: 140,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: Color(0x65757575),
+                                color: const Color(0x65757575),
                                 width: 1,
                               ),
                             ),
@@ -150,7 +150,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                                   children: [
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             0, 8, 0, 0),
                                         child: Text(
                                           'PNG JPEG, WEBP (10Mb max)',
@@ -158,7 +158,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
-                                            color: Color(0x80303030),
+                                            color: const Color(0x80303030),
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: false,
                                           ),
@@ -175,14 +175,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Title',
                               style: HenshinTheme.bodyText1.override(
@@ -203,7 +203,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController1,
                             obscureText: false,
@@ -211,18 +211,18 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                               hintText: 'eg. Landing Page Design',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x9A303030),
+                                color: const Color(0x9A303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -236,14 +236,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Overview',
                               style: HenshinTheme.bodyText1.override(
@@ -264,7 +264,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController2,
                             obscureText: false,
@@ -272,18 +272,18 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                               hintText: 'eg. This project i made for ..',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x9A303030),
+                                color: const Color(0x9A303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -297,14 +297,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Category',
                               style: HenshinTheme.bodyText1.override(
@@ -325,13 +325,13 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: Color(0x65757575),
+                                color: const Color(0x65757575),
                                 width: 1,
                               ),
                             ),
@@ -340,18 +340,18 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 16, 16, 16),
                                   child: Text(
                                     'Select Text',
                                     style: HenshinTheme.bodyText1.override(
                                       fontFamily: 'NatoSansKhmer',
-                                      color: Color(0xB7757575),
+                                      color: const Color(0xB7757575),
                                       useGoogleFonts: false,
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 0),
                                   child: Icon(
@@ -368,14 +368,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Sub-Category',
                               style: HenshinTheme.bodyText1.override(
@@ -396,13 +396,13 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: Color(0x65757575),
+                                color: const Color(0x65757575),
                                 width: 1,
                               ),
                             ),
@@ -411,18 +411,18 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 16, 16, 16),
                                   child: Text(
                                     'Select Text',
                                     style: HenshinTheme.bodyText1.override(
                                       fontFamily: 'NatoSansKhmer',
-                                      color: Color(0xB7757575),
+                                      color: const Color(0xB7757575),
                                       useGoogleFonts: false,
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 0),
                                   child: Icon(
@@ -439,14 +439,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                             child: Text(
                               'Tags',
                               style: HenshinTheme.bodyText1.override(
@@ -467,7 +467,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
                             controller: textController3,
                             obscureText: false,
@@ -475,18 +475,18 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                               hintText: 'eg. mobile, dsign  ...',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
-                                color: Color(0x9A303030),
+                                color: const Color(0x9A303030),
                                 useGoogleFonts: false,
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Color(0x65757575),
                                   width: 1,
                                 ),
@@ -504,10 +504,10 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(-1, 1),
+            alignment: const AlignmentDirectional(-1, 1),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(0),
@@ -524,7 +524,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                   Expanded(
                     child: Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -539,13 +539,13 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 16),
                                     child: FFButtonWidget(
                                       onPressed: () {
@@ -562,7 +562,7 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                                           color: Colors.white,
                                           useGoogleFonts: false,
                                         ),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.transparent,
                                           width: 1,
                                         ),
@@ -580,14 +580,14 @@ class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 32),
                                   child: Text(
                                     'Publishing you confrim that all the materials were created by yourseft & don\'t infringe any rights.',
                                     textAlign: TextAlign.center,
                                     style: HenshinTheme.bodyText1.override(
                                       fontFamily: 'NatoSansKhmer',
-                                      color: Color(0xCF303030),
+                                      color: const Color(0xCF303030),
                                       useGoogleFonts: false,
                                     ),
                                   ),
