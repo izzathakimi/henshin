@@ -29,6 +29,13 @@
             {
               "client_id": "12455198823-shvr6rnp5os9cjbqjl05eu3aqre3qlhs.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "12455198823-b3i0k44lqq349fqflb3tb2di9pvt6sql.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.henshin"
+              }
             }
           ]
         }

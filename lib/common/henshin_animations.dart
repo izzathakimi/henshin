@@ -29,15 +29,17 @@ class AnimationInfo {
   final double scale;
   final double initialOpacity;
   final double finalOpacity;
-  late CurvedAnimation curvedAnimation;
+  late AnimationController? animationController;
+  late Animation<double>? curvedAnimation;
 }
 
 void createAnimation(AnimationInfo animation, TickerProvider vsync) {
+  animation.animationController = AnimationController(
+    duration: Duration(milliseconds: animation.duration),
+    vsync: vsync,
+  );
   animation.curvedAnimation = CurvedAnimation(
-    parent: AnimationController(
-      duration: Duration(milliseconds: animation.duration),
-      vsync: vsync,
-    ),
+    parent: animation.animationController!,
     curve: animation.curve,
   );
 }
@@ -48,8 +50,7 @@ void startPageLoadAnimations(
     createAnimation(animation, vsync);
     await Future.delayed(
       Duration(milliseconds: animation.delay),
-      () => (animation.curvedAnimation.parent as AnimationController)
-          .forward(from: 0.0),
+      () => animation.animationController?.forward(from: 0.0),
     );
   }
 }
@@ -58,8 +59,7 @@ void setupTriggerAnimations(
     Iterable<AnimationInfo> animations, TickerProvider vsync) {
   for (var animation in animations) {
     createAnimation(animation, vsync);
-    (animation.curvedAnimation.parent as AnimationController)
-        .forward(from: 1.0);
+    animation.animationController?.forward(from: 1.0);
   }
 }
 
@@ -67,35 +67,31 @@ extension AnimatedWidgetExtension on Widget {
   Widget animated(Iterable<AnimationInfo?> animationInfos) {
     final animationInfo = animationInfos.first!;
     return AnimatedBuilder(
-      animation: animationInfo.curvedAnimation,
+      animation: animationInfo.curvedAnimation ?? const AlwaysStoppedAnimation(0),
       builder: (context, child) {
         var returnedWidget = child;
-        if (animationInfo.slideOffset != null) {
-          final animationValue = 1 - animationInfo.curvedAnimation.value;
+        if (animationInfo.slideOffset != null && animationInfo.curvedAnimation != null) {
+          final animationValue = 1 - animationInfo.curvedAnimation!.value;
           returnedWidget = Transform.translate(
             offset: animationInfo.slideOffset! * -animationValue,
             child: returnedWidget,
           );
         }
-        if (animationInfo.scale > 0 && animationInfo.scale != 1.0) {
+        if (animationInfo.scale > 0 && animationInfo.scale != 1.0 && animationInfo.curvedAnimation != null) {
           returnedWidget = Transform.scale(
             scale: animationInfo.scale +
                 (1.0 - animationInfo.scale) *
-                    animationInfo.curvedAnimation.value,
+                    animationInfo.curvedAnimation!.value,
             child: returnedWidget,
           );
         }
-        if (animationInfo.fadeIn) {
+        if (animationInfo.fadeIn && animationInfo.curvedAnimation != null) {
           final opacityScale =
               animationInfo.finalOpacity - animationInfo.initialOpacity;
           final opacityDelta =
-              animationInfo.curvedAnimation.value * opacityScale;
+              animationInfo.curvedAnimation!.value * opacityScale;
           final opacity = animationInfo.initialOpacity + opacityDelta;
           returnedWidget = Opacity(
-            // In cases where the child tree has a Material widget with elevation,
-            // opacity animations may result in sudden box shadow "glitches"
-            // To prevent this, opacity is animated up to but NOT including 1.0.
-            // It is impossible to tell the difference between 0.998 and 1.0 opacity.
             opacity: min(0.998, opacity),
             child: returnedWidget,
           );

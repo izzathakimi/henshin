@@ -87,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'henshin-197b5.appspot.com',
     measurementId: 'G-SP4N5J2QPT',
   );
+
 }

@@ -29,10 +29,52 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>henshin</title>
+  <title>Henshin-App</title>
   <link rel="manifest" href="manifest.json">
+  <!-- Firebase Core JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+
+  <!-- Firebase Auth JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+   <!-- Initialize Firebase -->
+   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLXM7D-FMVEu1WYvbx0Su-4qfSCKKhn88",
+      authDomain: "henshin-197b5.firebaseapp.com",
+      projectId: "henshin-197b5",
+      storageBucket: "henshin-197b5.appspot.com",
+      messagingSenderId: "12455198823",
+      appId: "1:12455198823:web:33faf6718eb0f5e12254c2",
+      measurementId: "G-WPEDT820EJ"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <!-- <script src="flutter_bootstrap.js" async></script> -->
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

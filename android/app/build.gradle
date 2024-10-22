@@ -1,4 +1,4 @@
-apply plugin: 'com.henshin.henshinapp'
+apply plugin: 'com.android.application'
 
 buildscript {
     dependencies {
@@ -6,11 +6,10 @@ buildscript {
     }
 }
 plugins {
-    id "com.henshin.henshinapp"
-    id "kotlin-android"
-    id 'com.google.gms.google-services'  // Add this line
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'dev.flutter.flutter-gradle-plugin'
 }
 
 dependencies {
@@ -49,7 +48,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "com.example.henshin"
-    compileSdk = flutter.compileSdkVersion
+    compileSdkVersion 33
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -63,7 +62,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdkVersion 33
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
