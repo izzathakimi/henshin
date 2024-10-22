@@ -7,10 +7,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Henshin App'),
+        title: const Text('Home'),
       ),
       body: const Center(
-        child: Text('Welcome to Henshin App!'),
+        child: Text('Welcome to Henshin!'),
       ),
     );
   }

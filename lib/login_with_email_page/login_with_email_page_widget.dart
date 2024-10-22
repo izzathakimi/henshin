@@ -4,6 +4,9 @@ import '../signup_with_email_page/signup_with_email_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../common/henshin_util.dart';
+import '../home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginWithEmailPageWidget extends StatefulWidget {
   const LoginWithEmailPageWidget({super.key});
@@ -26,6 +29,36 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
     textController1 = TextEditingController();
     textController2 = TextEditingController();
     passwordVisibility = false;
+  }
+
+  Future<void> _signIn() async {
+    if (formKey.currentState!.validate()) {
+      try {
+        showSnackbar(context, 'Signing in...', loading: true);
+        
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: textController1!.text,
+          password: textController2!.text,
+        );
+
+        if (userCredential.user != null) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false,
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          showSnackbar(context, 'No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          showSnackbar(context, 'Wrong password provided for that user.');
+        } else {
+          showSnackbar(context, 'Error: ${e.message}');
+        }
+      } catch (e) {
+        showSnackbar(context, 'An error occurred. Please try again.');
+      }
+    }
   }
 
   @override
@@ -219,9 +252,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
                     child: FFButtonWidget(
-                      onPressed: () {
-                        print('Button pressed ...');
-                      },
+                      onPressed: _signIn,
                       text: 'Sign In',
                       options: FFButtonOptions(
                         width: 130,

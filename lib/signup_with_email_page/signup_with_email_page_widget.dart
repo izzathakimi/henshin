@@ -3,6 +3,9 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../common/henshin_util.dart';
+import '../home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupWithEmailPageWidget extends StatefulWidget {
   const SignupWithEmailPageWidget({super.key});
@@ -29,6 +32,42 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
     passwordVisibility1 = false;
     textController3 = TextEditingController();
     passwordVisibility2 = false;
+  }
+
+  Future<void> _createAccount() async {
+    if (formKey.currentState!.validate()) {
+      if (textController2?.text != textController3?.text) {
+        showSnackbar(context, 'Passwords do not match');
+        return;
+      }
+
+      try {
+        showSnackbar(context, 'Creating account...', loading: true);
+        
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: textController1!.text,
+          password: textController2!.text,
+        );
+
+        if (userCredential.user != null) {
+          // Navigate to HomePage instead of VerifyAccountPageWidget
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false,
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          showSnackbar(context, 'The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          showSnackbar(context, 'The account already exists for that email.');
+        } else {
+          showSnackbar(context, 'Error: ${e.message}');
+        }
+      } catch (e) {
+        showSnackbar(context, 'An error occurred. Please try again.');
+      }
+    }
   }
 
   @override
@@ -284,9 +323,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                     child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
                       child: FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
-                        },
+                        onPressed: _createAccount,
                         text: 'Create Account',
                         options: FFButtonOptions(
                           width: 130,

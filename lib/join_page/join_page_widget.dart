@@ -1,6 +1,6 @@
 import '../common/Henshin_animations.dart';
 import '../common/Henshin_theme.dart';
-import '../login_with_email_page/login_with_email_page_widget.dart';
+import '../signup_with_email_page/signup_with_email_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +19,7 @@ class JoinPageWidgetState extends State<JoinPageWidget>
       trigger: AnimationTrigger.onPageLoad,
       duration: 100,
       fadeIn: true,
+      curve: Curves.easeInOut,
     ),
     'imageOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -26,6 +27,7 @@ class JoinPageWidgetState extends State<JoinPageWidget>
       delay: 1100,
       fadeIn: true,
       scale: 0.4,
+      curve: Curves.easeInOut,
     ),
     'textOnPageLoadAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -33,6 +35,7 @@ class JoinPageWidgetState extends State<JoinPageWidget>
       delay: 1100,
       fadeIn: true,
       slideOffset: const Offset(0, -70),
+      curve: Curves.easeInOut,
     ),
     'textOnPageLoadAnimation2': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -40,6 +43,7 @@ class JoinPageWidgetState extends State<JoinPageWidget>
       delay: 1100,
       fadeIn: true,
       slideOffset: const Offset(0, -100),
+      curve: Curves.easeInOut,
     ),
   };
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -47,11 +51,24 @@ class JoinPageWidgetState extends State<JoinPageWidget>
   @override
   void initState() {
     super.initState();
-    startPageLoadAnimations(
-      animationsMap.values
-          .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
-      this,
-    );
+    for (var anim in animationsMap.values) {
+      createAnimation(anim, this);
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      startPageLoadAnimations(
+        animationsMap.values
+            .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
+        this,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    for (var anim in animationsMap.values) {
+      anim.animationController?.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -136,35 +153,45 @@ class JoinPageWidgetState extends State<JoinPageWidget>
               Expanded(
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
-                  child: Container(
-                    width: 100,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: HenshinTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(36),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.mail,
-                          color: Colors.white,
-                          size: 24,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignupWithEmailPageWidget(),
                         ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                          child: Text(
-                            'Continue with E-mail',
-                            style: HenshinTheme.subtitle2.override(
-                              fontFamily: 'NatoSansKhmer',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              useGoogleFonts: false,
+                      );
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: HenshinTheme.primaryColor,
+                        borderRadius: BorderRadius.circular(36),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.mail,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                            child: Text(
+                              'Continue with E-mail',
+                              style: HenshinTheme.subtitle2.override(
+                                fontFamily: 'NatoSansKhmer',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                useGoogleFonts: false,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -262,45 +289,9 @@ class JoinPageWidgetState extends State<JoinPageWidget>
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 16),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Already have an account?',
-                  style: HenshinTheme.bodyText1,
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
-                  child: InkWell(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginWithEmailPageWidget(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'Sign In',
-                      style: HenshinTheme.bodyText1.override(
-                        fontFamily: 'NatoSansKhmer',
-                        color: HenshinTheme.primaryColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        useGoogleFonts: false,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -352,7 +343,7 @@ class JoinPageWidgetState extends State<JoinPageWidget>
             ),
           ),
         ],
-      ).animated([animationsMap['columnOnPageLoadAnimation']]),
+      ).animated([animationsMap['columnOnPageLoadAnimation']!]),
     );
   }
 }

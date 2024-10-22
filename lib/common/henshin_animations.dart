@@ -9,15 +9,15 @@ enum AnimationTrigger {
 
 class AnimationInfo {
   AnimationInfo({
-    this.curve = Curves.easeInOut,
+    required this.curve,
     required this.trigger,
     required this.duration,
     this.delay = 0,
     this.fadeIn = false,
-    this.slideOffset,
-    this.scale = 0,
-    this.initialOpacity = 0,
+    this.initialOpacity = 1,
     this.finalOpacity = 1,
+    this.scale,
+    this.slideOffset,
   });
 
   final Curve curve;
@@ -25,12 +25,24 @@ class AnimationInfo {
   final int duration;
   final int delay;
   final bool fadeIn;
-  final Offset? slideOffset;
-  final double scale;
   final double initialOpacity;
   final double finalOpacity;
-  late AnimationController? animationController;
-  late Animation<double>? curvedAnimation;
+  final double? scale;
+  final Offset? slideOffset;
+
+  AnimationController? animationController;
+  late Animation<double> curvedAnimation;
+
+  void initialize(TickerProvider vsync) {
+    animationController = AnimationController(
+      vsync: vsync,
+      duration: Duration(milliseconds: duration),
+    );
+    curvedAnimation = CurvedAnimation(
+      parent: animationController!,
+      curve: curve,
+    );
+  }
 }
 
 void createAnimation(AnimationInfo animation, TickerProvider vsync) {
@@ -45,13 +57,9 @@ void createAnimation(AnimationInfo animation, TickerProvider vsync) {
 }
 
 void startPageLoadAnimations(
-    Iterable<AnimationInfo> animations, TickerProvider vsync) async {
-  for (var animation in animations) {
-    createAnimation(animation, vsync);
-    await Future.delayed(
-      Duration(milliseconds: animation.delay),
-      () => animation.animationController?.forward(from: 0.0),
-    );
+    Iterable<AnimationInfo> animations, TickerProvider vsync) {
+  for (var anim in animations) {
+    anim.animationController?.forward(from: 0.0);
   }
 }
 
@@ -67,29 +75,29 @@ extension AnimatedWidgetExtension on Widget {
   Widget animated(Iterable<AnimationInfo?> animationInfos) {
     final animationInfo = animationInfos.first!;
     return AnimatedBuilder(
-      animation: animationInfo.curvedAnimation ?? const AlwaysStoppedAnimation(0),
+      animation: animationInfo.curvedAnimation,
       builder: (context, child) {
         var returnedWidget = child;
-        if (animationInfo.slideOffset != null && animationInfo.curvedAnimation != null) {
-          final animationValue = 1 - animationInfo.curvedAnimation!.value;
+        if (animationInfo.slideOffset != null) {
+          final animationValue = 1 - animationInfo.curvedAnimation.value;
           returnedWidget = Transform.translate(
             offset: animationInfo.slideOffset! * -animationValue,
             child: returnedWidget,
           );
         }
-        if (animationInfo.scale > 0 && animationInfo.scale != 1.0 && animationInfo.curvedAnimation != null) {
+        if (animationInfo.scale != null && animationInfo.scale! > 0 && animationInfo.scale! != 1.0) {
           returnedWidget = Transform.scale(
-            scale: animationInfo.scale +
-                (1.0 - animationInfo.scale) *
-                    animationInfo.curvedAnimation!.value,
+            scale: animationInfo.scale! +
+                (1.0 - animationInfo.scale!) *
+                    animationInfo.curvedAnimation.value,
             child: returnedWidget,
           );
         }
-        if (animationInfo.fadeIn && animationInfo.curvedAnimation != null) {
+        if (animationInfo.fadeIn) {
           final opacityScale =
               animationInfo.finalOpacity - animationInfo.initialOpacity;
           final opacityDelta =
-              animationInfo.curvedAnimation!.value * opacityScale;
+              animationInfo.curvedAnimation.value * opacityScale;
           final opacity = animationInfo.initialOpacity + opacityDelta;
           returnedWidget = Opacity(
             opacity: min(0.998, opacity),

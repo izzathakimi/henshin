@@ -1,6 +1,9 @@
 import '../common/henshin_theme.dart';
 import '../common/henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import '../common/henshin_util.dart';
+import '../home_page.dart';
+import '../home_page.dart';
 
 class VerifyAccountPageWidget extends StatefulWidget {
   const VerifyAccountPageWidget({super.key});
@@ -18,6 +21,23 @@ class VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
   void initState() {
     super.initState();
     textController = TextEditingController();
+  }
+
+  Future<void> _verifyAccount() async {
+    if (textController!.text.isNotEmpty) {
+      // TODO: Implement actual verification logic here
+      // For now, we'll just simulate a successful verification
+      showSnackbar(context, 'Verifying account...', loading: true);
+      
+      await Future.delayed(const Duration(seconds: 2)); // Simulating network delay
+      
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } else {
+      showSnackbar(context, 'Please enter the verification code');
+    }
   }
 
   @override
@@ -156,9 +176,7 @@ class VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
                   child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
+                    onPressed: _verifyAccount,
                     text: 'Verify Code',
                     options: FFButtonOptions(
                       width: 130,
