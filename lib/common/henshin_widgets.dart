@@ -2,6 +2,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import '../common/henshin_util.dart';
+
 class FFButtonOptions {
   const FFButtonOptions({
     this.textStyle,
@@ -55,10 +57,10 @@ class FFButtonWidget extends StatefulWidget {
   final bool showLoadingIndicator;
 
   @override
-  State<FFButtonWidget> createState() => _FFButtonWidgetState();
+  State<FFButtonWidget> createState() => FFButtonWidgetState();
 }
 
-class _FFButtonWidgetState extends State<FFButtonWidget> {
+class FFButtonWidgetState extends State<FFButtonWidget> {
   bool loading = false;
 
   @override
@@ -82,20 +84,33 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
             overflow: TextOverflow.ellipsis,
           );
 
-    final onPressed = widget.showLoadingIndicator
+    final VoidCallback onPressed = widget.showLoadingIndicator
         ? () async {
             if (loading) {
+              HenshinLogger.debug('Button press ignored - already loading');
               return;
             }
             setState(() => loading = true);
             try {
               await widget.onPressed();
-            } catch (e) {
-              print('On pressed error:\n$e');
+              HenshinLogger.debug(
+                  'Button action completed successfully: ${widget.text}');
+            } catch (e, stackTrace) {
+              HenshinLogger.error(
+                'Error in button press: ${widget.text}',
+                e,
+                stackTrace,
+              );
+            } finally {
+              if (mounted) {
+                setState(() => loading = false);
+              }
             }
-            setState(() => loading = false);
           }
-        : () => widget.onPressed();
+        : () {
+            HenshinLogger.debug('Simple button pressed: ${widget.text}');
+            widget.onPressed();
+          };
 
     final buttonStyle = ElevatedButton.styleFrom(
       elevation: widget.options.elevation,
@@ -109,6 +124,7 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
       ),
     );
 
+    // Handle icon button
     if (widget.icon != null || widget.iconData != null) {
       textWidget = Flexible(child: textWidget);
       return SizedBox(
@@ -132,6 +148,7 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
       );
     }
 
+    // Handle regular button
     return SizedBox(
       height: widget.options.height,
       width: widget.options.width,
@@ -143,3 +160,99 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
     );
   }
 }
+
+// class FFButtonWidgetState extends State<FFButtonWidget> {
+//   bool loading = false;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     Widget textWidget = loading
+//         ? Center(
+//             child: SizedBox(
+//               width: 23,
+//               height: 23,
+//               child: CircularProgressIndicator(
+//                 valueColor: AlwaysStoppedAnimation<Color>(
+//                   widget.options.textStyle!.color ?? Colors.white,
+//                 ),
+//               ),
+//             ),
+//           )
+//         : AutoSizeText(
+//             widget.text,
+//             style: widget.options.textStyle,
+//             maxLines: 1,
+//             overflow: TextOverflow.ellipsis,
+//           );
+
+//     final VoidCallback? onPressed = widget.showLoadingIndicator
+//         ? () async {
+//             if (loading) {
+//               HenshinLogger.debug('Button press ignored - already loading');
+//               return;
+//             }
+//             setState(() => loading = true);
+//             try {
+//               await widget.onPressed();
+//               HenshinLogger.debug('Button action completed successfully: ${widget.text}');
+//             } catch (e, stackTrace) {
+//               HenshinLogger.error(
+//                 'Error in button press: ${widget.text}',
+//                 e,
+//                 stackTrace,
+//               );
+//             } finally {
+//               setState(() => loading = false);
+//             }
+//           }
+//         : () {
+//             HenshinLogger.debug('Simple button pressed: ${widget.text}');
+//             widget.onPressed();
+//           };
+
+//     final buttonStyle = ElevatedButton.styleFrom(
+//       elevation: widget.options.elevation,
+//       backgroundColor: widget.options.color,
+//       disabledBackgroundColor: widget.options.disabledColor,
+//       disabledForegroundColor: widget.options.disabledTextColor,
+//       padding: widget.options.padding,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(widget.options.borderRadius ?? 28),
+//         side: widget.options.borderSide ?? BorderSide.none,
+//       ),
+//     );
+
+//       return SizedBox(
+//       textWidget = Flexible(child: textWidget);
+//       return SizedBox(
+//         height: widget.options.height,
+//         width: widget.options.width,
+//         child: ElevatedButton.icon(
+//           icon: Padding(
+//             padding: widget.options.iconPadding ?? EdgeInsets.zero,
+//             child: widget.icon ??
+//                 FaIcon(
+//                   widget.iconData,
+//                   size: widget.options.iconSize,
+//                   color: widget.options.iconColor ??
+//                       widget.options.textStyle!.color,
+//                 ),
+//           ),
+//           label: textWidget,
+//           onPressed: onPressed,
+//           style: buttonStyle,
+//         ),
+//       );
+//     }
+
+//     return SizedBox(
+//       height: widget.options.height,
+//       width: widget.options.width,
+//       child: ElevatedButton(
+//         onPressed: onPressed,
+//         style: buttonStyle,
+//         child: textWidget,
+//       ),
+//     );
+//   }
+// }

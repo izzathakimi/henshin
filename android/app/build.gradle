@@ -1,6 +1,14 @@
+apply plugin: 'com.henshin.henshinapp'
+
+buildscript {
+    dependencies {
+        classpath 'com.google.gms:google-services:4.4.0'
+    }
+}
 plugins {
     id "com.henshin.henshinapp"
     id "kotlin-android"
+    id 'com.google.gms.google-services'  // Add this line
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -8,6 +16,8 @@ plugins {
 dependencies {
   // Import the Firebase BoM
   implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+  implementation 'com.google.firebase:firebase-auth:21.0.1'
+  implementation 'com.google.firebase:firebase-core:20.0.2'
 
 
   // TODO: Add the dependencies for Firebase products you want to use
@@ -65,11 +75,7 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
-    buildscript {
-    dependencies {
-        classpath 'com.google.gms:google-services:4.4.0'
-    }
-}
+
 }
 
 flutter {

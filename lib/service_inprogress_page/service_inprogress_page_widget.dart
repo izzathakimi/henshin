@@ -6,11 +6,11 @@ class ServiceInprogressPageWidget extends StatefulWidget {
   const ServiceInprogressPageWidget({super.key});
 
   @override
-  _ServiceInprogressPageWidgetState createState() =>
-      _ServiceInprogressPageWidgetState();
+  ServiceInprogressPageWidgetState createState() =>
+      ServiceInprogressPageWidgetState();
 }
 
-class _ServiceInprogressPageWidgetState
+class ServiceInprogressPageWidgetState
     extends State<ServiceInprogressPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

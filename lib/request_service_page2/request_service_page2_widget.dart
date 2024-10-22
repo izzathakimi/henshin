@@ -6,11 +6,11 @@ class RequestServicePage2Widget extends StatefulWidget {
   const RequestServicePage2Widget({super.key});
 
   @override
-  _RequestServicePage2WidgetState createState() =>
-      _RequestServicePage2WidgetState();
+  RequestServicePage2WidgetState createState() =>
+      RequestServicePage2WidgetState();
 }
 
-class _RequestServicePage2WidgetState extends State<RequestServicePage2Widget> {
+class RequestServicePage2WidgetState extends State<RequestServicePage2Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

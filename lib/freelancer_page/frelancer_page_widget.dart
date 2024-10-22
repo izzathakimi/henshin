@@ -7,10 +7,10 @@ class FreelancerPageWidget extends StatefulWidget {
   const FreelancerPageWidget({super.key});
 
   @override
-  _FreelancerPageWidgetState createState() => _FreelancerPageWidgetState();
+  FreelancerPageWidgetState createState() => FreelancerPageWidgetState();
 }
 
-class _FreelancerPageWidgetState extends State<FreelancerPageWidget> {
+class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
   TextEditingController? textController1;
   TextEditingController? textController2;
   TextEditingController? textController3;

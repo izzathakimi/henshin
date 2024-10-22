@@ -9,11 +9,11 @@ class LoginWithEmailPageWidget extends StatefulWidget {
   const LoginWithEmailPageWidget({super.key});
 
   @override
-  _LoginWithEmailPageWidgetState createState() =>
-      _LoginWithEmailPageWidgetState();
+  LoginWithEmailPageWidgetState createState() =>
+      LoginWithEmailPageWidgetState();
 }
 
-class _LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
+class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
   TextEditingController? textController1;
   TextEditingController? textController2;
   late bool passwordVisibility;

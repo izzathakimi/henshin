@@ -9,10 +9,10 @@ class JoinPageWidget extends StatefulWidget {
   const JoinPageWidget({super.key});
 
   @override
-  _JoinPageWidgetState createState() => _JoinPageWidgetState();
+  JoinPageWidgetState createState() => JoinPageWidgetState();
 }
 
-class _JoinPageWidgetState extends State<JoinPageWidget>
+class JoinPageWidgetState extends State<JoinPageWidget>
     with TickerProviderStateMixin {
   final animationsMap = {
     'columnOnPageLoadAnimation': AnimationInfo(

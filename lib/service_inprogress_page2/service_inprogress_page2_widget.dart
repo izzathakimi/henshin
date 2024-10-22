@@ -6,11 +6,11 @@ class ServiceInprogressPage2Widget extends StatefulWidget {
   const ServiceInprogressPage2Widget({super.key});
 
   @override
-  _ServiceInprogressPage2WidgetState createState() =>
-      _ServiceInprogressPage2WidgetState();
+  ServiceInprogressPage2WidgetState createState() =>
+      ServiceInprogressPage2WidgetState();
 }
 
-class _ServiceInprogressPage2WidgetState
+class ServiceInprogressPage2WidgetState
     extends State<ServiceInprogressPage2Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

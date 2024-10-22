@@ -7,11 +7,11 @@ class JobApplicationPageWidget extends StatefulWidget {
   const JobApplicationPageWidget({super.key});
 
   @override
-  _JobApplicationPageWidgetState createState() =>
-      _JobApplicationPageWidgetState();
+  JobApplicationPageWidgetState createState() =>
+      JobApplicationPageWidgetState();
 }
 
-class _JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
+class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

@@ -6,10 +6,10 @@ class FreelancerPage2Widget extends StatefulWidget {
   const FreelancerPage2Widget({super.key});
 
   @override
-  _FreelancerPage2WidgetState createState() => _FreelancerPage2WidgetState();
+  FreelancerPage2WidgetState createState() => FreelancerPage2WidgetState();
 }
 
-class _FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
+class FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
   TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

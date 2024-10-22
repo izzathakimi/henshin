@@ -6,11 +6,11 @@ class VerifyAccountPageWidget extends StatefulWidget {
   const VerifyAccountPageWidget({super.key});
 
   @override
-  _VerifyAccountPageWidgetState createState() =>
-      _VerifyAccountPageWidgetState();
+  VerifyAccountPageWidgetState createState() =>
+      VerifyAccountPageWidgetState();
 }
 
-class _VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
+class VerifyAccountPageWidgetState extends State<VerifyAccountPageWidget> {
   TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

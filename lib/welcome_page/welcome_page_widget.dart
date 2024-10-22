@@ -9,10 +9,10 @@ class WelcomePageWidget extends StatefulWidget {
   const WelcomePageWidget({super.key});
 
   @override
-  _WelcomePageWidgetState createState() => _WelcomePageWidgetState();
+  WelcomePageWidgetState createState() => WelcomePageWidgetState();
 }
 
-class _WelcomePageWidgetState extends State<WelcomePageWidget>
+class WelcomePageWidgetState extends State<WelcomePageWidget>
     with TickerProviderStateMixin {
   final animationsMap = {
     'columnOnPageLoadAnimation': AnimationInfo(

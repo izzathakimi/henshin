@@ -8,11 +8,11 @@ class SignupWithEmailPageWidget extends StatefulWidget {
   const SignupWithEmailPageWidget({super.key});
 
   @override
-  _SignupWithEmailPageWidgetState createState() =>
-      _SignupWithEmailPageWidgetState();
+  SignupWithEmailPageWidgetState createState() =>
+      SignupWithEmailPageWidgetState();
 }
 
-class _SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
+class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
   TextEditingController? textController1;
   TextEditingController? textController2;
   late bool passwordVisibility1;

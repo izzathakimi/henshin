@@ -7,10 +7,10 @@ class SplashWidget extends StatefulWidget {
   const SplashWidget({super.key});
 
   @override
-  _SplashWidgetState createState() => _SplashWidgetState();
+  SplashWidgetState createState() => SplashWidgetState();
 }
 
-class _SplashWidgetState extends State<SplashWidget>
+class SplashWidgetState extends State<SplashWidget>
     with TickerProviderStateMixin {
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(

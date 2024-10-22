@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:logger/logger.dart';
 
 export 'dart:math' show min, max;
 export 'package:intl/intl.dart';
@@ -12,8 +13,66 @@ export 'package:page_transition/page_transition.dart';
 export 'lat_lng.dart';
 export 'place.dart';
 
-T valueOrDefault<T>(T value, T defaultValue) =>
-    (value is String && value.isEmpty) || value == null ? defaultValue : value;
+// Logging utilities
+class HenshinLogger {
+  static final logger = Logger();
+
+  static void debug(String message) => logger.d(message);
+  static void info(String message) => logger.i(message);
+  static void warning(String message) => logger.w(message);
+  static void error(String message, [dynamic error, StackTrace? stackTrace]) => 
+      logger.e(message, error: error, stackTrace: stackTrace);
+}
+
+// URL utilities
+class UrlUtil {
+  static Future<void> launchURL(String url) async {
+    final uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      HenshinLogger.error('Error launching URL', e);
+      throw 'Could not launch $url: $e';
+    }
+  }
+
+  static bool isValidUrl(String urlString) {
+    try {
+      final url = Uri.parse(urlString);
+      return url.hasScheme && url.hasAuthority;
+    } catch (_) {
+      return false;
+    }
+  }
+}
+
+// Keep your existing formatting enums and functions
+enum FormatType {
+  decimal,
+  percent,
+  scientific,
+  compact,
+  compactLong,
+  custom,
+}
+
+// T valueOrDefault<T>(T value, T defaultValue) =>
+//     (value is String && value.isEmpty) || value == null ? defaultValue : value;
+
+T valueOrDefault<T>(T? value, T defaultValue) {
+  try {
+    if (value == null) return defaultValue;
+    if (value is String && value.isEmpty) return defaultValue;
+    return value;
+  } catch (e) {
+    HenshinLogger.error('Error in valueOrDefault', e);
+    return defaultValue;
+  }
+}
 
 String dateTimeFormat(String format, DateTime dateTime) {
   if (format == 'relative') {
@@ -23,22 +82,22 @@ String dateTimeFormat(String format, DateTime dateTime) {
 }
 
 Future launchURL(String url) async {
-  var uri = Uri.parse(url).toString();
+  final uri = Uri.parse(url);
   try {
-    await launch(uri);
+    await launchUrl(uri);
   } catch (e) {
     throw 'Could not launch $uri: $e';
   }
 }
 
-enum FormatType {
-  decimal,
-  percent,
-  scientific,
-  compact,
-  compactLong,
-  custom,
-}
+// enum FormatType {
+//   decimal,
+//   percent,
+//   scientific,
+//   compact,
+//   compactLong,
+//   custom,
+// }
 
 enum DecimalType {
   automatic,
@@ -133,6 +192,7 @@ void showSnackbar(
   String message, {
   bool loading = false,
   int duration = 4,
+  SnackBarBehavior behavior = SnackBarBehavior.floating,
 }) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
@@ -150,10 +210,12 @@ void showSnackbar(
                 ),
               ),
             ),
-          Text(message),
+          // 
+          Expanded(child: Text(message)),
         ],
       ),
       duration: Duration(seconds: duration),
+      behavior: behavior,
     ),
   );
 }
@@ -164,3 +226,5 @@ extension FFStringExt on String {
           ? replaceRange(maxChars, null, replacement)
           : this;
 }
+
+final logger = Logger();

@@ -6,11 +6,11 @@ class ResetPasswordPageWidget extends StatefulWidget {
   const ResetPasswordPageWidget({super.key});
 
   @override
-  _ResetPasswordPageWidgetState createState() =>
-      _ResetPasswordPageWidgetState();
+  ResetPasswordPageWidgetState createState() =>
+      ResetPasswordPageWidgetState();
 }
 
-class _ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
+class ResetPasswordPageWidgetState extends State<ResetPasswordPageWidget> {
   TextEditingController? textController1;
   late bool passwordVisibility1;
   TextEditingController? textController2;

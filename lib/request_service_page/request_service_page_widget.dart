@@ -6,11 +6,11 @@ class RequestServicePageWidget extends StatefulWidget {
   const RequestServicePageWidget({super.key});
 
   @override
-  _RequestServicePageWidgetState createState() =>
-      _RequestServicePageWidgetState();
+  RequestServicePageWidgetState createState() =>
+      RequestServicePageWidgetState();
 }
 
-class _RequestServicePageWidgetState extends State<RequestServicePageWidget> {
+class RequestServicePageWidgetState extends State<RequestServicePageWidget> {
   TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

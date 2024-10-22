@@ -6,11 +6,11 @@ class ForgotPasswordPageWidget extends StatefulWidget {
   const ForgotPasswordPageWidget({super.key});
 
   @override
-  _ForgotPasswordPageWidgetState createState() =>
-      _ForgotPasswordPageWidgetState();
+  ForgotPasswordPageWidgetState createState() =>
+      ForgotPasswordPageWidgetState();
 }
 
-class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
+class ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
   TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

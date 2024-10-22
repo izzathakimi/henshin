@@ -18,10 +18,10 @@ class MyApp extends StatefulWidget {
 
   // This widget is the root of your application.
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   bool displaySplashImage = true;
 
   @override

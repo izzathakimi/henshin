@@ -6,11 +6,11 @@ class CreateProjectPageWidget extends StatefulWidget {
   const CreateProjectPageWidget({super.key});
 
   @override
-  _CreateProjectPageWidgetState createState() =>
-      _CreateProjectPageWidgetState();
+  CreateProjectPageWidgetState createState() =>
+      CreateProjectPageWidgetState();
 }
 
-class _CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
+class CreateProjectPageWidgetState extends State<CreateProjectPageWidget> {
   TextEditingController? textController1;
   TextEditingController? textController2;
   TextEditingController? textController3;

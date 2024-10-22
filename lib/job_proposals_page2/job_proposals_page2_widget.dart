@@ -6,11 +6,11 @@ class JobPropopsalsPage2Widget extends StatefulWidget {
   const JobPropopsalsPage2Widget({super.key});
 
   @override
-  _JobPropopsalsPage2WidgetState createState() =>
-      _JobPropopsalsPage2WidgetState();
+  JobPropopsalsPage2WidgetState createState() =>
+      JobPropopsalsPage2WidgetState();
 }
 
-class _JobPropopsalsPage2WidgetState extends State<JobPropopsalsPage2Widget> {
+class JobPropopsalsPage2WidgetState extends State<JobPropopsalsPage2Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
