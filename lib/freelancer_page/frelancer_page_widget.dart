@@ -122,7 +122,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                             controller: textController1,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'eg. Bong Thorn',
+                              hintText: 'eg. Ali Bin Abu',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
                                 color: const Color(0x98303030),
@@ -181,7 +181,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText:
-                                  'eg. Experience conducting research and some ...',
+                                  'eg. Specialising in housekeeping and cleaning...',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
                                 color: const Color(0x98303030),
@@ -240,7 +240,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                             controller: textController3,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'Cambodia',
+                              hintText: 'Malaysia',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
                                 color: const Color(0x98303030),
@@ -301,7 +301,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                             controller: textController4,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'Phnom Penh',
+                              hintText: 'Ulu Kinta',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
                                 color: const Color(0x98303030),
