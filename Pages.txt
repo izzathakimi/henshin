@@ -1,0 +1,71 @@
+Here's the updated text representation incorporating the new screens:
+
+```
+Job App
+|
+|-- SplashScreen (splash_screen.dart)
+|   |-- App logo
+|   |-- Loading indicator
+|   |-- Brief tagline or welcome message in Malay
+|
+|-- OnboardingScreen (onboarding_screen.dart)
+|   |-- Swipeable carousel of feature explanations
+|   |-- Skip button
+|   |-- "Get Started" button
+|
+|-- RegistrationScreen (registration_screen.dart)
+|   |-- Phone number input field
+|   |-- OTP verification field
+|   |-- Basic profile information inputs (name, age, location)
+|   |-- Skills/qualifications input (e.g., SPM, SKM)
+|   |-- Profile picture upload option
+|   |-- Submit button
+|
+|-- LoginScreen (login_screen.dart)
+|   |-- Phone number input
+|   |-- OTP verification field
+|   |-- "Forgot Password" option
+|   |-- Login button
+|
+|-- HomeScreen
+|   |-- Job categories grid or list
+|   |-- Featured/urgent job listings
+|   |-- Search bar
+|   |-- Filter options (location, job type, etc.)
+|
+|-- JobListing
+|   |-- List of job cards (with basic info: title, location, pay)
+|   |-- Infinite scroll or pagination
+|   |-- Sort options (e.g., by date, pay, distance)
+|   |-- Pull-to-refresh functionality
+|
+|-- JobDetail
+|   |-- Job title, description, requirements
+|   |-- Employer information and rating
+|   |-- Apply button
+|   |-- Save/bookmark option
+|   |-- Share button
+|   |-- Map view of job location
+|
+|-- ProfileScreen
+|   |-- Profile picture
+|   |-- Personal information
+|   |-- Resume
+|   |-- Skills and qualifications list
+|   |-- Edit profile button
+|   |-- Settings button
+|   |-- Job application history
+|   |-- Ratings and reviews
+|
+|-- CommunityForum
+|   |-- List of forum topics/threads
+|   |-- Create new post button
+|   |-- Search and filter options
+|   |-- User reputation indicators (e.g., replies, likes)
+|
+|-- Chat
+    |-- List of conversations
+    |-- Search contacts
+    |-- Individual chat windows
+    |-- Option to share job listings or profiles
+```

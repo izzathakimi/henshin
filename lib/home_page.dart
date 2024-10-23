@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'freelancer_page/frelancer_page_widget.dart';
-import 'job_proposals_page/job_proposal_page_widget.dart';
-import 'job_application_page/job_application_widget.dart';
+import 'home_screen/home_screen.dart';
+import 'job_listing/job_listing.dart';
+import 'profile_screen/profile_screen.dart';
+import 'community_forum/community_forum.dart';
+import 'chat/chat_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,10 +15,11 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home'),
-    FreelancerPageWidget(),
-    JobPropopsalsPageWidget(),
-    JobApplicationPageWidget(),
+    HomeScreen(),
+    JobListing(),
+    ProfileScreen(),
+    CommunityForum(),
+    ChatScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -28,9 +31,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Henshin'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -41,16 +41,20 @@ class HomePageState extends State<HomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            label: 'Jobs',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Proposals',
+            icon: Icon(Icons.forum),
+            label: 'Community',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: 'Jobs',
+            icon: Icon(Icons.chat),
+            label: 'Chat',
           ),
         ],
         currentIndex: _selectedIndex,
