@@ -1,6 +1,8 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FreelancerPage2Widget extends StatefulWidget {
   const FreelancerPage2Widget({super.key});
@@ -17,6 +19,39 @@ class FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
   void initState() {
     super.initState();
     textController = TextEditingController();
+  }
+
+  Future<void> saveFreelancerInfo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not signed in')),
+      );
+      return;
+    }
+
+    final freelancerData = {
+      'website': textController!.text,
+      // Add more fields here if needed
+    };
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .set(freelancerData, SetOptions(merge: true));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Additional information saved successfully')),
+      );
+
+      // Navigate to the next page or home page
+      // For example: Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving additional information: $e')),
+      );
+    }
   }
 
   @override
@@ -249,7 +284,7 @@ class FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                             controller: textController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'eg. www.bongthorn.dev',
+                              hintText: 'eg. www.najmuddinensem.dev',
                               hintStyle: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
                                 color: const Color(0x98303030),
@@ -325,9 +360,7 @@ class FreelancerPage2WidgetState extends State<FreelancerPage2Widget> {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 32),
                                     child: FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
+                                      onPressed: saveFreelancerInfo,
                                       text: 'Finish',
                                       options: FFButtonOptions(
                                         width: 130,

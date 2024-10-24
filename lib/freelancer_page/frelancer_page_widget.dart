@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+// import '../freelancer_page2/freelancer_page2_widget.dart';
+import '../home_screen/home_screen.dart';  // Import your home screen widget
 
 
 class FreelancerPageWidget extends StatefulWidget {
@@ -24,6 +28,43 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
     textController2 = TextEditingController();
     textController3 = TextEditingController();
     textController4 = TextEditingController();
+  }
+
+  Future<void> saveFreelancerInfo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not signed in')),
+      );
+      return;
+    }
+
+    final freelancerData = {
+      'name': textController1!.text,
+      'about': textController2!.text,
+      'country': textController3!.text,
+      'city': textController4!.text,
+    };
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .set(freelancerData, SetOptions(merge: true));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Freelancer information saved successfully')),
+      );
+
+      // Navigate to HomeScreen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving freelancer information: $e')),
+      );
+    }
   }
 
   @override
@@ -380,10 +421,8 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 32),
                                     child: FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
-                                      text: 'Continue',
+                                      onPressed: saveFreelancerInfo,
+                                      text: 'Save',
                                       options: FFButtonOptions(
                                         width: 130,
                                         height: 45,

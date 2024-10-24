@@ -17,9 +17,9 @@ class HomePageState extends State<HomePage> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     JobListing(),
-    ProfileScreen(),
     CommunityForum(),
     ChatScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,10 +44,7 @@ class HomePageState extends State<HomePage> {
             icon: Icon(Icons.work),
             label: 'Jobs',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.forum),
             label: 'Community',
@@ -55,6 +52,9 @@ class HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chat',
+          ),BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

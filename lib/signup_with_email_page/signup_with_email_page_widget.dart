@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../common/henshin_util.dart';
-import '../home_page.dart';
+// import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../freelancer_page/frelancer_page_widget.dart'; // Add this import
 
 class SignupWithEmailPageWidget extends StatefulWidget {
   const SignupWithEmailPageWidget({super.key});
@@ -50,9 +51,9 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
         );
 
         if (userCredential.user != null) {
-          // Navigate to HomePage instead of VerifyAccountPageWidget
+          // Navigate to FreelancerPageWidget instead of HomePage
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const FreelancerPageWidget()),
             (route) => false,
           );
         }
