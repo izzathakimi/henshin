@@ -4,7 +4,9 @@ import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 // import '../freelancer_page2/freelancer_page2_widget.dart';
-import '../home_screen/home_screen.dart';  // Import your home screen widget
+// import '../home_screen/home_screen.dart';  // Import your home screen widget
+// import '../home_screen/home_page.dart';  // Import your home page widget
+import '../home_page.dart';  // Add this import
 
 
 class FreelancerPageWidget extends StatefulWidget {
@@ -59,9 +61,9 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
         const SnackBar(content: Text('Freelancer information saved successfully')),
       );
 
-      // Navigate to HomeScreen
+      // Replace the current route with HomePage instead of HomeScreen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
