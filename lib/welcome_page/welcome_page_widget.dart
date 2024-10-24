@@ -4,7 +4,7 @@ import '../join_page/join_page_widget.dart';
 import '../login_with_email_page/login_with_email_page_widget.dart';
 
 class WelcomePageWidget extends StatelessWidget {
-  const WelcomePageWidget({Key? key}) : super(key: key);
+  const WelcomePageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

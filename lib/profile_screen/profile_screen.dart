@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GridPhoto {
   final Uint8List imageBytes;
@@ -9,7 +11,7 @@ class GridPhoto {
 }
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,6 +22,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   Uint8List? profilePhotoBytes;
 
+  // Najm Add these variables
+  String name = '';
+  String phone = '';
+  String specialty = '';
+  String country = '';
+  String city = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userData = await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .get();
+
+      if (userData.exists) {
+        setState(() {
+          name = userData.data()?['name'] ?? '';
+          phone = userData.data()?['phone number'] ?? '';
+          specialty = userData.data()?['specialty'] ?? '';
+          country = userData.data()?['country'] ?? '';
+          city = userData.data()?['city'] ?? '';
+        });
+      }
+    }
+  }
+
+  Future<void> _updateUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .update({
+        'name': name,
+        'phone number': phone,
+        'specialty': specialty,
+        'country': country,
+        'city': city,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully')),
+      );
+    }
+  }
+// Najm End of Update User Data
   // Updated profile photo function
   Future<void> _updateProfilePhoto() async {
     try {
@@ -158,17 +212,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 16),
               
-              // Name and Status
-              const Text(
-                'Kurt Toms',
-                style: TextStyle(
+              // Name
+              Text(
+                name,
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
-                'Status should be here',
-                style: TextStyle(
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Text(
+                  phone,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              
+              // Specialty
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Text(
+                  specialty,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              
+              // Location
+              Text(
+                '$city, $country',
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
                 ),
@@ -176,40 +257,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               
               const SizedBox(height: 16),
               
-              // Action Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF008080),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.message,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFA500),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              // Edit Profile Button
+              ElevatedButton(
+                onPressed: _showEditProfileDialog,
+                child: const Text('Edit Profile'),
               ),
 
               const SizedBox(height: 24),
@@ -312,6 +363,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showEditProfileDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Profile'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Name'),
+                  controller: TextEditingController(text: name),
+                  onChanged: (value) => name = value,
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
+                  controller: TextEditingController(text: phone),
+                  onChanged: (value) => phone = value,
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Specialty'),
+                  controller: TextEditingController(text: specialty),
+                  onChanged: (value) => specialty = value,
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Country'),
+                  controller: TextEditingController(text: country),
+                  onChanged: (value) => country = value,
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: 'City'),
+                  controller: TextEditingController(text: city),
+                  onChanged: (value) => city = value,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: const Text('Save'),
+              onPressed: () {
+                _updateUserData();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

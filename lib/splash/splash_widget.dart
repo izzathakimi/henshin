@@ -3,7 +3,7 @@ import 'package:henshin/common/henshin_animations.dart';
 import 'package:henshin/join_page/join_page_widget.dart';
 
 class SplashWidget extends StatefulWidget {
-  const SplashWidget({Key? key}) : super(key: key);
+  const SplashWidget({super.key});
 
   @override
   SplashWidgetState createState() => SplashWidgetState();

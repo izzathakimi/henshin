@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class JobListing extends StatelessWidget {
-  const JobListing({Key? key}) : super(key: key);
+  const JobListing({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class JobListing extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Job Listings'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

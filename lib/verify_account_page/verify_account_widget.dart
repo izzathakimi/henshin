@@ -3,7 +3,6 @@ import '../common/henshin_widgets.dart';
 import 'package:flutter/material.dart';
 import '../common/henshin_util.dart';
 import '../home_page.dart';
-import '../home_page.dart';
 
 class VerifyAccountPageWidget extends StatefulWidget {
   const VerifyAccountPageWidget({super.key});

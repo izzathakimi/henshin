@@ -6,7 +6,7 @@ import 'community_forum/community_forum.dart';
 import 'chat/chat_screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   HomePageState createState() => HomePageState();

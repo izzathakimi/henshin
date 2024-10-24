@@ -15,7 +15,7 @@ Job App
 |
 |-- RegistrationScreen (registration_screen.dart)
 |   |-- Phone number input field
-|   |-- OTP verification field
+|   |-- 
 |   |-- Basic profile information inputs (name, age, location)
 |   |-- Skills/qualifications input (e.g., SPM, SKM)
 |   |-- Profile picture upload option

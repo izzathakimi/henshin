@@ -19,6 +19,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
   TextEditingController? textController2;
   TextEditingController? textController3;
   TextEditingController? textController4;
+  TextEditingController? textController5;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -28,6 +29,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
     textController2 = TextEditingController();
     textController3 = TextEditingController();
     textController4 = TextEditingController();
+    textController5 = TextEditingController();
   }
 
   Future<void> saveFreelancerInfo() async {
@@ -41,9 +43,10 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
 
     final freelancerData = {
       'name': textController1!.text,
-      'about': textController2!.text,
-      'country': textController3!.text,
+      'phone number': textController2!.text,
+      'specialty': textController3!.text,
       'city': textController4!.text,
+      'country': textController5!.text,
     };
 
     try {
@@ -190,6 +193,67 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       ),
                     ],
                   ),
+                   Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                          child: Text(
+                            'Phone Number',
+                            style: HenshinTheme.bodyText1.override(
+                              fontFamily: 'NatoSansKhmer',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              useGoogleFonts: false,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                          child: TextFormField(
+                            controller: textController2,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              hintText:
+                                  'eg. +60123456789',
+                              hintStyle: HenshinTheme.bodyText1.override(
+                                fontFamily: 'NatoSansKhmer',
+                                color: const Color(0x98303030),
+                                useGoogleFonts: false,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0x65757575),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0x65757575),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                            ),
+                            style: HenshinTheme.bodyText1,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -198,7 +262,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                           child: Text(
-                            'About',
+                            'Specialty',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               fontSize: 14,
@@ -319,7 +383,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                           child: Text(
-                            'Country',
+                            'City',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               fontSize: 14,

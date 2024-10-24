@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CommunityForum extends StatelessWidget {
-  const CommunityForum({Key? key}) : super(key: key);
+  const CommunityForum({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class CommunityForum extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Community Forum'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
