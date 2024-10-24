@@ -1,0 +1,17 @@
+            Text('List of job cards'),
+            Text('Infinite scroll or pagination'),
+            Text('Sort options'),
+            Text('Pull-to-refresh functionality'),
+            job application page
+            job application page2
+
+            create project page
+            job proposals page
+            request service page, page 1, page 2
+            service in progress page
+            service request 1,2,3
+        create project page2
+        create project page3
+        create project page4
+        create project page5
+
