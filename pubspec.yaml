@@ -9,7 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker: ^1.0.7  
+  image_picker: ^1.0.7
+  image_cropper: ^8.0.2
+  image_cropper_for_web: 6.0.2
+
+  firebase_storage: ^12.3.4
+
   flutter_localizations:
     sdk: flutter
   auto_size_text: ^3.0.0
@@ -40,7 +45,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
   flutter_launcher_icons: ^0.14.1
   # flutter_test:
