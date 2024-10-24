@@ -4,7 +4,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_cropper/image_cropper.dart';
-
 import 'dart:io';
 
 class Post {
@@ -67,6 +66,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final user = FirebaseAuth.instance.currentUser;
+  final ImageCropper cropper = ImageCropper(); 
+
   
   bool _isLoading = false;
   String? profilePhotoUrl;
@@ -153,51 +154,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
     
-  Future<String?> _uploadImage(File imageFile, String path) async {
+Future<String?> _uploadImage(File imageFile, String path) async {
     try {
+      print('Starting upload process'); // Debug log
       final ref = _storage.ref().child(path);
-      final uploadTask = ref.putFile(imageFile);
+      
+      // Check file size
+      final fileSize = await imageFile.length();
+      print('File size: ${fileSize} bytes'); // Debug log
+      
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': imageFile.path},
+      );
+
+      final uploadTask = ref.putFile(imageFile, metadata);
+
+      // Monitor upload progress
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+        print('Upload progress: ${snapshot.bytesTransferred}/${snapshot.totalBytes}');
+      });
+
       final snapshot = await uploadTask;
-      return await snapshot.ref.getDownloadURL();
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+      print('Upload successful, URL: $downloadUrl'); // Debug log
+      return downloadUrl;
     } catch (e) {
-      print('Error uploading image: $e');
-      return null;
+      print('Error in _uploadImage: $e'); // Debug log
+      rethrow; // Rethrow to handle in calling function
     }
-  }
-
-Future<File?> _cropImage(String imagePath) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imagePath,
-      compressQuality: 90,
-      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Edit Image',
-          toolbarColor: const Color(0xFF008080),
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-          hideBottomControls: false,
-        ),
-        IOSUiSettings(
-          title: 'Edit Image',
-          doneButtonTitle: 'Done',
-          cancelButtonTitle: 'Cancel',
-          aspectRatioLockEnabled: true,
-        ),
-        WebUiSettings(
-          context: context,
-        ),
-      ],
-    );
-
-    if (croppedFile != null) {
-      return File(croppedFile.path);
-    }
-    return null;
 }
 
-  Future<void> _updateProfilePhoto() async {
+Future<void> _updateProfilePhoto() async {
     try {
       setState(() => _isLoading = true);
       
@@ -207,13 +195,23 @@ Future<File?> _cropImage(String imagePath) async {
       );
 
       if (image != null) {
-        // Crop image
-        File? croppedImage = await _cropImage(image.path);
-        if (croppedImage == null) return;
+        print('Image selected: ${image.path}'); // Debug log
 
         // Upload to Firebase Storage
         final String path = 'profile_photos/${user!.uid}/profile.jpg';
-        final String? imageUrl = await _uploadImage(croppedImage, path);
+        print('Uploading to path: $path'); // Debug log
+        
+        // Convert XFile to File
+        final File imageFile = File(image.path);
+        
+        // Check if file exists
+        if (!await imageFile.exists()) {
+          print('File does not exist!');
+          return;
+        }
+
+        final String? imageUrl = await _uploadImage(imageFile, path);
+        print('Upload complete, URL: $imageUrl'); // Debug log
 
         if (imageUrl != null) {
           // Update Firestore
@@ -223,16 +221,29 @@ Future<File?> _cropImage(String imagePath) async {
               .update({'profilePhotoUrl': imageUrl});
 
           setState(() => profilePhotoUrl = imageUrl);
+          
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile photo updated successfully')),
+          );
+        } else {
+          // Show error if upload failed
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to upload image')),
+          );
         }
+      } else {
+        print('No image selected'); // Debug log
       }
     } catch (e) {
+      print('Error in _updateProfilePhoto: $e'); // Debug log
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error updating profile photo: $e')),
       );
     } finally {
       setState(() => _isLoading = false);
     }
-  }
+}
 
   Future<void> _createPost() async {
     try {
@@ -248,13 +259,13 @@ Future<File?> _cropImage(String imagePath) async {
 
         setState(() => _isLoading = true);
 
-        // Crop image
-        File? croppedImage = await _cropImage(image.path);
-        if (croppedImage == null) return;
+        // Remove cropping step
+        // File? croppedImage = await _cropImage(image.path);
+        // if (croppedImage == null) return;
 
         // Upload to Firebase Storage
         final String path = 'posts/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final String? imageUrl = await _uploadImage(croppedImage, path);
+        final String? imageUrl = await _uploadImage(File(image.path), path);
 
         if (imageUrl != null) {
           // Create post in Firestore
