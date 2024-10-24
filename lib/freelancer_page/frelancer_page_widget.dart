@@ -47,8 +47,8 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
       'name': textController1!.text,
       'phone number': textController2!.text,
       'specialty': textController3!.text,
-      'city': textController4!.text,
-      'country': textController5!.text,
+      'country': textController4!.text,
+      'city': textController5!.text,
     };
 
     try {
@@ -284,7 +284,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
-                            controller: textController2,
+                            controller: textController3,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText:
@@ -344,7 +344,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
-                            controller: textController3,
+                            controller: textController4,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText: 'Malaysia',
@@ -405,7 +405,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
-                            controller: textController4,
+                            controller: textController5,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText: 'Ulu Kinta',
