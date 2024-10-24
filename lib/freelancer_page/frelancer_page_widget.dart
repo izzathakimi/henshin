@@ -4,7 +4,9 @@ import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 // import '../freelancer_page2/freelancer_page2_widget.dart';
-import '../home_screen/home_screen.dart';  // Import your home screen widget
+// import '../home_screen/home_screen.dart';  // Import your home screen widget
+// import '../home_screen/home_page.dart';  // Import your home page widget
+import '../home_page.dart';  // Add this import
 
 
 class FreelancerPageWidget extends StatefulWidget {
@@ -45,8 +47,8 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
       'name': textController1!.text,
       'phone number': textController2!.text,
       'specialty': textController3!.text,
-      'city': textController4!.text,
-      'country': textController5!.text,
+      'country': textController4!.text,
+      'city': textController5!.text,
     };
 
     try {
@@ -59,9 +61,9 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
         const SnackBar(content: Text('Freelancer information saved successfully')),
       );
 
-      // Navigate to HomeScreen
+      // Replace the current route with HomePage instead of HomeScreen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -282,7 +284,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
-                            controller: textController2,
+                            controller: textController3,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText:
@@ -342,7 +344,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
-                            controller: textController3,
+                            controller: textController4,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText: 'Malaysia',
@@ -403,7 +405,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                           child: TextFormField(
-                            controller: textController4,
+                            controller: textController5,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText: 'Ulu Kinta',
