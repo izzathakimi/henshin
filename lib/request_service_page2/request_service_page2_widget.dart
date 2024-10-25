@@ -1,6 +1,7 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import '../request_service_page3/request_service_page3_widget.dart';
 
 class RequestServicePage2Widget extends StatefulWidget {
   const RequestServicePage2Widget({super.key});
@@ -12,6 +13,13 @@ class RequestServicePage2Widget extends StatefulWidget {
 
 class RequestServicePage2WidgetState extends State<RequestServicePage2Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void navigateToNextPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const RequestServicePage3Widget()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -558,9 +566,7 @@ class RequestServicePage2WidgetState extends State<RequestServicePage2Widget> {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 16),
                                     child: FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
+                                      onPressed: navigateToNextPage,
                                       text: 'Proceed to Pay',
                                       options: FFButtonOptions(
                                         width: 130,

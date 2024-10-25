@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'home_screen/home_screen.dart';
-import 'job_listing/job_listing.dart';
 import 'profile_screen/profile_screen.dart';
 import 'community_forum/community_forum.dart';
 import 'chat/chat_screen.dart';
+// Import the new pages
+import 'job_application_page/job_application_widget.dart';
+// import 'job_application_page2/job_application_page2_widget.dart';
+// import 'create_project_page/create_project_page_widget.dart';
+// import 'job_proposals_page/job_proposals_page_widget.dart';
+import 'job_proposals_page/job_proposals_page_widget.dart';
+import 'request_service_page/request_service_page_widget.dart';
+import 'service_inprogress_page/service_inprogress_page_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +26,6 @@ class HomePageState extends State<HomePage> {
     CommunityForum(),
     ChatScreen(),
     ProfileScreen(),
-    JobListing(),  // Added JobListing to the end
   ];
 
   @override
@@ -29,36 +35,56 @@ class HomePageState extends State<HomePage> {
         title: const Text('Job Search App'),
       ),
       drawer: Drawer(
-        child: SafeArea(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: const Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: const Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
                 ),
               ),
-              ListTile(
-                leading: const Icon(Icons.person),
-                title: const Text('Profile'),
-                selected: _selectedIndex == 3,
-                onTap: () => _selectDrawerItem(3),
-              ),
-              ListTile(
-                leading: const Icon(Icons.work),
-                title: const Text('Jobs'),
-                selected: _selectedIndex == 4,
-                onTap: () => _selectDrawerItem(4),
-              ),
-            ],
-          ),
+            ),
+           
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
+              selected: _selectedIndex == 3,
+              onTap: () => _onItemTapped(3),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.work),
+              title: const Text('Job Application'),
+              onTap: () => _navigateTo(const JobApplicationPageWidget()),
+            ),
+            
+            // ListTile(
+            //   leading: const Icon(Icons.create),
+            //   title: const Text('Create Project'),
+            //   onTap: () => _navigateTo(const CreateProjectPageWidget()),
+            // ),
+            ListTile(
+              leading: const Icon(Icons.description),
+              title: const Text('Job Proposals'),
+              onTap: () => _navigateTo(const JobProposalsPageWidget()),
+            ),
+            ListTile(
+              leading: const Icon(Icons.build),
+              title: const Text('Request Service'),
+              onTap: () => _navigateTo(const RequestServicePageWidget()),
+            ),
+            ListTile(
+              leading: const Icon(Icons.timer),
+              title: const Text('Service In Progress'),
+              onTap: () => _navigateTo(const ServiceInprogressPageWidget()),
+            ),
+          ],
         ),
       ),
       body: Center(
@@ -81,21 +107,23 @@ class HomePageState extends State<HomePage> {
         ],
         currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
       ),
     );
   }
 
-  void _selectDrawerItem(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
     Navigator.of(context).pop(); // Close the drawer
+  }
+
+  void _navigateTo(Widget page) {
+    Navigator.of(context).pop(); // Close the drawer
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 }

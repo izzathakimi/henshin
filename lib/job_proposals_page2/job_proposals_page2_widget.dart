@@ -2,15 +2,15 @@ import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 
-class JobPropopsalsPage2Widget extends StatefulWidget {
-  const JobPropopsalsPage2Widget({super.key});
+class JobProposalsPage2Widget extends StatefulWidget {
+  const JobProposalsPage2Widget({super.key});
 
   @override
-  JobPropopsalsPage2WidgetState createState() =>
-      JobPropopsalsPage2WidgetState();
+  JobProposalsPage2WidgetState createState() =>
+      JobProposalsPage2WidgetState();
 }
 
-class JobPropopsalsPage2WidgetState extends State<JobPropopsalsPage2Widget> {
+class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
