@@ -5,6 +5,78 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart';
+import 'package:flutterizzat/app_state.dart';
+import 'package:go_router/go_router.dart';
+
+class NetworkImageWithLoader extends StatelessWidget {
+  final String imageUrl;
+  final double? width;
+  final double? height;
+  final BoxFit fit;
+  final Color? backgroundColor;
+  final Widget? errorWidget;
+  final Widget? loadingWidget;
+
+  const NetworkImageWithLoader({
+    super.key,
+    required this.imageUrl,
+    this.width,
+    this.height,
+    this.fit = BoxFit.cover,
+    this.backgroundColor,
+    this.errorWidget,
+    this.loadingWidget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      color: backgroundColor ?? Colors.grey[200],
+      child: imageUrl.isEmpty
+          ? errorWidget ?? const Icon(Icons.image_not_supported, color: Colors.grey)
+          : Image.network(
+              imageUrl,
+              fit: fit,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                if (wasSynchronouslyLoaded) return child;
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: frame != null ? child : loadingWidget ?? _defaultLoader(),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                debugPrint('Error loading image: $error');
+                debugPrint('Stack trace: $stackTrace');
+                return errorWidget ??
+                    const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline, color: Colors.grey),
+                        SizedBox(height: 4),
+                        Text(
+                          'Failed to load image',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                      ],
+                    );
+              },
+            ),
+    );
+  }
+
+  Widget _defaultLoader() {
+    return const Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
+      ),
+    );
+  }
+}
 
 class Post {
   final String id;
@@ -77,6 +149,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String country = '';
   String city = '';
   List<Post> posts = [];
+  final _formKey = GlobalKey<FormState>();
+  String _description = '';
+  Uint8List? _imageBytes;
+  String? _imageName;
 
   @override
   void initState() {
@@ -85,25 +161,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadUserPosts();
   }
 
-  Future<void> _loadUserData() async {
-    if (user != null) {
-      final userData = await _firestore
-          .collection('freelancers')
-          .doc(user!.uid)
-          .get();
+ Future<void> _loadUserData() async {
+    try {
+      if (user != null) {
+        print('Loading user data for ID: ${user!.uid}');
+        final userData = await _firestore
+            .collection('freelancers')
+            .doc(user!.uid)
+            .get();
 
-      if (userData.exists) {
-        setState(() {
-          name = userData.data()?['name'] ?? '';
-          phone = userData.data()?['phone number'] ?? '';
-          specialty = userData.data()?['specialty'] ?? '';
-          country = userData.data()?['country'] ?? '';
-          city = userData.data()?['city'] ?? '';
-          profilePhotoUrl = userData.data()?['profilePhotoUrl'];
-        });
+        if (userData.exists) {
+          final data = userData.data();
+          print('User data loaded: $data');
+          setState(() {
+            name = data?['name'] ?? '';
+            phone = data?['phone number'] ?? '';
+            specialty = data?['specialty'] ?? '';
+            country = data?['country'] ?? '';
+            city = data?['city'] ?? '';
+            profilePhotoUrl = data?['profilePhotoUrl'];
+          });
+          print('Profile photo URL: $profilePhotoUrl');
+        } else {
+          print('User document does not exist');
+        }
+      } else {
+        print('No user logged in');
       }
+    } catch (e) {
+      print('Error loading user data: $e');
     }
-  }
+}
 
   Future<void> _loadUserPosts() async {
     if (user != null) {
@@ -155,34 +243,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     
 Future<String?> _uploadImage(File imageFile, String path) async {
-    try {
-      print('Starting upload process'); // Debug log
-      final ref = _storage.ref().child(path);
-      
-      // Check file size
-      final fileSize = await imageFile.length();
-      print('File size: ${fileSize} bytes'); // Debug log
-      
-      final metadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': imageFile.path},
-      );
-
-      final uploadTask = ref.putFile(imageFile, metadata);
-
-      // Monitor upload progress
-      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        print('Upload progress: ${snapshot.bytesTransferred}/${snapshot.totalBytes}');
-      });
-
-      final snapshot = await uploadTask;
-      final downloadUrl = await snapshot.ref.getDownloadURL();
-      print('Upload successful, URL: $downloadUrl'); // Debug log
-      return downloadUrl;
-    } catch (e) {
-      print('Error in _uploadImage: $e'); // Debug log
-      rethrow; // Rethrow to handle in calling function
-    }
+  try {
+    print('Starting image upload to path: $path');
+    final ref = _storage.ref().child(path);
+    
+    // Upload the file
+    final uploadTask = await ref.putFile(imageFile);
+    
+    // Get download URL immediately after upload completes
+    final downloadUrl = await uploadTask.ref.getDownloadURL();
+    print('Upload complete. Download URL: $downloadUrl');
+    return downloadUrl;
+  } catch (e) {
+    print('Error uploading image: $e');
+    return null;
+  }
 }
 
 Future<void> _updateProfilePhoto() async {
@@ -195,26 +270,30 @@ Future<void> _updateProfilePhoto() async {
       );
 
       if (image != null) {
-        print('Image selected: ${image.path}'); // Debug log
+        print('Image selected: ${image.path}');
 
         // Upload to Firebase Storage
         final String path = 'profile_photos/${user!.uid}/profile.jpg';
-        print('Uploading to path: $path'); // Debug log
+        print('Uploading to path: $path');
         
-        // Convert XFile to File
-        final File imageFile = File(image.path);
-        
-        // Check if file exists
-        if (!await imageFile.exists()) {
-          print('File does not exist!');
-          return;
+        String? imageUrl;
+        if (kIsWeb) {
+          // Handle web upload
+          final imageBytes = await image.readAsBytes();
+          final ref = _storage.ref().child(path);
+          final metadata = SettableMetadata(contentType: 'image/jpeg');
+          final uploadTask = ref.putData(imageBytes, metadata);
+          final snapshot = await uploadTask;
+          imageUrl = await snapshot.ref.getDownloadURL();
+        } else {
+          // Handle mobile upload
+          final imageFile = File(image.path);
+          imageUrl = await _uploadImage(imageFile, path);
         }
 
-        final String? imageUrl = await _uploadImage(imageFile, path);
-        print('Upload complete, URL: $imageUrl'); // Debug log
+        print('Upload complete, URL: $imageUrl');
 
         if (imageUrl != null) {
-          // Update Firestore
           await _firestore
               .collection('freelancers')
               .doc(user!.uid)
@@ -222,21 +301,17 @@ Future<void> _updateProfilePhoto() async {
 
           setState(() => profilePhotoUrl = imageUrl);
           
-          // Show success message
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Profile photo updated successfully')),
           );
         } else {
-          // Show error if upload failed
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to upload image')),
           );
         }
-      } else {
-        print('No image selected'); // Debug log
       }
     } catch (e) {
-      print('Error in _updateProfilePhoto: $e'); // Debug log
+      print('Error in _updateProfilePhoto: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error updating profile photo: $e')),
       );
@@ -245,7 +320,7 @@ Future<void> _updateProfilePhoto() async {
     }
 }
 
-  Future<void> _createPost() async {
+Future<void> _createPost() async {
     try {
       final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
@@ -253,22 +328,37 @@ Future<void> _updateProfilePhoto() async {
       );
 
       if (image != null) {
-        // Get description
         String? description = await _showDescriptionDialog();
         if (description == null) return;
 
         setState(() => _isLoading = true);
 
-        // Remove cropping step
-        // File? croppedImage = await _cropImage(image.path);
-        // if (croppedImage == null) return;
-
-        // Upload to Firebase Storage
         final String path = 'posts/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final String? imageUrl = await _uploadImage(File(image.path), path);
+        String? imageUrl;
+
+        if (kIsWeb) {
+          // Handle web upload
+          print('Uploading image for web...');
+          final imageBytes = await image.readAsBytes();
+          final ref = _storage.ref().child(path);
+          final metadata = SettableMetadata(contentType: 'image/jpeg');
+          try {
+            final uploadTask = ref.putData(imageBytes, metadata);
+            final snapshot = await uploadTask;
+            imageUrl = await snapshot.ref.getDownloadURL();
+            print('Image uploaded successfully. URL: $imageUrl');
+          } catch (e) {
+            print('Error uploading image: $e');
+            throw e;
+          }
+        } else {
+          // Handle mobile upload
+          final imageFile = File(image.path);
+          imageUrl = await _uploadImage(imageFile, path);
+        }
 
         if (imageUrl != null) {
-          // Create post in Firestore
+          print('Creating post document...');
           final post = Post(
             id: '',
             userId: user!.uid,
@@ -277,18 +367,25 @@ Future<void> _updateProfilePhoto() async {
             timestamp: DateTime.now(),
           );
 
-          await _firestore.collection('posts').add(post.toJson());
-          await _loadUserPosts(); // Refresh posts
+          try {
+            final docRef = await _firestore.collection('posts').add(post.toJson());
+            print('Post created successfully with ID: ${docRef.id}');
+            await _loadUserPosts();
+          } catch (e) {
+            print('Error creating post document: $e');
+            throw e;
+          }
         }
       }
     } catch (e) {
+      print('Error in _createPost: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error creating post: $e')),
       );
     } finally {
       setState(() => _isLoading = false);
     }
-  }
+}
 
   Future<String?> _showDescriptionDialog() {
     String description = '';
@@ -314,6 +411,134 @@ Future<void> _updateProfilePhoto() async {
           ),
         ],
       ),
+    );
+  }
+
+  void _showPostDetail(Post post) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              NetworkImageWithLoader(
+                imageUrl: post.imageUrl,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 8),
+              Text(post.description),
+              Text('Likes: ${post.likes}'),
+              // Add more details as needed
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final XFile? pickedFile =
+          await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _imageName = pickedFile.name;
+        });
+
+        if (kIsWeb) {
+          // For web
+          _imageBytes = await pickedFile.readAsBytes();
+        } else {
+          // For mobile platforms
+          final File file = File(pickedFile.path);
+          _imageBytes = await file.readAsBytes();
+        }
+
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error picking image: $e')),
+      );
+    }
+  }
+
+  void _showAddPostDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Create New Post'),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Description'),
+                    onSaved: (value) => _description = value ?? '',
+                    validator: (value) => value?.isEmpty ?? true
+                        ? 'Please enter a description'
+                        : null,
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _pickImage,
+                    child: Text('Pick Image'),
+                  ),
+                  SizedBox(height: 20),
+                  if (_imageBytes != null)
+                    Image.memory(_imageBytes!, height: 200),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                _imageBytes = null;
+                _imageName = null;
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Post'),
+              onPressed: () async {
+                if (_formKey.currentState!.validate() && _imageBytes != null) {
+                  _formKey.currentState!.save();
+                  try {
+                    final appState = Provider.of<ApplicationState>(context, listen: false);
+                    await appState.addPost(_description, _imageBytes!, _imageName!);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Post created successfully')),
+                    );
+                    Navigator.of(context).pop();
+                    await _loadUserPosts();
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error creating post: $e')),
+                    );
+                  }
+                } else if (_imageBytes == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please select an image')),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -350,7 +575,7 @@ Future<void> _updateProfilePhoto() async {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _createPost,
+        onPressed: _showAddPostDialog,
         backgroundColor: const Color(0xFF008080),
         child: const Icon(Icons.add_photo_alternate),
       ),
@@ -376,23 +601,27 @@ Future<void> _updateProfilePhoto() async {
                   ),
                 ),
                 child: ClipOval(
-                  child: profilePhotoUrl != null
+                  child: profilePhotoUrl != null && profilePhotoUrl!.isNotEmpty
                       ? Image.network(
                           profilePhotoUrl!,
                           fit: BoxFit.cover,
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
-                            return const Center(
+                            return Center(
                               child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                    : null,
+                                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
                               ),
                             );
                           },
                           errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.person, size: 60);
+                            print('Error loading image: $error');
+                            return const Icon(Icons.person, size: 60, color: Colors.grey);
                           },
                         )
-                      : const Icon(Icons.person, size: 60),
+                      : const Icon(Icons.person, size: 60, color: Colors.grey),
                 ),
               ),
               Positioned(
@@ -550,157 +779,14 @@ Future<void> _updateProfilePhoto() async {
     );
   }
 
+// ... existing code ...
+
   Widget _buildPostItem(Post post) {
     return GestureDetector(
       onTap: () => _showPostDetail(post),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.network(
-            post.imageUrl,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Container(
-                color: Colors.grey[200],
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
-                  ),
-                ),
-              );
-            },
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                color: Colors.grey[300],
-                child: const Icon(Icons.error),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.8),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.favorite,
-                    size: 16,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    post.likes.toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showPostDetail(Post post) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.9,
-        minChildSize: 0.5,
-        maxChildSize: 0.95,
-        builder: (context, scrollController) => Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.network(
-                        post.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            post.likes > 0 ? Icons.favorite : Icons.favorite_border,
-                            color: post.likes > 0 ? Colors.red : null,
-                          ),
-                          onPressed: () => _toggleLike(post),
-                        ),
-                        Text(
-                          '${post.likes} likes',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: () => _deletePost(post),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      post.description,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Comments',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildCommentsList(post),
-                    const SizedBox(height: 8),
-                    _buildCommentInput(post),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+      child: NetworkImageWithLoader(
+        imageUrl: post.imageUrl,
+        backgroundColor: Colors.grey[200],
       ),
     );
   }
@@ -908,4 +994,3 @@ Future<void> _updateProfilePhoto() async {
     );
   }
 }
-
