@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
-import '../request_service_page2/request_service_page2_widget.dart';
+import '../request_summary/request_summary_widget.dart';
 
 class RequestServicePage1Widget extends StatefulWidget {
   const RequestServicePage1Widget({Key? key}) : super(key: key);
@@ -16,19 +16,34 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _requirementsController = TextEditingController();
 
-  void navigateToNextPage() async {
-    // Save data to Firestore
-    await FirebaseFirestore.instance.collection('service_requests').add({
-      'price': double.tryParse(_priceController.text) ?? 0,
-      'requirements': _requirementsController.text.split('\n'),
-      'timestamp': FieldValue.serverTimestamp(),
-    });
+  void navigateToSummary() async {
+    double price = double.tryParse(_priceController.text) ?? 0;
+    List<String> requirements = _requirementsController.text.split('\n');
 
-    // Navigate to next page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const RequestServicePage2Widget()),
-    );
+    try {
+      // Save data to Firestore
+      await FirebaseFirestore.instance.collection('service_requests').add({
+        'price': price,
+        'requirements': requirements,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+
+      // Navigate to summary page
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RequestSummaryWidget(
+            price: price,
+            requirements: requirements,
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Error saving to Firestore: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save data: $e')),
+      );
+    }
   }
 
   @override
@@ -159,8 +174,8 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: FFButtonWidget(
-                  onPressed: navigateToNextPage,
-                  text: 'Proceed to Pay',
+                  onPressed: navigateToSummary,
+                  text: 'Proceed to Summary',
                   options: FFButtonOptions(
                     width: double.infinity,
                     height: 50,

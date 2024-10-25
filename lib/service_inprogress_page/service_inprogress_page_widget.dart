@@ -1,6 +1,7 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import '../service_inprogress_page2/service_inprogress_page2_widget.dart';
 
 class ServiceInprogressPageWidget extends StatefulWidget {
   const ServiceInprogressPageWidget({super.key});
@@ -80,7 +81,12 @@ class ServiceInprogressPageWidgetState
                   ),
                   FFButtonWidget(
                     onPressed: () {
-                      print('Button pressed ...');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ServiceInprogressPage2Widget(),
+                        ),
+                      );
                     },
                     text: 'Finished',
                     options: FFButtonOptions(

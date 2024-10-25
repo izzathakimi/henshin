@@ -212,7 +212,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Kuala Perlis, Perlis',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -440,7 +440,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Gua Musang, Perak',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -668,7 +668,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Johor Bahru, Johor',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -896,7 +896,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Muar, Johor',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1124,7 +1124,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Changkat Jering, Perak',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1352,7 +1352,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Changkat Lada, Perak',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
