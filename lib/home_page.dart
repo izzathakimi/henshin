@@ -16,23 +16,42 @@ class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    JobListing(),
     CommunityForum(),
     ChatScreen(),
     ProfileScreen(),
+    JobListing(),  // Added JobListing to the end
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: Row(
+        children: [
+          NavigationRail(
+            selectedIndex: _selectedIndex >= 3 ? _selectedIndex - 3 : 0,  // Changed from -1 to 0
+            onDestinationSelected: (int index) {
+              setState(() {
+                _selectedIndex = index + 3;
+              });
+            },
+            labelType: NavigationRailLabelType.selected,
+            destinations: const [
+              NavigationRailDestination(
+                icon: Icon(Icons.person),
+                label: Text('Profile'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.work),
+                label: Text('Jobs'),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -41,26 +60,22 @@ class HomePageState extends State<HomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: 'Jobs',
-          ),
-          
-          BottomNavigationBarItem(
             icon: Icon(Icons.forum),
             label: 'Community',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chat',
-          ),BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         type: BottomNavigationBarType.fixed,
       ),
     );
