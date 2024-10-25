@@ -1,16 +1,17 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import '../job_proposals_page2/job_proposals_page2_widget.dart';
 
-class JobPropopsalsPageWidget extends StatefulWidget {
-  const JobPropopsalsPageWidget({super.key});
+class JobProposalsPageWidget extends StatefulWidget {
+  const JobProposalsPageWidget({super.key});
 
   @override
-  JobPropopsalsPageWidgetState createState() =>
-      JobPropopsalsPageWidgetState();
+  JobProposalsPageWidgetState createState() =>
+      JobProposalsPageWidgetState();
 }
 
-class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
+class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -58,7 +59,7 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                 children: [
                   FFButtonWidget(
                     onPressed: () {
-                      print('Button pressed ...');
+                      print('Received button pressed ...');
                     },
                     text: 'Received',
                     options: FFButtonOptions(
@@ -79,7 +80,13 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                   ),
                   FFButtonWidget(
                     onPressed: () {
-                      print('Button pressed ...');
+                      print('Answered button pressed ...');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const JobProposalsPage2Widget(),
+                        ),
+                      );
                     },
                     text: 'Answered',
                     options: FFButtonOptions(
@@ -212,7 +219,7 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Alor Gajah, Melaka',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -420,7 +427,7 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Parit Buntar, Perak',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -628,7 +635,7 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Parit Raja, Melaka',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -836,7 +843,7 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Batang Berjuntai, Perak',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1044,7 +1051,7 @@ class JobPropopsalsPageWidgetState extends State<JobPropopsalsPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Alor Setar, Kedah',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(

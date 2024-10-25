@@ -1,6 +1,7 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import '../request_service_page1/request_service_page1_widget.dart';
 
 class RequestServicePageWidget extends StatefulWidget {
   const RequestServicePageWidget({super.key});
@@ -18,6 +19,13 @@ class RequestServicePageWidgetState extends State<RequestServicePageWidget> {
   void initState() {
     super.initState();
     textController = TextEditingController();
+  }
+
+  void navigateToNextPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const RequestServicePage1Widget()),
+    );
   }
 
   @override
@@ -298,9 +306,7 @@ class RequestServicePageWidgetState extends State<RequestServicePageWidget> {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 16, 16),
                                     child: FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
+                                      onPressed: navigateToNextPage,
                                       text: 'Continue',
                                       options: FFButtonOptions(
                                         width: 130,
