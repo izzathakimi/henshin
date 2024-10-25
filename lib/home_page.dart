@@ -25,33 +25,44 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: [
-          NavigationRail(
-            selectedIndex: _selectedIndex >= 3 ? _selectedIndex - 3 : 0,  // Changed from -1 to 0
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index + 3;
-              });
-            },
-            labelType: NavigationRailLabelType.selected,
-            destinations: const [
-              NavigationRailDestination(
-                icon: Icon(Icons.person),
-                label: Text('Profile'),
+      appBar: AppBar(
+        title: const Text('Job Search App'),
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: const Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
               ),
-              NavigationRailDestination(
-                icon: Icon(Icons.work),
-                label: Text('Jobs'),
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('Profile'),
+                selected: _selectedIndex == 3,
+                onTap: () => _selectDrawerItem(3),
+              ),
+              ListTile(
+                leading: const Icon(Icons.work),
+                title: const Text('Jobs'),
+                selected: _selectedIndex == 4,
+                onTap: () => _selectDrawerItem(4),
               ),
             ],
           ),
-          Expanded(
-            child: Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            ),
-          ),
-        ],
+        ),
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -79,5 +90,12 @@ class HomePageState extends State<HomePage> {
         type: BottomNavigationBarType.fixed,
       ),
     );
+  }
+
+  void _selectDrawerItem(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    Navigator.of(context).pop(); // Close the drawer
   }
 }
