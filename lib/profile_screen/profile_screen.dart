@@ -5,78 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:provider/provider.dart';
-import 'package:flutterizzat/app_state.dart';
-import 'package:go_router/go_router.dart';
-
-class NetworkImageWithLoader extends StatelessWidget {
-  final String imageUrl;
-  final double? width;
-  final double? height;
-  final BoxFit fit;
-  final Color? backgroundColor;
-  final Widget? errorWidget;
-  final Widget? loadingWidget;
-
-  const NetworkImageWithLoader({
-    super.key,
-    required this.imageUrl,
-    this.width,
-    this.height,
-    this.fit = BoxFit.cover,
-    this.backgroundColor,
-    this.errorWidget,
-    this.loadingWidget,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      color: backgroundColor ?? Colors.grey[200],
-      child: imageUrl.isEmpty
-          ? errorWidget ?? const Icon(Icons.image_not_supported, color: Colors.grey)
-          : Image.network(
-              imageUrl,
-              fit: fit,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                if (wasSynchronouslyLoaded) return child;
-                return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: frame != null ? child : loadingWidget ?? _defaultLoader(),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                debugPrint('Error loading image: $error');
-                debugPrint('Stack trace: $stackTrace');
-                return errorWidget ??
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.grey),
-                        SizedBox(height: 4),
-                        Text(
-                          'Failed to load image',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    );
-              },
-            ),
-    );
-  }
-
-  Widget _defaultLoader() {
-    return const Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
-      ),
-    );
-  }
-}
+import 'dart:typed_data';
 
 class Post {
   final String id;
@@ -149,10 +79,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String country = '';
   String city = '';
   List<Post> posts = [];
-  final _formKey = GlobalKey<FormState>();
-  String _description = '';
-  Uint8List? _imageBytes;
-  String? _imageName;
 
   @override
   void initState() {
@@ -161,37 +87,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadUserPosts();
   }
 
- Future<void> _loadUserData() async {
-    try {
-      if (user != null) {
-        print('Loading user data for ID: ${user!.uid}');
-        final userData = await _firestore
-            .collection('freelancers')
-            .doc(user!.uid)
-            .get();
+  Future<void> _loadUserData() async {
+    if (user != null) {
+      final userData = await _firestore
+          .collection('freelancers')
+          .doc(user!.uid)
+          .get();
 
-        if (userData.exists) {
-          final data = userData.data();
-          print('User data loaded: $data');
-          setState(() {
-            name = data?['name'] ?? '';
-            phone = data?['phone number'] ?? '';
-            specialty = data?['specialty'] ?? '';
-            country = data?['country'] ?? '';
-            city = data?['city'] ?? '';
-            profilePhotoUrl = data?['profilePhotoUrl'];
-          });
-          print('Profile photo URL: $profilePhotoUrl');
-        } else {
-          print('User document does not exist');
-        }
-      } else {
-        print('No user logged in');
+      if (userData.exists) {
+        setState(() {
+          name = userData.data()?['name'] ?? '';
+          phone = userData.data()?['phone number'] ?? '';
+          specialty = userData.data()?['specialty'] ?? '';
+          country = userData.data()?['country'] ?? '';
+          city = userData.data()?['city'] ?? '';
+          profilePhotoUrl = userData.data()?['profilePhotoUrl'];
+        });
       }
-    } catch (e) {
-      print('Error loading user data: $e');
     }
-}
+  }
 
   Future<void> _loadUserPosts() async {
     if (user != null) {
@@ -243,19 +157,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     
 Future<String?> _uploadImage(File imageFile, String path) async {
+    try {
+      final ref = _storage.ref().child(path);
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': imageFile.path},
+      );
+      final uploadTask = ref.putFile(imageFile, metadata);
+      final snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      print('Error in _uploadImage: $e');
+      return null;
+    }
+}
+
+Future<String?> _uploadImageWeb(Uint8List imageData, String path) async {
   try {
-    print('Starting image upload to path: $path');
     final ref = _storage.ref().child(path);
-    
-    // Upload the file
-    final uploadTask = await ref.putFile(imageFile);
-    
-    // Get download URL immediately after upload completes
-    final downloadUrl = await uploadTask.ref.getDownloadURL();
-    print('Upload complete. Download URL: $downloadUrl');
-    return downloadUrl;
+    final metadata = SettableMetadata(
+      contentType: 'image/jpeg',
+    );
+    final uploadTask = ref.putData(imageData, metadata);
+    final snapshot = await uploadTask;
+    return await snapshot.ref.getDownloadURL();
   } catch (e) {
-    print('Error uploading image: $e');
+    print('Error in _uploadImageWeb: $e');
     return null;
   }
 }
@@ -272,22 +199,17 @@ Future<void> _updateProfilePhoto() async {
       if (image != null) {
         print('Image selected: ${image.path}');
 
-        // Upload to Firebase Storage
         final String path = 'profile_photos/${user!.uid}/profile.jpg';
         print('Uploading to path: $path');
         
         String? imageUrl;
         if (kIsWeb) {
-          // Handle web upload
-          final imageBytes = await image.readAsBytes();
-          final ref = _storage.ref().child(path);
-          final metadata = SettableMetadata(contentType: 'image/jpeg');
-          final uploadTask = ref.putData(imageBytes, metadata);
-          final snapshot = await uploadTask;
-          imageUrl = await snapshot.ref.getDownloadURL();
+          // Web platform
+          final Uint8List imageData = await image.readAsBytes();
+          imageUrl = await _uploadImageWeb(imageData, path);
         } else {
-          // Handle mobile upload
-          final imageFile = File(image.path);
+          // Mobile or desktop platform
+          final File imageFile = File(image.path);
           imageUrl = await _uploadImage(imageFile, path);
         }
 
@@ -309,6 +231,8 @@ Future<void> _updateProfilePhoto() async {
             const SnackBar(content: Text('Failed to upload image')),
           );
         }
+      } else {
+        print('No image selected');
       }
     } catch (e) {
       print('Error in _updateProfilePhoto: $e');
@@ -320,7 +244,7 @@ Future<void> _updateProfilePhoto() async {
     }
 }
 
-Future<void> _createPost() async {
+  Future<void> _createPost() async {
     try {
       final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
@@ -328,37 +252,28 @@ Future<void> _createPost() async {
       );
 
       if (image != null) {
+        // Get description
         String? description = await _showDescriptionDialog();
         if (description == null) return;
 
         setState(() => _isLoading = true);
 
+        // Upload to Firebase Storage
         final String path = 'posts/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
         String? imageUrl;
 
         if (kIsWeb) {
-          // Handle web upload
-          print('Uploading image for web...');
-          final imageBytes = await image.readAsBytes();
-          final ref = _storage.ref().child(path);
-          final metadata = SettableMetadata(contentType: 'image/jpeg');
-          try {
-            final uploadTask = ref.putData(imageBytes, metadata);
-            final snapshot = await uploadTask;
-            imageUrl = await snapshot.ref.getDownloadURL();
-            print('Image uploaded successfully. URL: $imageUrl');
-          } catch (e) {
-            print('Error uploading image: $e');
-            throw e;
-          }
+          // Web platform
+          final Uint8List imageData = await image.readAsBytes();
+          imageUrl = await _uploadImageWeb(imageData, path);
         } else {
-          // Handle mobile upload
-          final imageFile = File(image.path);
+          // Mobile or desktop platform
+          final File imageFile = File(image.path);
           imageUrl = await _uploadImage(imageFile, path);
         }
 
         if (imageUrl != null) {
-          print('Creating post document...');
+          // Create post in Firestore
           final post = Post(
             id: '',
             userId: user!.uid,
@@ -367,14 +282,14 @@ Future<void> _createPost() async {
             timestamp: DateTime.now(),
           );
 
-          try {
-            final docRef = await _firestore.collection('posts').add(post.toJson());
-            print('Post created successfully with ID: ${docRef.id}');
-            await _loadUserPosts();
-          } catch (e) {
-            print('Error creating post document: $e');
-            throw e;
-          }
+          await _firestore.collection('posts').add(post.toJson());
+          await _loadUserPosts(); // Refresh posts
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Post created successfully')),
+          );
+        } else {
+          throw Exception('Failed to upload image');
         }
       }
     } catch (e) {
@@ -385,7 +300,7 @@ Future<void> _createPost() async {
     } finally {
       setState(() => _isLoading = false);
     }
-}
+  }
 
   Future<String?> _showDescriptionDialog() {
     String description = '';
@@ -411,134 +326,6 @@ Future<void> _createPost() async {
           ),
         ],
       ),
-    );
-  }
-
-  void _showPostDetail(Post post) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              NetworkImageWithLoader(
-                imageUrl: post.imageUrl,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(height: 8),
-              Text(post.description),
-              Text('Likes: ${post.likes}'),
-              // Add more details as needed
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _pickImage() async {
-    try {
-      final XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _imageName = pickedFile.name;
-        });
-
-        if (kIsWeb) {
-          // For web
-          _imageBytes = await pickedFile.readAsBytes();
-        } else {
-          // For mobile platforms
-          final File file = File(pickedFile.path);
-          _imageBytes = await file.readAsBytes();
-        }
-
-        setState(() {});
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
-      );
-    }
-  }
-
-  void _showAddPostDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Create New Post'),
-          content: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'Description'),
-                    onSaved: (value) => _description = value ?? '',
-                    validator: (value) => value?.isEmpty ?? true
-                        ? 'Please enter a description'
-                        : null,
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _pickImage,
-                    child: Text('Pick Image'),
-                  ),
-                  SizedBox(height: 20),
-                  if (_imageBytes != null)
-                    Image.memory(_imageBytes!, height: 200),
-                ],
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                _imageBytes = null;
-                _imageName = null;
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Post'),
-              onPressed: () async {
-                if (_formKey.currentState!.validate() && _imageBytes != null) {
-                  _formKey.currentState!.save();
-                  try {
-                    final appState = Provider.of<ApplicationState>(context, listen: false);
-                    await appState.addPost(_description, _imageBytes!, _imageName!);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Post created successfully')),
-                    );
-                    Navigator.of(context).pop();
-                    await _loadUserPosts();
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error creating post: $e')),
-                    );
-                  }
-                } else if (_imageBytes == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please select an image')),
-                  );
-                }
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -575,7 +362,7 @@ Future<void> _createPost() async {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddPostDialog,
+        onPressed: _createPost,
         backgroundColor: const Color(0xFF008080),
         child: const Icon(Icons.add_photo_alternate),
       ),
@@ -601,27 +388,23 @@ Future<void> _createPost() async {
                   ),
                 ),
                 child: ClipOval(
-                  child: profilePhotoUrl != null && profilePhotoUrl!.isNotEmpty
+                  child: profilePhotoUrl != null
                       ? Image.network(
                           profilePhotoUrl!,
                           fit: BoxFit.cover,
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
-                            return Center(
+                            return const Center(
                               child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                    : null,
-                                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
+                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
                               ),
                             );
                           },
                           errorBuilder: (context, error, stackTrace) {
-                            print('Error loading image: $error');
-                            return const Icon(Icons.person, size: 60, color: Colors.grey);
+                            return const Icon(Icons.person, size: 60);
                           },
                         )
-                      : const Icon(Icons.person, size: 60, color: Colors.grey),
+                      : const Icon(Icons.person, size: 60),
                 ),
               ),
               Positioned(
@@ -779,14 +562,172 @@ Future<void> _createPost() async {
     );
   }
 
-// ... existing code ...
-
   Widget _buildPostItem(Post post) {
     return GestureDetector(
       onTap: () => _showPostDetail(post),
-      child: NetworkImageWithLoader(
-        imageUrl: post.imageUrl,
-        backgroundColor: Colors.grey[200],
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            post.imageUrl,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                color: Colors.grey[200],
+                child: Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                        : null,
+                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
+                  ),
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) {
+              print('Error loading image: $error');
+              return Container(
+                color: Colors.grey[300],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Error loading image',
+                      style: TextStyle(fontSize: 10, color: Colors.red[700]),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.8),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.favorite,
+                    size: 16,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    post.likes.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPostDetail(Post post) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.9,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        builder: (context, scrollController) => Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.network(
+                        post.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            post.likes > 0 ? Icons.favorite : Icons.favorite_border,
+                            color: post.likes > 0 ? Colors.red : null,
+                          ),
+                          onPressed: () => _toggleLike(post),
+                        ),
+                        Text(
+                          '${post.likes} likes',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline),
+                          onPressed: () => _deletePost(post),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      post.description,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Comments',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildCommentsList(post),
+                    const SizedBox(height: 8),
+                    _buildCommentInput(post),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

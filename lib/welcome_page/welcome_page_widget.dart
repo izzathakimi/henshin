@@ -10,39 +10,51 @@ class WelcomePageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to Henshin',
-              style: HenshinTheme.title1,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Welcome to Henshin',
+                    style: HenshinTheme.title1,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Job and Freelancing Marketplace',
+                    style: HenshinTheme.bodyText1,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const JoinPageWidget()),
+                        );
+                      },
+                      child: const Text('Join Henshin'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginWithEmailPageWidget()),
+                      );
+                    },
+                    child: const Text('Already have an account? Sign In'),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              'Job and Freelancing Marketplace',
-              style: HenshinTheme.bodyText1,
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const JoinPageWidget()),
-                );
-              },
-              child: const Text('Join Henshin'),
-            ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginWithEmailPageWidget()),
-                );
-              },
-              child: const Text('Already have an account? Sign In'),
-            ),
-          ],
+          ),
         ),
       ),
     );
