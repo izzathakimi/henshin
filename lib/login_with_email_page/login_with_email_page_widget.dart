@@ -72,16 +72,6 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          leading: InkWell(
-            onTap: () async {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.keyboard_arrow_left,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
           actions: const [],
           centerTitle: true,
           elevation: 0,
