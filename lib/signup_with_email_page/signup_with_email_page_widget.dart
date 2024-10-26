@@ -7,6 +7,7 @@ import '../common/henshin_util.dart';
 // import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../freelancer_page/frelancer_page_widget.dart'; // Add this import
+import '../login_with_email_page/login_with_email_page_widget.dart'; // Add this import
 
 class SignupWithEmailPageWidget extends StatefulWidget {
   const SignupWithEmailPageWidget({super.key});
@@ -133,7 +134,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                               ),
                             ),
                           ),
-                          ),
+                          )                        
                         ],
                       ),
                       Row(
@@ -488,14 +489,23 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                             ),
                             Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
-                              child: Text(
-                                'Sign In',
-                                style: HenshinTheme.bodyText1.override(
-                                  fontFamily: 'NatoSansKhmer',
-                                  color: HenshinTheme.primaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  useGoogleFonts: false,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginWithEmailPageWidget(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Sign In',
+                                  style: HenshinTheme.bodyText1.override(
+                                    fontFamily: 'NatoSansKhmer',
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    useGoogleFonts: false,
+                                  ),
                                 ),
                               ),
                             ),
