@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:henshin/common/henshin_animations.dart';
-import 'package:henshin/join_page/join_page_widget.dart';
+import 'package:henshin/login_with_email_page/login_with_email_page_widget.dart';
 
 class SplashWidget extends StatefulWidget {
   const SplashWidget({super.key});
@@ -25,11 +25,18 @@ class SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixi
       finalOpacity: 1,
     );
     createAnimation(_animationInfo, this);
-    _animationInfo.animationController?.forward().then((_) {
-      Future.delayed(const Duration(seconds: 1), () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const JoinPageWidget()),
-        );
+    
+    // Delay the start of the animation slightly
+    Future.delayed(const Duration(milliseconds: 100), () {
+      _animationInfo.animationController?.forward().then((_) {
+        // Increase the delay before navigation
+        Future.delayed(const Duration(seconds: 3), () {
+          if (mounted) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const LoginWithEmailPageWidget()),
+            );
+          }
+        });
       });
     });
   }
@@ -42,22 +49,27 @@ class SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixi
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final logoSize = screenSize.width < screenSize.height
+        ? screenSize.width * 0.7
+        : screenSize.height * 0.7;
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/app_launcher_icon.png',
-              width: 100,
-              height: 100,
-            ).animated([_animationInfo]),
-            const SizedBox(height: 20),
-            Text(
-              'Henshin App',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ).animated([_animationInfo]),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF4A90E2), Color(0xFF50E3C2)],
+          ),
+        ),
+        child: Center(
+          child: Image.asset(
+            'assets/images/HensinLogo_removebg_preview.png',
+            width: logoSize,
+            height: logoSize,
+            fit: BoxFit.contain,
+          ).animated([_animationInfo]),
         ),
       ),
     );

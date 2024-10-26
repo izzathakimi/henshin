@@ -114,10 +114,19 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
-                      child: Text(
-                        'Transform your career with Henshin!',
-                        textAlign: TextAlign.center,
-                        style: HenshinTheme.title2,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Transform your career with Henshin!',
+                          textAlign: TextAlign.center,
+                          style: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            useGoogleFonts: false,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -271,6 +280,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           textStyle: HenshinTheme.subtitle2.override(
                             fontFamily: 'NatoSansKhmer',
                             color: Colors.white,
+                            fontWeight: FontWeight.bold, // Added this line
                             useGoogleFonts: false,
                           ),
                           borderSide: const BorderSide(
