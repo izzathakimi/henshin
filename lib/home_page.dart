@@ -9,7 +9,7 @@ import 'job_application_page/job_application_widget.dart';
 // import 'create_project_page/create_project_page_widget.dart';
 // import 'job_proposals_page/job_proposals_page_widget.dart';
 import 'job_proposals_page/job_proposals_page_widget.dart';
-import 'request_service_page/request_service_page_widget.dart';
+import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +29,7 @@ class HomePageState extends State<HomePage> {
     const ProfileScreen(),
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
-    const RequestServicePageWidget(),
+    const RequestServicePage1Widget(),
     const ServiceInprogressPageWidget(),
   ];
 

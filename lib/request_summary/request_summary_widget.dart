@@ -6,11 +6,13 @@ import '../home_page.dart'; // Import homepage widget
 class RequestSummaryWidget extends StatelessWidget {
   final double price;
   final List<String> requirements;
+  final String description; // Add this line
 
   const RequestSummaryWidget({
     Key? key,
     required this.price,
     required this.requirements,
+    required this.description, // This line is already present
   }) : super(key: key);
 
   @override

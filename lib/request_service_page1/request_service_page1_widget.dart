@@ -15,16 +15,19 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _requirementsController = TextEditingController();
+   final TextEditingController _descriptionController = TextEditingController();
 
   void navigateToSummary() async {
     double price = double.tryParse(_priceController.text) ?? 0;
     List<String> requirements = _requirementsController.text.split('\n');
+    String description = _descriptionController.text; // Retrieve description
 
     try {
       // Save data to Firestore
       await FirebaseFirestore.instance.collection('service_requests').add({
         'price': price,
         'requirements': requirements,
+        'description': description, // Use description here
         'timestamp': FieldValue.serverTimestamp(),
       });
 
@@ -35,6 +38,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
           builder: (context) => RequestSummaryWidget(
             price: price,
             requirements: requirements,
+            description: description, // Pass description to summary page
           ),
         ),
       );
@@ -74,6 +78,28 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Add the "Describe your needs" field
+                        Text(
+                          'Describe your needs',
+                          style: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            useGoogleFonts: false,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _descriptionController,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: 'Briefly describe what you need',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
