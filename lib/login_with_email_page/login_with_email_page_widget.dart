@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../common/henshin_util.dart';
 import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginWithEmailPageWidget extends StatefulWidget {
   const LoginWithEmailPageWidget({super.key});
@@ -71,16 +72,6 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          leading: InkWell(
-            onTap: () async {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.keyboard_arrow_left,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
           actions: const [],
           centerTitle: true,
           elevation: 0,
@@ -100,10 +91,9 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               SizedBox(height: 80), // Adjust this value as needed
               Text(
                 'Henshin.',
-                style: TextStyle(
-                  fontFamily: 'NatoSansKhmer', // Use your app's font
+                style: GoogleFonts.ubuntu(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 48, // Increased from 40 to 48
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -114,10 +104,19 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
-                      child: Text(
-                        'Hello, you\'e been missed here',
-                        textAlign: TextAlign.center,
-                        style: HenshinTheme.title2,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Transform your career with Henshin!',
+                          textAlign: TextAlign.center,
+                          style: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            useGoogleFonts: false,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -130,7 +129,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
                     child: Text(
-                      'Welcome back! Sign in to continue.',
+                      'Sign in to continue.',
                       style: HenshinTheme.bodyText1.override(
                         fontFamily: 'NatoSansKhmer',
                         color: const Color(0xCB303030),
@@ -271,6 +270,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           textStyle: HenshinTheme.subtitle2.override(
                             fontFamily: 'NatoSansKhmer',
                             color: Colors.white,
+                            fontWeight: FontWeight.bold, // Added this line
                             useGoogleFonts: false,
                           ),
                           borderSide: const BorderSide(
@@ -441,8 +441,8 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           'Create Account',
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
-                            color: HenshinTheme.primaryColor,
-                            fontSize: 12,
+                            color: Colors.white,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             useGoogleFonts: false,
                           ),
