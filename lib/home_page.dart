@@ -11,6 +11,7 @@ import 'job_application_page/job_application_widget.dart';
 import 'job_proposals_page/job_proposals_page_widget.dart';
 import 'request_service_page/request_service_page_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
+import 'community_forum/community_forum.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -116,7 +117,14 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    Navigator.of(context).pop(); // Close the drawer
+    if (index == 1) { // Community Forum index
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CommunityForum()),
+      );
+    } else {
+      Navigator.of(context).pop(); // Close the drawer
+    }
   }
 
   void _navigateTo(Widget page) {

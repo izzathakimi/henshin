@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'login_with_email_page/login_with_email_page_widget.dart';
-import 'community_forum/community_forum.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
