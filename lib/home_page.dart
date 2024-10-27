@@ -48,14 +48,14 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    if (index == 1) { // Community Forum index
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CommunityForum()),
-      );
-    } else {
-      Navigator.of(context).pop(); // Close the drawer
-    }
+    // if (index == 1) { // Community Forum index
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const CommunityForum()),
+    //   );
+    // } else {
+    //   Navigator.of(context).pop(); // Close the drawer
+    // }
   }
 
   @override
