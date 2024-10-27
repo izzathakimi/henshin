@@ -33,7 +33,7 @@ class HomePageState extends State<HomePage> {
     const ServiceInprogressPageWidget(),
   ];
 
-  final List<String> _screenTitles = [
+  final List<String> _titles = [
     'Home',
     'Community Forum',
     'Chat',
@@ -62,7 +62,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_screenTitles[_selectedIndex]),
+        title: Text(_titles[_selectedIndex]),
       ),
       drawer: Drawer(
         child: ListView(
@@ -151,28 +151,6 @@ class HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
-    );
-  }
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  //   if (index == 1) { // Community Forum index
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => const CommunityForum()),
-  //     );
-  //   } else {
-  //     Navigator.of(context).pop(); // Close the drawer
-  //   }
-  // }
-
-  void _navigateTo(Widget page) {
-    Navigator.of(context).pop(); // Close the drawer
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
     );
   }
 }
