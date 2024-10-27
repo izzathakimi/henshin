@@ -32,7 +32,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Job Search App'),
+        title: const Text('Henshin'),
       ),
       drawer: Drawer(
         child: ListView(

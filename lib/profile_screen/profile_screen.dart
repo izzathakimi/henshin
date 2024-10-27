@@ -7,6 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Post {
   final String id;
@@ -78,6 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String specialty = '';
   String country = '';
   String city = '';
+  String phoneNumber = '';
   List<Post> posts = [];
 
   @override
@@ -87,23 +89,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadUserPosts();
   }
 
+  Future<String?> _getImageUrl(String mediaUrl) async {
+    try {
+      Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(mediaUrl);
+      String url = await firebaseStorageRef.getDownloadURL();
+      return url;
+    } catch (e) {
+      print('Error getting image URL: $e');
+      return null;
+    }
+  }
+
   Future<void> _loadUserData() async {
     if (user != null) {
-      final userData = await _firestore
-          .collection('freelancers')
-          .doc(user!.uid)
-          .get();
+      try {
+        final userData = await _firestore
+            .collection('freelancers')
+            .doc(user!.uid)
+            .get();
 
-      if (userData.exists) {
-        setState(() {
-          name = userData.data()?['name'] ?? '';
-          phone = userData.data()?['phone number'] ?? '';
-          specialty = userData.data()?['specialty'] ?? '';
-          country = userData.data()?['country'] ?? '';
-          city = userData.data()?['city'] ?? '';
-          profilePhotoUrl = userData.data()?['profilePhotoUrl'];
-        });
+        if (userData.exists) {
+          final data = userData.data() as Map<String, dynamic>;
+          setState(() {
+            name = data['name'] ?? '';
+            phoneNumber = data['phone number'] ?? '';
+            specialty = data['specialty'] ?? '';
+            country = data['country'] ?? '';
+            city = data['city'] ?? '';
+            profilePhotoUrl = data['profilePhotoUrl'] as String?;
+
+            print('Loaded profilePhotoUrl: $profilePhotoUrl');
+          });
+        } else {
+          print('User document does not exist');
+        }
+      } catch (e) {
+        print('Error loading user data: $e');
       }
+    } else {
+      print('User is null');
     }
   }
 
@@ -131,32 +155,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _updateUserData() async {
-      try {
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          await FirebaseFirestore.instance
-              .collection('freelancers')
-              .doc(user.uid)
-              .update({
-            'name': name,
-            'phone number': phone,
-            'specialty': specialty,
-            'country': country,
-            'city': city,
-          });
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile updated successfully')),
-          );
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error updating profile: $e')),
-        );
-      }
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Assuming profilePhotoUrl is now the path in Storage, not the full URL
+      await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .update({
+        'name': name,
+        'phone number': phoneNumber,
+        'specialty': specialty,
+        'country': country,
+        'city': city,
+        'profilePhotoUrl': profilePhotoUrl, // This should be the path, not the full URL
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully')),
+      );
+      setState(() {}); // Refresh the UI
     }
-    
-Future<String?> _uploadImage(File imageFile, String path) async {
+  }
+
+  Future<String?> _uploadImage(File imageFile, String path) async {
     try {
       final ref = _storage.ref().child(path);
       final metadata = SettableMetadata(
@@ -197,23 +217,16 @@ Future<void> _updateProfilePhoto() async {
       );
 
       if (image != null) {
-        print('Image selected: ${image.path}');
-
         final String path = 'profile_photos/${user!.uid}/profile.jpg';
-        print('Uploading to path: $path');
-        
         String? imageUrl;
+
         if (kIsWeb) {
-          // Web platform
           final Uint8List imageData = await image.readAsBytes();
           imageUrl = await _uploadImageWeb(imageData, path);
         } else {
-          // Mobile or desktop platform
           final File imageFile = File(image.path);
           imageUrl = await _uploadImage(imageFile, path);
         }
-
-        print('Upload complete, URL: $imageUrl');
 
         if (imageUrl != null) {
           await _firestore
@@ -227,12 +240,8 @@ Future<void> _updateProfilePhoto() async {
             const SnackBar(content: Text('Profile photo updated successfully')),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to upload image')),
-          );
+          throw Exception('Failed to upload image');
         }
-      } else {
-        print('No image selected');
       }
     } catch (e) {
       print('Error in _updateProfilePhoto: $e');
@@ -332,145 +341,147 @@ Future<void> _updateProfilePhoto() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          RefreshIndicator(
-            onRefresh: () async {
-              await _loadUserData();
-              await _loadUserPosts();
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildProfileHeader(),
-                  _buildStats(),
-                  _buildPosts(),
-                ],
-              ),
+      body: CustomScrollView(
+        slivers: [
+          _buildAppBar(),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildCoverImage(),
+                _buildProfileInfo(),
+                _buildActionButtons(),
+                _buildEnhanceProfileButton(),
+                _buildOpenToWorkSection(),
+                // Add other sections as needed
+              ],
             ),
           ),
-          if (_isLoading)
-            Container(
-              color: Colors.black54,
-              child: const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
-                ),
-              ),
-            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _createPost,
-        backgroundColor: const Color(0xFF008080),
+        backgroundColor: const Color(0xFF4A90E2),
         child: const Icon(Icons.add_photo_alternate),
       ),
     );
   }
 
-  Widget _buildProfileHeader() {
-    return Container(
-      padding: const EdgeInsets.all(16),
+  Widget _buildAppBar() {
+    return SliverAppBar(
+      floating: true,
+      backgroundColor: Colors.black,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          // Handle back button press
+        },
+      ),
+      title: TextField(
+        decoration: InputDecoration(
+          hintText: 'Search...',
+          hintStyle: TextStyle(color: Colors.grey[400]),
+          border: InputBorder.none,
+        ),
+        style: const TextStyle(color: Colors.white),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            // Handle settings button press
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCoverImage() {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 150,
+          width: double.infinity,
+          color: Colors.grey[300], // Solid color background
+        ),
+        Positioned(
+          bottom: -50,
+          left: 16,
+          child: CircleAvatar(
+            radius: 50,
+            backgroundImage: profilePhotoUrl != null
+                ? NetworkImage(profilePhotoUrl!)
+                : null,
+            child: profilePhotoUrl == null
+                ? const Icon(Icons.person, size: 50)
+                : null,
+          ),
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: IconButton(
+            icon: const Icon(Icons.edit, color: Colors.white),
+            onPressed: _updateProfilePhoto,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileInfo() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            alignment: Alignment.center,
+          Row(
             children: [
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFF008080),
-                    width: 2,
-                  ),
-                ),
-                child: ClipOval(
-                  child: profilePhotoUrl != null
-                      ? Image.network(
-                          profilePhotoUrl!,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.person, size: 60);
-                          },
-                        )
-                      : const Icon(Icons.person, size: 60),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    Text('(He/Him)', style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 4),
+                    Text(specialty, style: const TextStyle(fontSize: 16)),
+                    const SizedBox(height: 4),
+                    Text('$city, $country', style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 4),
+                    Text(phoneNumber, style: TextStyle(color: Colors.grey[600])),
+                    const SizedBox(height: 8),
+                    Text('230 connections', style: TextStyle(color: Colors.blue[700])),
+                  ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: GestureDetector(
-                  onTap: _updateProfilePhoto,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF1E90FF),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
+              CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.grey[200],
+                child: profilePhotoUrl != null
+                    ? ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: profilePhotoUrl!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => CircularProgressIndicator(),
+                          errorWidget: (context, url, error) {
+                            print('Error loading profile image: $error');
+                            return Icon(Icons.error);
+                          },
+                        ),
+                      )
+                    : Icon(Icons.person, size: 50, color: Colors.grey),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            phone,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            specialty,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '$city, $country',
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 16),
           ElevatedButton(
             onPressed: _showEditProfileDialog,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF008080),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
             child: const Text('Edit Profile'),
           ),
         ],
@@ -478,7 +489,95 @@ Future<void> _updateProfilePhoto() async {
     );
   }
 
-// ... Previous code remains the same ...
+  Widget _buildActionButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Open to'),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey[800],
+              ),
+              child: const Text('Add section'),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_horiz),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEnhanceProfileButton() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.grey[800],
+          minimumSize: const Size(double.infinity, 40),
+        ),
+        child: const Text('Enhance Profile'),
+      ),
+    );
+  }
+
+  Widget _buildOpenToWorkSection() {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Open to work',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit, color: Colors.white),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          const Text(
+            'Software Engineer and Intern roles',
+            style: TextStyle(color: Colors.white),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Show details',
+            style: TextStyle(color: Colors.blue[300]),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildStats() {
     return Container(
@@ -502,13 +601,13 @@ Future<void> _updateProfilePhoto() async {
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF008080),
+            color: Colors.white,
           ),
         ),
         Text(
           label,
           style: const TextStyle(
-            color: Colors.grey,
+            color: Colors.white70,
           ),
         ),
       ],
@@ -896,8 +995,8 @@ Future<void> _updateProfilePhoto() async {
                 ),
                 TextField(
                   decoration: const InputDecoration(labelText: 'Phone Number'),
-                  controller: TextEditingController(text: phone),
-                  onChanged: (value) => phone = value,
+                  controller: TextEditingController(text: phoneNumber),
+                  onChanged: (value) => phoneNumber = value,
                 ),
                 TextField(
                   decoration: const InputDecoration(labelText: 'Specialty'),
@@ -913,6 +1012,11 @@ Future<void> _updateProfilePhoto() async {
                   decoration: const InputDecoration(labelText: 'City'),
                   controller: TextEditingController(text: city),
                   onChanged: (value) => city = value,
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Profile Photo URL'),
+                  controller: TextEditingController(text: profilePhotoUrl),
+                  onChanged: (value) => profilePhotoUrl = value,
                 ),
               ],
             ),
