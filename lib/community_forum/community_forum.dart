@@ -61,8 +61,8 @@ class CommunityForum extends StatelessWidget {
                   'Terengganu'
                 ];
                 return Card(
-                  color: Color(0xFF50E3C2).withOpacity(
-                      0.2), // Turquoise color background for each card
+                  color: Color(
+                      0xFF4A90E2), // Change card background color to 0xFF4A90E2
                   margin:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                   child: Padding(
@@ -73,16 +73,16 @@ class CommunityForum extends StatelessWidget {
                         Row(
                           children: [
                             CircleAvatar(
-                              backgroundColor:
-                                  Color(0xFF50E3C2).withOpacity(0.8),
-                              child:
-                                  const Icon(Icons.work, color: Colors.white),
+                              backgroundColor: Colors
+                                  .white, // Logo background color to white
+                              child: const Icon(Icons.work,
+                                  color: Colors
+                                      .black), // Change icon color to black for visibility
                             ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                regions[
-                                    index], // Replace "Career Support Community" with region names
+                                regions[index], // Display region name
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class CommunityForum extends StatelessWidget {
                           child: const Icon(
                             Icons.business_center,
                             size: 50,
-                            color: Color(0xFF4A90E2),
+                            color: Colors.white, // Change icon color to white
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -121,32 +121,42 @@ class CommunityForum extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: Icon(Icons.thumb_up,
-                                  color: Color(0xFF50E3C2)),
+                                  color: Colors.white), // Change to white
                               onPressed: () {},
                             ),
                             const Text('551',
                                 style: TextStyle(color: Colors.black)),
                             const SizedBox(width: 10),
                             IconButton(
-                              icon:
-                                  Icon(Icons.comment, color: Color(0xFF50E3C2)),
+                              icon: Icon(Icons.comment,
+                                  color: Colors.white), // Change to white
                               onPressed: () {},
                             ),
                             const Text('46',
                                 style: TextStyle(color: Colors.black)),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 10),
                             IconButton(
                               icon: Icon(Icons.bookmark_border,
-                                  color: Color(0xFF50E3C2)),
+                                  color: Colors.white), // Change to white
+                              onPressed: () {},
+                            ),
+                            const SizedBox(width: 10),
+                            IconButton(
+                              icon: Icon(Icons.location_on,
+                                  color:
+                                      Colors.white), // Location symbol in white
+                              onPressed: () {},
+                            ),
+                            const SizedBox(
+                                width: 10), // Spacing for location icon
+                            IconButton(
+                              icon: Icon(Icons.link,
+                                  color: Colors.white), // Change to white
                               onPressed: () {},
                             ),
                             IconButton(
-                              icon: Icon(Icons.link, color: Color(0xFF50E3C2)),
-                              onPressed: () {},
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              icon: Icon(Icons.share, color: Color(0xFF50E3C2)),
+                              icon: Icon(Icons.share,
+                                  color: Colors.white), // Change to white
                               onPressed: () {},
                             ),
                           ],
