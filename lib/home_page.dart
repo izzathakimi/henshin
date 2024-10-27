@@ -51,6 +51,34 @@ class HomePageState extends State<HomePage> {
     });
   }
 
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const CommunityForum(),
+    const ChatScreen(),
+    const ProfileScreen(),
+    const JobApplicationPageWidget(),
+    const JobProposalsPageWidget(),
+    const RequestServicePageWidget(),
+    const ServiceInprogressPageWidget(),
+  ];
+
+  final List<String> _titles = [
+    'Home',
+    'Community Forum',
+    'Chat',
+    'Profile',
+    'Job Application',
+    'Job Proposals',
+    'Request Service',
+    'Service In Progress',
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,11 +109,21 @@ class HomePageState extends State<HomePage> {
                 _onItemTapped(3);
                 Navigator.pop(context);
               },
+              onTap: () {
+                _onItemTapped(3);
+                Navigator.pop(context);
+              },
             ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.work),
               title: const Text('Job Application'),
+              selected: _selectedIndex == 4,
+              onTap: () {
+                _onItemTapped(4);
+                Navigator.pop(context);
+              },
+            ),
               selected: _selectedIndex == 4,
               onTap: () {
                 _onItemTapped(4);
@@ -100,10 +138,20 @@ class HomePageState extends State<HomePage> {
                 _onItemTapped(5);
                 Navigator.pop(context);
               },
+              selected: _selectedIndex == 5,
+              onTap: () {
+                _onItemTapped(5);
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.build),
               title: const Text('Request Service'),
+              selected: _selectedIndex == 6,
+              onTap: () {
+                _onItemTapped(6);
+                Navigator.pop(context);
+              },
               selected: _selectedIndex == 6,
               onTap: () {
                 _onItemTapped(6);
@@ -118,12 +166,19 @@ class HomePageState extends State<HomePage> {
                 _onItemTapped(7);
                 Navigator.pop(context);
               },
+              selected: _selectedIndex == 7,
+              onTap: () {
+                _onItemTapped(7);
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
       ),
       body: _screens[_selectedIndex],
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -141,6 +196,7 @@ class HomePageState extends State<HomePage> {
         ],
         currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
         selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
