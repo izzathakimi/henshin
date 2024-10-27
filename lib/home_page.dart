@@ -11,7 +11,6 @@ import 'job_application_page/job_application_widget.dart';
 import 'job_proposals_page/job_proposals_page_widget.dart';
 import 'request_service_page/request_service_page_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
-import 'community_forum/community_forum.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,7 +33,7 @@ class HomePageState extends State<HomePage> {
     const ServiceInprogressPageWidget(),
   ];
 
-  final List<String> _titles = [
+  final List<String> _screenTitles = [
     'Home',
     'Community Forum',
     'Chat',
@@ -49,17 +48,21 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    if (index == 1) { // Community Forum index
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CommunityForum()),
+      );
+    } else {
+      Navigator.of(context).pop(); // Close the drawer
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: Text(_titles[_selectedIndex]),
-=======
-        title: const Text('Henshin'),
->>>>>>> 6d994cda3e815de990731ab2eb9927d4b196a219
+        title: Text(_screenTitles[_selectedIndex]),
       ),
       drawer: Drawer(
         child: ListView(
@@ -150,22 +153,20 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
-<<<<<<< HEAD
-=======
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (index == 1) { // Community Forum index
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CommunityForum()),
-      );
-    } else {
-      Navigator.of(context).pop(); // Close the drawer
-    }
-  }
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  //   if (index == 1) { // Community Forum index
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => const CommunityForum()),
+  //     );
+  //   } else {
+  //     Navigator.of(context).pop(); // Close the drawer
+  //   }
+  // }
 
   void _navigateTo(Widget page) {
     Navigator.of(context).pop(); // Close the drawer
@@ -174,5 +175,4 @@ class HomePageState extends State<HomePage> {
       MaterialPageRoute(builder: (context) => page),
     );
   }
->>>>>>> 6d994cda3e815de990731ab2eb9927d4b196a219
 }
