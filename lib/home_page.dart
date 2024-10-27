@@ -22,18 +22,40 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    CommunityForum(),
-    ChatScreen(),
-    ProfileScreen(),
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const CommunityForum(),
+    const ChatScreen(),
+    const ProfileScreen(),
+    const JobApplicationPageWidget(),
+    const JobProposalsPageWidget(),
+    const RequestServicePageWidget(),
+    const ServiceInprogressPageWidget(),
   ];
+
+  final List<String> _titles = [
+    'Home',
+    'Community Forum',
+    'Chat',
+    'Profile',
+    'Job Application',
+    'Job Proposals',
+    'Request Service',
+    'Service In Progress',
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Henshin'),
+        title: Text(_titles[_selectedIndex]),
       ),
       drawer: Drawer(
         child: ListView(
@@ -51,47 +73,58 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-           
             ListTile(
               leading: const Icon(Icons.person),
               title: const Text('Profile'),
               selected: _selectedIndex == 3,
-              onTap: () => _onItemTapped(3),
+              onTap: () {
+                _onItemTapped(3);
+                Navigator.pop(context);
+              },
             ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.work),
               title: const Text('Job Application'),
-              onTap: () => _navigateTo(const JobApplicationPageWidget()),
+              selected: _selectedIndex == 4,
+              onTap: () {
+                _onItemTapped(4);
+                Navigator.pop(context);
+              },
             ),
-            
-            // ListTile(
-            //   leading: const Icon(Icons.create),
-            //   title: const Text('Create Project'),
-            //   onTap: () => _navigateTo(const CreateProjectPageWidget()),
-            // ),
             ListTile(
               leading: const Icon(Icons.description),
               title: const Text('Job Proposals'),
-              onTap: () => _navigateTo(const JobProposalsPageWidget()),
+              selected: _selectedIndex == 5,
+              onTap: () {
+                _onItemTapped(5);
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.build),
               title: const Text('Request Service'),
-              onTap: () => _navigateTo(const RequestServicePageWidget()),
+              selected: _selectedIndex == 6,
+              onTap: () {
+                _onItemTapped(6);
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.timer),
               title: const Text('Service In Progress'),
-              onTap: () => _navigateTo(const ServiceInprogressPageWidget()),
+              selected: _selectedIndex == 7,
+              onTap: () {
+                _onItemTapped(7);
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -108,30 +141,9 @@ class HomePageState extends State<HomePage> {
         ],
         currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
         selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
-    );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (index == 1) { // Community Forum index
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CommunityForum()),
-      );
-    } else {
-      Navigator.of(context).pop(); // Close the drawer
-    }
-  }
-
-  void _navigateTo(Widget page) {
-    Navigator.of(context).pop(); // Close the drawer
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
     );
   }
 }
