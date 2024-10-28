@@ -1,32 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final User? currentUser = FirebaseAuth.instance.currentUser;
+    // final User? currentUser = FirebaseAuth.instance.currentUser;
     
     return Scaffold(
-      appBar: AppBar(
-        title: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('users').doc(currentUser?.uid).get(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            }
-
-            if (snapshot.connectionState == ConnectionState.done) {
-              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-              return Text('Welcome ${data['name']}');
-            }
-
-            return Text('Loading...');
-          },
-        ),
-        backgroundColor: Colors.transparent,
+      appBar: AppBar(  // Changed from SliverAppBar to AppBar
+        title: const Text('Welcome to GigHub'),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
       body: SafeArea(
