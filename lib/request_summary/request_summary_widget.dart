@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../common/Henshin_theme.dart';
-import '../common/Henshin_widgets.dart';
+// import '../common/Henshin_widgets.dart';
 import '../home_page.dart'; // Import homepage widget
 
 class RequestSummaryWidget extends StatelessWidget {
   final double price;
   final List<String> requirements;
-  final String description; // Add this line
+  final String description; 
   final String imageUrl;
   final DateTime? dateTime;  // Make it nullable and optional
   final String requestId;

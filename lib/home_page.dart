@@ -12,6 +12,7 @@ import 'job_proposals_page/job_proposals_page_widget.dart';
 import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'common/henshin_theme.dart';
+import 'request_history/request_history_widget.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -39,6 +40,7 @@ class HomePageState extends State<HomePage> {
     const JobProposalsPageWidget(),
     const RequestServicePage1Widget(),
     const ServiceInprogressPageWidget(),
+    const RequestHistoryWidget(),
   ];
 
   final List<String> _titles = [
@@ -50,6 +52,7 @@ class HomePageState extends State<HomePage> {
     'Job Proposals',
     'Request Service',
     'Service In Progress',
+    'Request History',
   ];
 
   void _onItemTapped(int index) {
@@ -159,6 +162,13 @@ class HomePageState extends State<HomePage> {
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
+              _buildDrawerItem(
+                icon: Icons.history,
+                title: 'Request History',
+                index: 8,
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+              ),
             ],
           ),
         ),
@@ -184,6 +194,18 @@ class HomePageState extends State<HomePage> {
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const RequestHistoryWidget(),
+            ),
+          );
+        },
+        tooltip: 'Request History',
+        child: const Icon(Icons.history),
       ),
     );
   }
