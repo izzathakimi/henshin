@@ -1,0 +1,118 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+
+class ServiceRequestPageWidgetState extends State<ServiceRequestPageWidget> {
+  String? uploadedImageUrl;  // To store the uploaded image URL
+
+  Future<void> pickAndUploadImage() async {
+    try {
+      // Pick image file
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'png'],
+      );
+
+      if (result == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select an image')),
+        );
+        return;
+      }
+
+      // Show loading indicator
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Uploading image...')),
+      );
+
+      String imageUrl;
+      if (kIsWeb) {
+        // Web platform handling
+        if (result.files.first.bytes == null) {
+          throw Exception('File bytes are null. Unable to upload.');
+        }
+        imageUrl = await uploadImageWeb(result.files.first.bytes!, result.files.first.name);
+      } else {
+        // Mobile platform handling
+        File imageFile = File(result.files.first.path!);
+        imageUrl = await uploadImage(imageFile, result.files.first.name);
+      }
+
+      setState(() {
+        uploadedImageUrl = imageUrl;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Image uploaded successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading image: $e')),
+      );
+    }
+  }
+
+  Future<String> uploadImage(File file, String fileName) async {
+    Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child('service_requests')
+        .child(fileName);
+    
+    UploadTask uploadTask = storageRef.putFile(file);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  Future<String> uploadImageWeb(Uint8List fileBytes, String fileName) async {
+    Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child('service_requests')
+        .child(fileName);
+    
+    UploadTask uploadTask = storageRef.putData(fileBytes);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+
+// Add this where you want the upload button and preview to appear
+Padding(
+  padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+  child: Column(
+    children: [
+      ElevatedButton(
+        onPressed: pickAndUploadImage,
+        child: const Text('Upload Reference Image'),
+      ),
+      if (uploadedImageUrl != null)
+        Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                uploadedImageUrl!,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.error),
+              ),
+            ),
+          ),
+        ),
+    ],
+  ),
+),
