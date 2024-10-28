@@ -59,6 +59,31 @@ class HomePageState extends State<HomePage> {
     // }
   }
 
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required int index,
+    required int selectedIndex,
+    required Function(int) onTap,
+    Color textColor = Colors.white,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: selectedIndex == index ? HenshinTheme.primaryColor : null,
+      ),
+      title: Text(title),
+      selected: selectedIndex == index,
+      selectedColor: HenshinTheme.primaryColor,
+      selectedTileColor: HenshinTheme.primaryColor.withOpacity(0.1),
+      hoverColor: HenshinTheme.primaryColor.withOpacity(0.05),
+      onTap: () {
+        onTap(index);
+        Navigator.pop(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,72 +91,69 @@ class HomePageState extends State<HomePage> {
         title: Text(_titles[_selectedIndex]),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: HenshinTheme.primaryGradient,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: HenshinTheme.primaryGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent, // Make header transparent to show gradient
+                ),
+                child: const Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
-              child: const Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              _buildDrawerItem(
+                icon: Icons.person,
+                title: 'Profile',
+                index: 3,
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                textColor: Colors.white, // Add white text for contrast
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Profile'),
-              selected: _selectedIndex == 3,
-              onTap: () {
-                _onItemTapped(3);
-                Navigator.pop(context);
-              },
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.work),
-              title: const Text('Job Application'),
-              selected: _selectedIndex == 4,
-              onTap: () {
-                _onItemTapped(4);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.description),
-              title: const Text('Job Proposals'),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                _onItemTapped(5);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.build),
-              title: const Text('Request Service'),
-              selected: _selectedIndex == 6,
-              onTap: () {
-                _onItemTapped(6);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.timer),
-              title: const Text('Service In Progress'),
-              selected: _selectedIndex == 7,
-              onTap: () {
-                _onItemTapped(7);
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              const Divider(color: Colors.white30), // Light divider
+              _buildDrawerItem(
+                icon: Icons.work,
+                title: 'Job Application',
+                index: 4,
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                textColor: Colors.white,
+              ),
+              _buildDrawerItem(
+                icon: Icons.description,
+                title: 'Job Proposals',
+                index: 5,
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+              ),
+              _buildDrawerItem(
+                icon: Icons.build,
+                title: 'Request Service',
+                index: 6,
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+              ),
+              _buildDrawerItem(
+                icon: Icons.timer,
+                title: 'Service In Progress',
+                index: 7,
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+              ),
+            ],
+          ),
         ),
       ),
       body: _screens[_selectedIndex],
