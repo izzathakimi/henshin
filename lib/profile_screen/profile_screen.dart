@@ -133,24 +133,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _loadUserPosts() async {
     if (user != null) {
-      final postsSnapshot = await _firestore
-          .collection('posts')
-          .where('userId', isEqualTo: user!.uid)
-          .orderBy('timestamp', descending: true)
-          .get();
+      try {
+        final postsSnapshot = await _firestore
+            .collection('posts')
+            .where('userId', isEqualTo: user!.uid)
+            .orderBy('timestamp', descending: true)
+            .get();
 
-      setState(() {
-        posts = postsSnapshot.docs
-            .map((doc) => Post(
-                  id: doc.id,
-                  userId: doc['userId'],
-                  description: doc['description'],
-                  imageUrl: doc['imageUrl'],
-                  timestamp: (doc['timestamp'] as Timestamp).toDate(),
-                  likes: doc['likes'],
-                ))
-            .toList();
-      });
+        setState(() {
+          posts = postsSnapshot.docs.map((doc) {
+            final data = doc.data();
+            return Post(
+              id: doc.id,
+              userId: data['userId'],
+              description: data['description'],
+              imageUrl: data['imageUrl'] ?? '', // Handle null case
+              timestamp: (data['timestamp'] as Timestamp).toDate(),
+              likes: data['likes'] ?? 0,
+            );
+          }).toList();
+        });
+      } catch (e) {
+        print('Error loading posts: $e');
+      }
     }
   }
 
@@ -176,38 +181,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<String?> _uploadImage(File imageFile, String path) async {
+  Future<String?> _uploadImage(File imageFile, String type) async {
     try {
-      final ref = _storage.ref().child(path);
+      // Create a unique filename using timestamp
+      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+      
+      // Get reference to storage root and create directory structure
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImages = referenceRoot.child(type); // 'profile_photos' or 'posts'
+      Reference referenceImageToUpload = referenceDirImages.child('${user!.uid}_$uniqueFileName');
+
+      // Upload the file with metadata
       final metadata = SettableMetadata(
         contentType: 'image/jpeg',
         customMetadata: {'picked-file-path': imageFile.path},
       );
-      final uploadTask = ref.putFile(imageFile, metadata);
-      final snapshot = await uploadTask;
-      return await snapshot.ref.getDownloadURL();
+      
+      // Upload and get URL
+      await referenceImageToUpload.putFile(imageFile, metadata);
+      String imageUrl = await referenceImageToUpload.getDownloadURL();
+      return imageUrl;
     } catch (e) {
       print('Error in _uploadImage: $e');
       return null;
     }
-}
-
-Future<String?> _uploadImageWeb(Uint8List imageData, String path) async {
-  try {
-    final ref = _storage.ref().child(path);
-    final metadata = SettableMetadata(
-      contentType: 'image/jpeg',
-    );
-    final uploadTask = ref.putData(imageData, metadata);
-    final snapshot = await uploadTask;
-    return await snapshot.ref.getDownloadURL();
-  } catch (e) {
-    print('Error in _uploadImageWeb: $e');
-    return null;
   }
-}
 
-Future<void> _updateProfilePhoto() async {
+  Future<String?> _uploadImageWeb(Uint8List imageData, String path) async {
+    try {
+      if (user == null) {
+        throw Exception('User must be logged in to upload images');
+      }
+
+      final uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final fullPath = '$path/${user!.uid}_$uniqueFileName';
+      
+      final ref = _storage.ref().child(fullPath);
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'userId': user!.uid},
+      );
+      
+      final uploadTask = ref.putData(imageData, metadata);
+      
+      // Monitor upload progress
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+        final progress = snapshot.bytesTransferred / snapshot.totalBytes;
+        print('Upload progress: ${(progress * 100).toStringAsFixed(2)}%');
+      });
+
+      final snapshot = await uploadTask;
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+      
+      print('Successfully uploaded image to: $downloadUrl');
+      return downloadUrl;
+    } catch (e) {
+      print('Error in _uploadImageWeb: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to upload image: $e')),
+      );
+      return null;
+    }
+  }
+
+  Future<void> _updateProfilePhoto() async {
     try {
       setState(() => _isLoading = true);
       
@@ -217,30 +254,22 @@ Future<void> _updateProfilePhoto() async {
       );
 
       if (image != null) {
-        final String path = 'profile_photos/${user!.uid}/profile.jpg';
-        String? imageUrl;
-
         if (kIsWeb) {
+          // Handle web upload
           final Uint8List imageData = await image.readAsBytes();
-          imageUrl = await _uploadImageWeb(imageData, path);
+          final imageUrl = await _uploadImageWeb(imageData, 'profile_photos');
+          if (imageUrl != null) {
+            await _updateProfilePhotoUrl(imageUrl);
+          }
         } else {
+          // Handle mobile upload
           final File imageFile = File(image.path);
-          imageUrl = await _uploadImage(imageFile, path);
-        }
-
-        if (imageUrl != null) {
-          await _firestore
-              .collection('freelancers')
-              .doc(user!.uid)
-              .update({'profilePhotoUrl': imageUrl});
-
-          setState(() => profilePhotoUrl = imageUrl);
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile photo updated successfully')),
-          );
-        } else {
-          throw Exception('Failed to upload image');
+          final imageUrl = await _uploadImage(imageFile, 'profile_photos');
+          if (imageUrl != null) {
+            await _updateProfilePhotoUrl(imageUrl);
+          } else {
+            throw Exception('Failed to upload image');
+          }
         }
       }
     } catch (e) {
@@ -251,7 +280,7 @@ Future<void> _updateProfilePhoto() async {
     } finally {
       setState(() => _isLoading = false);
     }
-}
+  }
 
   Future<void> _createPost() async {
     try {
@@ -267,39 +296,34 @@ Future<void> _updateProfilePhoto() async {
 
         setState(() => _isLoading = true);
 
-        // Upload to Firebase Storage
-        final String path = 'posts/${user!.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
         String? imageUrl;
-
         if (kIsWeb) {
-          // Web platform
           final Uint8List imageData = await image.readAsBytes();
-          imageUrl = await _uploadImageWeb(imageData, path);
+          imageUrl = await _uploadImageWeb(imageData, 'posts');
         } else {
-          // Mobile or desktop platform
           final File imageFile = File(image.path);
-          imageUrl = await _uploadImage(imageFile, path);
+          imageUrl = await _uploadImage(imageFile, 'posts');
         }
 
-        if (imageUrl != null) {
-          // Create post in Firestore
-          final post = Post(
-            id: '',
-            userId: user!.uid,
-            description: description,
-            imageUrl: imageUrl,
-            timestamp: DateTime.now(),
-          );
-
-          await _firestore.collection('posts').add(post.toJson());
-          await _loadUserPosts(); // Refresh posts
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Post created successfully')),
-          );
-        } else {
+        if (imageUrl == null) {
           throw Exception('Failed to upload image');
         }
+
+        // Create post in Firestore
+        final post = Post(
+          id: '',
+          userId: user!.uid,
+          description: description,
+          imageUrl: imageUrl,
+          timestamp: DateTime.now(),
+        );
+
+        await _firestore.collection('posts').add(post.toJson());
+        await _loadUserPosts(); // Refresh posts
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Post created successfully')),
+        );
       }
     } catch (e) {
       print('Error in _createPost: $e');
@@ -353,7 +377,18 @@ Future<void> _updateProfilePhoto() async {
                 _buildActionButtons(),
                 _buildEnhanceProfileButton(),
                 _buildOpenToWorkSection(),
-                // Add other sections as needed
+                // Add posts section
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Posts',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                _buildPosts(),
               ],
             ),
           ),
@@ -468,14 +503,18 @@ Future<void> _updateProfilePhoto() async {
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => CircularProgressIndicator(),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
                           errorWidget: (context, url, error) {
                             print('Error loading profile image: $error');
-                            return Icon(Icons.error);
+                            return const Icon(Icons.error);
+                          },
+                          httpHeaders: const {
+                            'Access-Control-Allow-Origin': '*',
+                            'Cache-Control': 'no-cache',
                           },
                         ),
                       )
-                    : Icon(Icons.person, size: 50, color: Colors.grey),
+                    : const Icon(Icons.person, size: 50, color: Colors.grey),
               ),
             ],
           ),
@@ -664,82 +703,47 @@ Future<void> _updateProfilePhoto() async {
   Widget _buildPostItem(Post post) {
     return GestureDetector(
       onTap: () => _showPostDetail(post),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.network(
-            post.imageUrl,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Container(
-                color: Colors.grey[200],
-                child: Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                        : null,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF008080)),
-                  ),
-                ),
-              );
-            },
-            errorBuilder: (context, error, stackTrace) {
-              print('Error loading image: $error');
-              return Container(
+      child: Container(
+        height: 200,
+        width: double.infinity,
+        child: post.imageUrl.isNotEmpty
+            ? kIsWeb 
+                ? CachedNetworkImage(
+                    imageUrl: post.imageUrl,
+                    fit: BoxFit.cover,
+                    httpHeaders: const {
+                      'Access-Control-Allow-Origin': '*',
+                      'Cache-Control': 'no-cache',
+                    },
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) {
+                      print('Error loading image: $error');
+                      return Container(
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.error),
+                      );
+                    },
+                  )
+                : CachedNetworkImage(
+                    imageUrl: post.imageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) {
+                      print('Error loading image: $error');
+                      return Container(
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.error),
+                      );
+                    },
+                  )
+            : Container(
                 color: Colors.grey[300],
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error, color: Colors.red),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Error loading image',
-                      style: TextStyle(fontSize: 10, color: Colors.red[700]),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.8),
-                    Colors.transparent,
-                  ],
-                ),
+                child: const Icon(Icons.image_not_supported),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.favorite,
-                    size: 16,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    post.likes.toString(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -1036,6 +1040,20 @@ Future<void> _updateProfilePhoto() async {
           ],
         );
       },
+    );
+  }
+
+  // Helper method to update profile photo URL in Firestore
+  Future<void> _updateProfilePhotoUrl(String imageUrl) async {
+    await _firestore
+        .collection('freelancers')
+        .doc(user!.uid)
+        .update({'profilePhotoUrl': imageUrl});
+
+    setState(() => profilePhotoUrl = imageUrl);
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Profile photo updated successfully')),
     );
   }
 }
