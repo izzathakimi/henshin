@@ -3,6 +3,7 @@ import '../common/Henshin_widgets.dart';
 import '../job_application_page2/job_application_page2_widget.dart';
 import 'package:flutter/material.dart';
 import '../home_page.dart';
+// import '../common/Henshin_theme.dart';
 
 class JobApplicationPageWidget extends StatefulWidget {
   const JobApplicationPageWidget({super.key});
@@ -20,7 +21,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: HenshinTheme.primaryGradient[0],
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () {
@@ -180,7 +181,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                'Jahit Pakaian',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -197,7 +198,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Robiah Khalid',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -223,7 +224,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Sabak Bernam',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -374,7 +375,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                'Cuci Rumah',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -391,7 +392,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Muthusamy',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -417,7 +418,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Pulau Melaka',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -568,7 +569,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                'Jaga Kucing',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -585,7 +586,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Tan Cheng Hoe',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -611,7 +612,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Pulau Indah',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -762,7 +763,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                'Siram Kebun',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -779,7 +780,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Khadijah Mamat',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -805,7 +806,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Losong',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -956,7 +957,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                'Pindah Rumah',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -973,7 +974,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Husin Hero',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -999,7 +1000,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Seberang Perai',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1150,7 +1151,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                '',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -1167,7 +1168,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Khuda',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1193,7 +1194,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Sungai Petani',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1344,7 +1345,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Lead Product Designer',
+                                                'Beli Barang di Pasar',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -1361,7 +1362,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Behance',
+                                                    'Usop Welcha',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
@@ -1387,7 +1388,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Cambodia',
+                                                    'Sungai Siput',
                                                     style: HenshinTheme
                                                         .bodyText1
                                                         .override(
