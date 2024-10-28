@@ -29,6 +29,14 @@ class RequestSummaryWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              'Description:',
+              style: HenshinTheme.title3,
+            ),
+            Text(
+              description,
+              style: HenshinTheme.bodyText1,
+            ),
+            Text(
               'Price:',
               style: HenshinTheme.title3,
             ),
@@ -36,6 +44,9 @@ class RequestSummaryWidget extends StatelessWidget {
               '\$${price.toStringAsFixed(2)}',
               style: HenshinTheme.bodyText1,
             ),
+            SizedBox(height: 20),
+            // Add description section here
+            
             SizedBox(height: 20),
             Text(
               'Requirements:',

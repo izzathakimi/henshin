@@ -115,28 +115,6 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Add the "Describe your needs" field
-              Text(
-                'Describe your needs',
-                style: HenshinTheme.bodyText1.override(
-                  fontFamily: 'NatoSansKhmer',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  useGoogleFonts: false,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _descriptionController,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: 'Briefly describe what you need',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
@@ -147,7 +125,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'Package & Pricing (2 of 2 steps)',
+                  'We Help With What You Need',
                   style: HenshinTheme.bodyText1.override(
                     fontFamily: 'NatoSansKhmer',
                     color: const Color(0x96303030),
@@ -167,36 +145,35 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Price',
-                              style: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                fontWeight: FontWeight.bold,
-                                useGoogleFonts: false,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF23AE10),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                child: Text(
-                                  'Ringgit Malaysia',
-                                  style: HenshinTheme.bodyText1.override(
-                                    fontFamily: 'NatoSansKhmer',
-                                    color: Colors.white,
-                                    useGoogleFonts: false,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          'Description',
+                          style: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            fontWeight: FontWeight.bold,
+                            useGoogleFonts: false,
+                          ),
                         ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _descriptionController,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: 'Briefly describe what you need',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Price',
+                          style: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            fontWeight: FontWeight.bold,
+                            useGoogleFonts: false,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
                         TextField(
                           controller: _priceController,
                           keyboardType: TextInputType.number,
