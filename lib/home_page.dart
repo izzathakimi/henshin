@@ -219,18 +219,20 @@ class HomePageState extends State<HomePage> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               type: BottomNavigationBarType.fixed,
+              showSelectedLabels: false,    // Add this line
+              showUnselectedLabels: false,  // Add this line
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label: 'Home',
+                  label: '',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.forum),
-                  label: 'Community',
+                  label: '',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.chat),
-                  label: 'Chat',
+                  label: '',
                 ),
               ],
               currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
