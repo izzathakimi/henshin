@@ -117,7 +117,7 @@ class Profile extends StatelessWidget {
                     
                     // Phone Number
                     Text(
-                      userData?['phone_number'] ?? 'Phone Number',
+                      userData?['phone number'] ?? 'Phone Number',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 16),
