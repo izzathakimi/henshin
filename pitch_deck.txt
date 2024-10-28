@@ -1,0 +1,184 @@
+# Henshin: Empowering Rural Malaysia's Digital Economy
+## Hackathon Pitch Deck 2024
+
+---
+
+## 1. Problem Statement
+
+### The Rural Opportunity Gap
+- 44% of Malaysia's workforce is in rural areas
+- Limited access to digital job opportunities
+- Disconnect between rural talent and urban markets
+- Skills mismatch in digital economy
+
+### Key Challenges
+- Limited digital infrastructure
+- Language and cultural barriers
+- Lack of formal training opportunities
+- Financial inclusion gaps
+
+---
+
+## 2. Our Solution: Henshin
+
+### Vision
+Bridging the rural-urban divide through a localized freelance marketplace
+
+### Core Features
+1. **Rural-First Design**
+   - Offline-first architecture
+   - Bilingual interface (Malay/English)
+   - Low-bandwidth optimization
+
+2. **Skills Marketplace**
+   - Custom profile creation
+   - Portfolio showcase
+   - Location-based matching
+   - Integrated payment system
+
+3. **Community Hub**
+   - Real-time chat
+   - Discussion forums
+   - Peer support network
+   - Knowledge sharing
+
+---
+
+## 3. Technology Stack
+
+### Frontend
+- Flutter for cross-platform development
+- Material Design for intuitive UX
+- Progressive Web App capabilities
+
+### Backend
+- Firebase for scalable infrastructure
+- Real-time database
+- Cloud Functions
+- Authentication services
+
+### Key Technical Features
+- Offline synchronization
+- End-to-end encryption
+- Location services
+- Push notifications
+
+---
+
+## 4. SDG Alignment
+
+### SDG 8: Decent Work and Economic Growth
+
+#### Direct Impact
+- Creating digital employment opportunities
+- Promoting rural entrepreneurship
+- Facilitating skill development
+- Enabling financial inclusion
+
+#### Metrics
+- Number of rural freelancers onboarded
+- Total earnings generated
+- Skills training completed
+- Community engagement levels
+
+---
+
+## 5. Business Model Canvas
+
+### Value Proposition
+- Rural-focused freelance platform
+- Simplified digital marketplace
+- Community-driven growth
+- Local economic empowerment
+
+### Customer Segments
+- Rural freelancers
+- Small businesses
+- Local enterprises
+- Community organizations
+
+### Revenue Streams
+1. Transaction fees (5-10%)
+2. Premium features
+3. Skills verification
+4. Promotional services
+
+### Key Resources
+- Technology platform
+- Rural community network
+- Local partnerships
+- User data insights
+
+### Key Activities
+- Platform development
+- Community building
+- Skills training
+- Market matching
+
+---
+
+## 6. Market Opportunity
+
+### Target Market Size
+- 7.3M rural workforce in Malaysia
+- 900K SMEs seeking talent
+- $4B potential market size
+
+### Growth Strategy
+1. Phase 1: Rural Malaysia pilot
+2. Phase 2: Regional expansion
+3. Phase 3: ASEAN market entry
+
+---
+
+## 7. Traction & Roadmap
+
+### Current Status
+- MVP development complete
+- 100+ beta users
+- 5 community partnerships
+- 50+ successful transactions
+
+### 6-Month Milestones
+- Launch in 3 rural states
+- 1,000 active users
+- 100 completed projects
+- Mobile app release
+
+---
+
+## 8. Team
+
+### Core Team
+- Technical expertise
+- Rural development experience
+- Community engagement
+- Business development
+
+### Advisors
+- Industry experts
+- Rural community leaders
+- Technology mentors
+
+---
+
+## 9. Investment Ask
+
+### Funding Requirements
+- $200K seed funding
+- 18-month runway
+- Technology development
+- Market expansion
+
+### Use of Funds
+- 40% Product development
+- 30% Marketing & user acquisition
+- 20% Operations
+- 10% Legal & compliance
+
+---
+
+## Contact Information
+
+Najmudin Yusof
+Email: njmdnyusof.work@gmail.com
