@@ -193,26 +193,40 @@ class HomePageState extends State<HomePage> {
         ),
       ),
       body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.forum),
-            label: 'Community',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-        ],
-        currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.black,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          type: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.forum),
+              label: 'Community',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+            ),
+          ],
+          currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
+          selectedItemColor: Colors.blue.withOpacity(0.7), // Changed to match drawer
+          unselectedItemColor: Colors.black,
+          onTap: _onItemTapped,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
