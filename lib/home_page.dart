@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_screen/home_screen.dart';
+import 'profile_screen/profile.dart';
 import 'profile_screen/profile_screen.dart';
 import 'community_forum/community_forum.dart';
 import 'chat/chat_screen.dart';
@@ -38,7 +39,8 @@ class HomePageState extends State<HomePage> {
     const HomeScreen(),
     const CommunityForum(),
     const ChatScreen(),
-    const ProfileScreen(),
+    const Profile(),
+    const ProfileScreen(),  // Added ProfileScreen
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
     const RequestServicePage1Widget(),
@@ -51,6 +53,7 @@ class HomePageState extends State<HomePage> {
     'Community Forum',
     'Chat',
     'Profile',
+    'Create Post',  // Added corresponding title
     'Job Application',
     'Job Proposals',
     'Request Service',
@@ -164,16 +167,16 @@ class HomePageState extends State<HomePage> {
               _buildDrawerItem(
                 icon: Icons.person,
                 title: 'Profile',
-                index: 3,
+                index: 3,  // Changed to match ProfileScreen
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
-                textColor: Colors.white, // Add white text for contrast
+                textColor: Colors.white,
               ),
-              const Divider(color: Colors.white30), // Light divider
+              const Divider(color: Colors.white30),
               _buildDrawerItem(
                 icon: Icons.work,
                 title: 'Gig Application',
-                index: 4,
+                index: 4,  // Changed from 4 to 5
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
                 textColor: Colors.white,
@@ -181,28 +184,28 @@ class HomePageState extends State<HomePage> {
               _buildDrawerItem(
                 icon: Icons.description,
                 title: 'Gig Proposals',
-                index: 5,
+                index: 5,  // Changed from 5 to 6
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
               _buildDrawerItem(
                 icon: Icons.build,
                 title: 'Request Service',
-                index: 6,
+                index: 6,  // Changed from 6 to 7
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
               _buildDrawerItem(
                 icon: Icons.timer,
                 title: 'Service In Progress',
-                index: 7,
+                index: 7,  // Changed from 7 to 8
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
               _buildDrawerItem(
                 icon: Icons.history,
                 title: 'Request History',
-                index: 8,
+                index: 8,  // Changed from 8 to 9
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),

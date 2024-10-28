@@ -1,1059 +1,132 @@
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
-import 'package:cached_network_image/cached_network_image.dart';
-
-class Post {
-  final String id;
-  final String userId;
-  final String description;
-  final String imageUrl;
-  final DateTime timestamp;
-  int likes;
-  List<Comment> comments;
-
-  Post({
-    required this.id,
-    required this.userId,
-    required this.description,
-    required this.imageUrl,
-    required this.timestamp,
-    this.likes = 0,
-    this.comments = const [],
-  });
-
-  Map<String, dynamic> toJson() => {
-    'userId': userId,
-    'description': description,
-    'imageUrl': imageUrl,
-    'timestamp': timestamp,
-    'likes': likes,
-  };
-}
-
-class Comment {
-  final String id;
-  final String userId;
-  final String text;
-  final DateTime timestamp;
-
-  Comment({
-    required this.id,
-    required this.userId,
-    required this.text,
-    required this.timestamp,
-  });
-
-  Map<String, dynamic> toJson() => {
-    'userId': userId,
-    'text': text,
-    'timestamp': timestamp,
-  };
-}
+import 'package:henshin/application_state.dart';
+import 'package:henshin/profile_screen/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _description = '';
+  Uint8List? _imageBytes;
+  String? _imageName;
   final ImagePicker _picker = ImagePicker();
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final user = FirebaseAuth.instance.currentUser;
-  final ImageCropper cropper = ImageCropper(); 
 
-  
-  bool _isLoading = false;
-  String? profilePhotoUrl;
-  String name = '';
-  String phone = '';
-  String specialty = '';
-  String country = '';
-  String city = '';
-  String phoneNumber = '';
-  List<Post> posts = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-    _loadUserPosts();
-  }
-
-  Future<String?> _getImageUrl(String mediaUrl) async {
+  Future<void> _pickImage() async {
     try {
-      Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(mediaUrl);
-      String url = await firebaseStorageRef.getDownloadURL();
-      return url;
-    } catch (e) {
-      print('Error getting image URL: $e');
-      return null;
-    }
-  }
-
-  Future<void> _loadUserData() async {
-    if (user != null) {
-      try {
-        final userData = await _firestore
-            .collection('freelancers')
-            .doc(user!.uid)
-            .get();
-
-        if (userData.exists) {
-          final data = userData.data() as Map<String, dynamic>;
-          setState(() {
-            name = data['name'] ?? '';
-            phoneNumber = data['phone number'] ?? '';
-            specialty = data['specialty'] ?? '';
-            country = data['country'] ?? '';
-            city = data['city'] ?? '';
-            profilePhotoUrl = data['profilePhotoUrl'] as String?;
-
-            print('Loaded profilePhotoUrl: $profilePhotoUrl');
-          });
-        } else {
-          print('User document does not exist');
-        }
-      } catch (e) {
-        print('Error loading user data: $e');
-      }
-    } else {
-      print('User is null');
-    }
-  }
-
-  Future<void> _loadUserPosts() async {
-    if (user != null) {
-      try {
-        final postsSnapshot = await _firestore
-            .collection('posts')
-            .where('userId', isEqualTo: user!.uid)
-            .orderBy('timestamp', descending: true)
-            .get();
-
+      final XFile? pickedFile =
+          await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
         setState(() {
-          posts = postsSnapshot.docs.map((doc) {
-            final data = doc.data();
-            return Post(
-              id: doc.id,
-              userId: data['userId'],
-              description: data['description'],
-              imageUrl: data['imageUrl'] ?? '', // Handle null case
-              timestamp: (data['timestamp'] as Timestamp).toDate(),
-              likes: data['likes'] ?? 0,
-            );
-          }).toList();
+          _imageName = pickedFile.name;
         });
-      } catch (e) {
-        print('Error loading posts: $e');
-      }
-    }
-  }
 
-  Future<void> _updateUserData() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // Assuming profilePhotoUrl is now the path in Storage, not the full URL
-      await FirebaseFirestore.instance
-          .collection('freelancers')
-          .doc(user.uid)
-          .update({
-        'name': name,
-        'phone number': phoneNumber,
-        'specialty': specialty,
-        'country': country,
-        'city': city,
-        'profilePhotoUrl': profilePhotoUrl, // This should be the path, not the full URL
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully')),
-      );
-      setState(() {}); // Refresh the UI
-    }
-  }
-
-  Future<String?> _uploadImage(File imageFile, String type) async {
-    try {
-      // Create a unique filename using timestamp
-      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-      
-      // Get reference to storage root and create directory structure
-      Reference referenceRoot = FirebaseStorage.instance.ref();
-      Reference referenceDirImages = referenceRoot.child(type); // 'profile_photos' or 'posts'
-      Reference referenceImageToUpload = referenceDirImages.child('${user!.uid}_$uniqueFileName');
-
-      // Upload the file with metadata
-      final metadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': imageFile.path},
-      );
-      
-      // Upload and get URL
-      await referenceImageToUpload.putFile(imageFile, metadata);
-      String imageUrl = await referenceImageToUpload.getDownloadURL();
-      return imageUrl;
-    } catch (e) {
-      print('Error in _uploadImage: $e');
-      return null;
-    }
-  }
-
-  Future<String?> _uploadImageWeb(Uint8List imageData, String path) async {
-    try {
-      if (user == null) {
-        throw Exception('User must be logged in to upload images');
-      }
-
-      final uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-      final fullPath = '$path/${user!.uid}_$uniqueFileName';
-      
-      final ref = _storage.ref().child(fullPath);
-      final metadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'userId': user!.uid},
-      );
-      
-      final uploadTask = ref.putData(imageData, metadata);
-      
-      // Monitor upload progress
-      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        final progress = snapshot.bytesTransferred / snapshot.totalBytes;
-        print('Upload progress: ${(progress * 100).toStringAsFixed(2)}%');
-      });
-
-      final snapshot = await uploadTask;
-      final downloadUrl = await snapshot.ref.getDownloadURL();
-      
-      print('Successfully uploaded image to: $downloadUrl');
-      return downloadUrl;
-    } catch (e) {
-      print('Error in _uploadImageWeb: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to upload image: $e')),
-      );
-      return null;
-    }
-  }
-
-  Future<void> _updateProfilePhoto() async {
-    try {
-      setState(() => _isLoading = true);
-      
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
-
-      if (image != null) {
         if (kIsWeb) {
-          // Handle web upload
-          final Uint8List imageData = await image.readAsBytes();
-          final imageUrl = await _uploadImageWeb(imageData, 'profile_photos');
-          if (imageUrl != null) {
-            await _updateProfilePhotoUrl(imageUrl);
-          }
+          // For web
+          _imageBytes = await pickedFile.readAsBytes();
         } else {
-          // Handle mobile upload
-          final File imageFile = File(image.path);
-          final imageUrl = await _uploadImage(imageFile, 'profile_photos');
-          if (imageUrl != null) {
-            await _updateProfilePhotoUrl(imageUrl);
-          } else {
-            throw Exception('Failed to upload image');
-          }
+          // For mobile platforms
+          final File file = File(pickedFile.path);
+          _imageBytes = await file.readAsBytes();
         }
+
+        setState(() {});
       }
     } catch (e) {
-      print('Error in _updateProfilePhoto: $e');
+      print('Error picking image: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error updating profile photo: $e')),
+        SnackBar(content: Text('Error picking image: $e')),
       );
-    } finally {
-      setState(() => _isLoading = false);
     }
-  }
-
-  Future<void> _createPost() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
-
-      if (image != null) {
-        // Get description
-        String? description = await _showDescriptionDialog();
-        if (description == null) return;
-
-        setState(() => _isLoading = true);
-
-        String? imageUrl;
-        if (kIsWeb) {
-          final Uint8List imageData = await image.readAsBytes();
-          imageUrl = await _uploadImageWeb(imageData, 'posts');
-        } else {
-          final File imageFile = File(image.path);
-          imageUrl = await _uploadImage(imageFile, 'posts');
-        }
-
-        if (imageUrl == null) {
-          throw Exception('Failed to upload image');
-        }
-
-        // Create post in Firestore
-        final post = Post(
-          id: '',
-          userId: user!.uid,
-          description: description,
-          imageUrl: imageUrl,
-          timestamp: DateTime.now(),
-        );
-
-        await _firestore.collection('posts').add(post.toJson());
-        await _loadUserPosts(); // Refresh posts
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Post created successfully')),
-        );
-      }
-    } catch (e) {
-      print('Error in _createPost: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error creating post: $e')),
-      );
-    } finally {
-      setState(() => _isLoading = false);
-    }
-  }
-
-  Future<String?> _showDescriptionDialog() {
-    String description = '';
-    return showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add Description'),
-        content: TextField(
-          onChanged: (value) => description = value,
-          decoration: const InputDecoration(
-            hintText: 'Write something about your post...',
-          ),
-          maxLines: 3,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, description),
-            child: const Text('Post'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<ApplicationState>(context);
+
+    if (!appState.loggedIn) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Add Post')),
+        body: Center(
+          child: ElevatedButton(
+            child: Text('Sign In to Add Post'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/sign-in');
+            },
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildAppBar(),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildCoverImage(),
-                _buildProfileInfo(),
-                _buildActionButtons(),
-                _buildEnhanceProfileButton(),
-                _buildOpenToWorkSection(),
-                // Add posts section
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Posts',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                _buildPosts(),
-              ],
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _createPost,
-        backgroundColor: const Color(0xFF4A90E2),
-        child: const Icon(Icons.add_photo_alternate),
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return SliverAppBar(
-      floating: true,
-      backgroundColor: Colors.black,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          // Handle back button press
-        },
-      ),
-      title: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search...',
-          hintStyle: TextStyle(color: Colors.grey[400]),
-          border: InputBorder.none,
-        ),
-        style: const TextStyle(color: Colors.white),
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            // Handle settings button press
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCoverImage() {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          height: 150,
-          width: double.infinity,
-          color: Colors.grey[300], // Solid color background
-        ),
-        Positioned(
-          bottom: -50,
-          left: 16,
-          child: CircleAvatar(
-            radius: 50,
-            backgroundImage: profilePhotoUrl != null
-                ? NetworkImage(profilePhotoUrl!)
-                : null,
-            child: profilePhotoUrl == null
-                ? const Icon(Icons.person, size: 50)
-                : null,
-          ),
-        ),
-        Positioned(
-          top: 8,
-          right: 8,
-          child: IconButton(
-            icon: const Icon(Icons.edit, color: Colors.white),
-            onPressed: _updateProfilePhoto,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildProfileInfo() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    Text('(He/Him)', style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(height: 4),
-                    Text(specialty, style: const TextStyle(fontSize: 16)),
-                    const SizedBox(height: 4),
-                    Text('$city, $country', style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(height: 4),
-                    Text(phoneNumber, style: TextStyle(color: Colors.grey[600])),
-                    const SizedBox(height: 8),
-                    Text('230 connections', style: TextStyle(color: Colors.blue[700])),
-                  ],
-                ),
-              ),
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey[200],
-                child: profilePhotoUrl != null
-                    ? ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: profilePhotoUrl!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) {
-                            print('Error loading profile image: $error');
-                            return const Icon(Icons.error);
-                          },
-                          httpHeaders: const {
-                            'Access-Control-Allow-Origin': '*',
-                            'Cache-Control': 'no-cache',
-                          },
-                        ),
-                      )
-                    : const Icon(Icons.person, size: 50, color: Colors.grey),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: _showEditProfileDialog,
-            child: const Text('Edit Profile'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Open to'),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.grey[800],
-              ),
-              child: const Text('Add section'),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.more_horiz),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEnhanceProfileButton() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: OutlinedButton(
-        onPressed: () {},
-        style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.grey[800],
-          minimumSize: const Size(double.infinity, 40),
-        ),
-        child: const Text('Enhance Profile'),
-      ),
-    );
-  }
-
-  Widget _buildOpenToWorkSection() {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Open to work',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.edit, color: Colors.white),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          const Text(
-            'Software Engineer and Intern roles',
-            style: TextStyle(color: Colors.white),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Show details',
-            style: TextStyle(color: Colors.blue[300]),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStats() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildStat(posts.length.toString(), 'Posts'),
-          _buildStat('1470', 'Friends'),
-          _buildStat('889', 'Groups'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStat(String value, String label) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white70,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPosts() {
-    if (posts.isEmpty) {
-      return Center(
+      appBar: AppBar(title: Text('Add Post')),
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            children: [
-              Icon(
-                Icons.photo_library_outlined,
-                size: 64,
-                color: Colors.grey[400],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'No posts yet',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Your posts will appear here',
-                style: TextStyle(
-                  color: Colors.grey[400],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(4),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-      ),
-      itemCount: posts.length,
-      itemBuilder: (context, index) => _buildPostItem(posts[index]),
-    );
-  }
-
-  Widget _buildPostItem(Post post) {
-    return GestureDetector(
-      onTap: () => _showPostDetail(post),
-      child: Container(
-        height: 200,
-        width: double.infinity,
-        child: post.imageUrl.isNotEmpty
-            ? kIsWeb 
-                ? CachedNetworkImage(
-                    imageUrl: post.imageUrl,
-                    fit: BoxFit.cover,
-                    httpHeaders: const {
-                      'Access-Control-Allow-Origin': '*',
-                      'Cache-Control': 'no-cache',
-                    },
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) {
-                      print('Error loading image: $error');
-                      return Container(
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.error),
-                      );
-                    },
-                  )
-                : CachedNetworkImage(
-                    imageUrl: post.imageUrl,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) {
-                      print('Error loading image: $error');
-                      return Container(
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.error),
-                      );
-                    },
-                  )
-            : Container(
-                color: Colors.grey[300],
-                child: const Icon(Icons.image_not_supported),
-              ),
-      ),
-    );
-  }
-
-  void _showPostDetail(Post post) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.9,
-        minChildSize: 0.5,
-        maxChildSize: 0.95,
-        builder: (context, scrollController) => Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.network(
-                        post.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            post.likes > 0 ? Icons.favorite : Icons.favorite_border,
-                            color: post.likes > 0 ? Colors.red : null,
-                          ),
-                          onPressed: () => _toggleLike(post),
-                        ),
-                        Text(
-                          '${post.likes} likes',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: () => _deletePost(post),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      post.description,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Comments',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildCommentsList(post),
-                    const SizedBox(height: 8),
-                    _buildCommentInput(post),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCommentsList(Post post) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: post.comments.length,
-      itemBuilder: (context, index) {
-        final comment = post.comments[index];
-        return ListTile(
-          title: Text(comment.text),
-          subtitle: Text(
-            _formatTimestamp(comment.timestamp),
-            style: TextStyle(color: Colors.grey[600]),
-          ),
-          trailing: comment.userId == user?.uid
-              ? IconButton(
-                  icon: const Icon(Icons.delete_outline),
-                  onPressed: () => _deleteComment(post, comment),
-                )
-              : null,
-        );
-      },
-    );
-  }
-
-  Widget _buildCommentInput(Post post) {
-    final controller = TextEditingController();
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              hintText: 'Add a comment...',
-              border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        IconButton(
-          icon: const Icon(Icons.send),
-          color: const Color(0xFF008080),
-          onPressed: () {
-            if (controller.text.isNotEmpty) {
-              _addComment(post, controller.text);
-              controller.clear();
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  Future<void> _toggleLike(Post post) async {
-    try {
-      final postRef = _firestore.collection('posts').doc(post.id);
-      final postDoc = await postRef.get();
-      
-      if (postDoc.exists) {
-        final currentLikes = postDoc.data()?['likes'] ?? 0;
-        await postRef.update({'likes': currentLikes + 1});
-        await _loadUserPosts();
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error updating like: $e')),
-      );
-    }
-  }
-
-  Future<void> _deletePost(Post post) async {
-    try {
-      // Delete image from Storage
-      final ref = _storage.refFromURL(post.imageUrl);
-      await ref.delete();
-
-      // Delete post from Firestore
-      await _firestore.collection('posts').doc(post.id).delete();
-
-      // Refresh posts
-      await _loadUserPosts();
-
-      Navigator.pop(context); // Close detail view
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Post deleted successfully')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting post: $e')),
-      );
-    }
-  }
-
-  Future<void> _addComment(Post post, String text) async {
-    try {
-      final comment = Comment(
-        id: '',
-        userId: user!.uid,
-        text: text,
-        timestamp: DateTime.now(),
-      );
-
-      await _firestore
-          .collection('posts')
-          .doc(post.id)
-          .collection('comments')
-          .add(comment.toJson());
-
-      await _loadUserPosts();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding comment: $e')),
-      );
-    }
-  }
-
-  Future<void> _deleteComment(Post post, Comment comment) async {
-    try {
-      await _firestore
-          .collection('posts')
-          .doc(post.id)
-          .collection('comments')
-          .doc(comment.id)
-          .delete();
-
-      await _loadUserPosts();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting comment: $e')),
-      );
-    }
-  }
-
-  String _formatTimestamp(DateTime timestamp) {
-    final difference = DateTime.now().difference(timestamp);
-    
-    if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
-    } else {
-      return 'Just now';
-    }
-  }
-
-  void _showEditProfileDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Profile'),
-          content: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Name'),
-                  controller: TextEditingController(text: name),
-                  onChanged: (value) => name = value,
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Description'),
+                  onSaved: (value) => _description = value ?? '',
+                  validator: (value) => value?.isEmpty ?? true
+                      ? 'Please enter a description'
+                      : null,
                 ),
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Phone Number'),
-                  controller: TextEditingController(text: phoneNumber),
-                  onChanged: (value) => phoneNumber = value,
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  child: Text('Pick Image'),
                 ),
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Specialty'),
-                  controller: TextEditingController(text: specialty),
-                  onChanged: (value) => specialty = value,
-                ),
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Country'),
-                  controller: TextEditingController(text: country),
-                  onChanged: (value) => country = value,
-                ),
-                TextField(
-                  decoration: const InputDecoration(labelText: 'City'),
-                  controller: TextEditingController(text: city),
-                  onChanged: (value) => city = value,
-                ),
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Profile Photo URL'),
-                  controller: TextEditingController(text: profilePhotoUrl),
-                  onChanged: (value) => profilePhotoUrl = value,
+                SizedBox(height: 20),
+                if (_imageBytes != null)
+                  Image.memory(_imageBytes!, height: 200),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate() &&
+                        _imageBytes != null) {
+                      _formKey.currentState!.save();
+                      try {
+                        await appState.addPost(
+                            _description, _imageBytes!, _imageName!);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Post created successfully')),
+                        );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Profile()),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error creating post: $e')),
+                        );
+                      }
+                    } else if (_imageBytes == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Please select an image')),
+                      );
+                    }
+                  },
+                  child: Text('Post'),
                 ),
               ],
             ),
           ),
-          actions: [
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            TextButton(
-              child: const Text('Save'),
-              onPressed: () {
-                _updateUserData();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // Helper method to update profile photo URL in Firestore
-  Future<void> _updateProfilePhotoUrl(String imageUrl) async {
-    await _firestore
-        .collection('freelancers')
-        .doc(user!.uid)
-        .update({'profilePhotoUrl': imageUrl});
-
-    setState(() => profilePhotoUrl = imageUrl);
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Profile photo updated successfully')),
+        ),
+      ),
     );
   }
 }

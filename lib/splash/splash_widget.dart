@@ -26,17 +26,17 @@ class SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixi
     );
     createAnimation(_animationInfo, this);
     
-    // Delay the start of the animation slightly
-    Future.delayed(const Duration(milliseconds: 100), () {
-      _animationInfo.animationController?.forward().then((_) {
-        // Increase the delay before navigation
-        Future.delayed(const Duration(seconds: 3), () {
-          if (mounted) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const LoginWithEmailPageWidget()),
-            );
-          }
-        });
+    _navigateToLogin(); // Separate method for clarity
+  }
+
+  void _navigateToLogin() {
+    _animationInfo.animationController?.forward().then((_) {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const LoginWithEmailPageWidget()),
+          );
+        }
       });
     });
   }
