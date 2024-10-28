@@ -8,83 +8,131 @@ class RequestSummaryWidget extends StatelessWidget {
   final List<String> requirements;
   final String description; // Add this line
   final String imageUrl;
+  final DateTime? dateTime;  // Make it nullable and optional
+  final String requestId;
   const RequestSummaryWidget({
-    Key? key,
+    super.key,  // Changed from Key? key to super.key
     required this.price,
     required this.requirements,
-    required this.description, // This line is already present
+    required this.description,
     required this.imageUrl,
-  }) : super(key: key);
+    this.dateTime,  // Made optional
+    this.requestId = '#REQ123456',
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request Summary'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // title: const Text('Request Summary'),
         backgroundColor: HenshinTheme.primaryColor,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Description:',
-              style: HenshinTheme.title3,
-            ),
-            Text(
-              description,
-              style: HenshinTheme.bodyText1,
-            ),
-            Text(
-              'Price:',
-              style: HenshinTheme.title3,
-            ),
-            Text(
-              '\$${price.toStringAsFixed(2)}',
-              style: HenshinTheme.bodyText1,
-            ),
-            SizedBox(height: 20),
-            // Add description section here
-            
-            SizedBox(height: 20),
-            Text(
-              'Requirements:',
-              style: HenshinTheme.title3,
-            ),
-            ...requirements.map((req) => Padding(
-              padding: EdgeInsets.only(left: 16, top: 8),
-              child: Text('• $req', style: HenshinTheme.bodyText1),
-            )),
-            SizedBox(height: 40),
-            Center(
-              child: FFButtonWidget(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-                text: 'Finish',
-                options: FFButtonOptions(
-                  width: 200,
-                  height: 50,
-                  color: HenshinTheme.primaryColor,
-                  textStyle: HenshinTheme.subtitle2.override(
-                    fontFamily: 'NatoSansKhmer',
-                    color: Colors.white,
-                    useGoogleFonts: false,
-                  ),
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  borderRadius: 18,
+      // Add gradient background
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: HenshinTheme.primaryGradient,
+            stops: [0.0, 1.0],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              elevation: 4,
+              color: HenshinTheme.tertiaryColor, // White card background
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Request Summary', style: HenshinTheme.title3),
+                    const SizedBox(height: 20),
+                    _buildInfoRow('Request ID:', requestId),
+                    _buildInfoRow('Amount:', 'RM ${price.toStringAsFixed(2)}'),
+                    _buildInfoRow('Request Status:', 'Completed'),
+                    const SizedBox(height: 16),
+                    Text('Description:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
+                    const SizedBox(height: 8),
+                    Text(description, style: HenshinTheme.bodyText1),
+                    const SizedBox(height: 16),
+                    Text('Requirements:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
+                    const SizedBox(height: 8),
+                    ...requirements.map((req) => Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('• ', style: TextStyle(fontSize: 16)),
+                          Expanded(
+                            child: Text(req, style: HenshinTheme.bodyText1),
+                          ),
+                        ],
+                      ),
+                    )).toList(),
+                    const SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: () {/* Handle download */},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4A90E2),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text('Download Summary', style: HenshinTheme.subtitle2),
+                    ),
+                    const SizedBox(height: 12),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const HomePage()),
+                          (route) => false,
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        side: const BorderSide(color: Color(0xFF4A90E2)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'Back to homescreen',
+                        style: HenshinTheme.subtitle2.copyWith(
+                          color: const Color(0xFF4A90E2),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
+          Text(value, style: HenshinTheme.bodyText1),
+        ],
       ),
     );
   }
