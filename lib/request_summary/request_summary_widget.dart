@@ -7,12 +7,13 @@ class RequestSummaryWidget extends StatelessWidget {
   final double price;
   final List<String> requirements;
   final String description; // Add this line
-
+  final String imageUrl;
   const RequestSummaryWidget({
     Key? key,
     required this.price,
     required this.requirements,
     required this.description, // This line is already present
+    required this.imageUrl,
   }) : super(key: key);
 
   @override

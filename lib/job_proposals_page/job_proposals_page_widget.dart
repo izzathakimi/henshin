@@ -2,6 +2,7 @@ import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 import '../job_proposals_page2/job_proposals_page2_widget.dart';
+import '../home_page.dart';
 
 class JobProposalsPageWidget extends StatefulWidget {
   const JobProposalsPageWidget({super.key});
@@ -22,9 +23,11 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         leading: InkWell(
-          onTap: () async {
-            Navigator.pop(context);
-          },
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );},
           child: const Icon(
             Icons.keyboard_arrow_left_outlined,
             color: Colors.black,

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import '../request_summary/request_summary_widget.dart';
-
+import '../home_page.dart';
 class RequestServicePage1Widget extends StatefulWidget {
   const RequestServicePage1Widget({Key? key}) : super(key: key);
 
@@ -15,12 +18,41 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _requirementsController = TextEditingController();
-   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  File? _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    });
+  }
+
+  Future<String?> uploadImage(File image) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageReference = FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = storageReference.putFile(image);
+      await uploadTask;
+      return await storageReference.getDownloadURL();
+    } catch (e) {
+      print('Error uploading image: $e');
+      return null;
+    }
+  }
 
   void navigateToSummary() async {
     double price = double.tryParse(_priceController.text) ?? 0;
     List<String> requirements = _requirementsController.text.split('\n');
     String description = _descriptionController.text; // Retrieve description
+    String? imageUrl;
+    if (_image != null) {
+      imageUrl = await uploadImage(_image!);
+    }
 
     try {
       // Save data to Firestore
@@ -29,6 +61,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
         'requirements': requirements,
         'description': description, // Use description here
         'timestamp': FieldValue.serverTimestamp(),
+        'imageUrl': imageUrl,
       });
 
       // Navigate to summary page
@@ -39,6 +72,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
             price: price,
             requirements: requirements,
             description: description, // Pass description to summary page
+            imageUrl: imageUrl ?? '', // Provide a default empty string if imageUrl is null
           ),
         ),
       );
@@ -58,8 +92,11 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         leading: InkWell(
-          onTap: () async {
-            Navigator.pop(context);
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
           },
           child: const Icon(
             Icons.keyboard_arrow_left_outlined,
@@ -79,27 +116,27 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Add the "Describe your needs" field
-                        Text(
-                          'Describe your needs',
-                          style: HenshinTheme.bodyText1.override(
-                            fontFamily: 'NatoSansKhmer',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: _descriptionController,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                            hintText: 'Briefly describe what you need',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
+              Text(
+                'Describe your needs',
+                style: HenshinTheme.bodyText1.override(
+                  fontFamily: 'NatoSansKhmer',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  useGoogleFonts: false,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _descriptionController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: 'Briefly describe what you need',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
@@ -190,6 +227,48 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Reference Image',
+                                style: HenshinTheme.bodyText1.override(
+                                  fontFamily: 'NatoSansKhmer',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  useGoogleFonts: false,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: getImage,
+                                child: Container(
+                                  height: 140,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(18),
+                                    border: Border.all(
+                                      color: const Color(0x65757575),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: _image == null
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.add_photo_alternate, size: 50, color: Colors.grey),
+                                            Text('Upload Image'),
+                                            Text('PNG, JPEG, WEBP (10Mb max)', style: TextStyle(color: Colors.grey)),
+                                          ],
+                                        )
+                                      : Image.file(_image!, fit: BoxFit.cover),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
