@@ -3,8 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class HenshinTheme {
-  static const Color primaryColor = Color(0xFF3474E0);
-  static const Color secondaryColor = Color(0xFFEE8B60);
+  static const List<Color> primaryGradient = [Color(0xFF4A90E2), Color(0xFF50E3C2)];
+  static const Color primaryColor = Color(0xFF4A90E2); // Using first color as primary
+  static const Color secondaryColor = Color(0xFF50E3C2);
   static const Color tertiaryColor = Color(0xFFFFFFFF);
 
   String primaryFontFamily = 'Poppins';

@@ -11,6 +11,7 @@ import 'job_application_page/job_application_widget.dart';
 import 'job_proposals_page/job_proposals_page_widget.dart';
 import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
+import 'common/henshin_theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,7 +71,11 @@ class HomePageState extends State<HomePage> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                gradient: LinearGradient(
+                  colors: HenshinTheme.primaryGradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
               child: const Text(
                 'Menu',
