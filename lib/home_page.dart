@@ -125,7 +125,7 @@ class HomePageState extends State<HomePage> {
               backgroundColor: Colors.white.withOpacity(0.2),
               title: Text(
                 _titles[_selectedIndex],
-                style: const TextStyle(
+                style: GoogleFonts.ubuntu(
                   fontWeight: FontWeight.bold,
                 ),
               ),

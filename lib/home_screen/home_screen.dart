@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cloud_firestore/cloud_firestore';
 import '../common/henshin_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,7 +25,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: HenshinTheme.primaryColor, // Changed from Grab's green to Henshin's theme color
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color(0xFF4A90E2).withOpacity(0.5),
+              const Color(0xFF50E3C2).withOpacity(0.5),
+            ],
+          ),
+        ),
         child: SafeArea(
           child: Column(
             children: [
@@ -75,9 +85,9 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         
                         // Gigs Near You Header
-                        const Text(
+                        Text(
                           'Pekerjaan Terdekat',
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -103,13 +113,13 @@ class HomeScreen extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.all(12), // Reduced padding slightly
                                   decoration: BoxDecoration(
-                                    color: Colors.blue.withOpacity(0.1),
+                                    color: const Color(0xFF4A90E2).withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: Icon(
                                     categoryIcons[index],
-                                    color: Colors.blue,
-                                    size: 32, // Slightly reduced size
+                                    color: const Color(0xFF4A90E2),
+                                    size: 32,
                                   ),
                                 ),
                                 SizedBox(height: 4), // Reduced spacing
@@ -133,9 +143,9 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 24), // Spacing before Featured section
                         
                         // Featured Gigs Header
-                        const Text(
+                        Text(
                           'Cadangan Pekerjaan',
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -149,8 +159,8 @@ class HomeScreen extends StatelessWidget {
                           itemCount: 3,
                           itemBuilder: (context, index) {
                             return Card(
-                              margin: EdgeInsets.only(bottom: 16), // Increased bottom margin from 8 to 16
-                              color: Colors.blue.withOpacity(0.7),
+                              margin: EdgeInsets.only(bottom: 16),
+                              color: const Color(0xFF4A90E2).withOpacity(0.7),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -162,7 +172,7 @@ class HomeScreen extends StatelessWidget {
                                 title: Text(
                                   'Tajuk Pekerjaan ${index + 1}',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.bold, // Changed from w500 to bold
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
                                 ),
