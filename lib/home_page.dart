@@ -81,19 +81,20 @@ class HomePageState extends State<HomePage> {
     return ListTile(
       leading: Icon(
         icon,
-        color: selectedIndex == index ? HenshinTheme.primaryColor : null,
+        color: selectedIndex == index ? Colors.white : null,
       ),
       title: Text(
         title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,  // Added bold font weight
-          color: Colors.black,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          // Remove the fixed black color and let it inherit from selectedColor
+          color: selectedIndex == index ? Colors.white : Colors.black,
         ),
       ),
       selected: selectedIndex == index,
-      selectedColor: HenshinTheme.primaryColor,
-      selectedTileColor: HenshinTheme.primaryColor.withOpacity(0.1),
-      hoverColor: HenshinTheme.primaryColor.withOpacity(0.05),
+      selectedColor: Colors.white,
+      selectedTileColor: Colors.white.withOpacity(0.2),
+      hoverColor: Colors.white.withOpacity(0.1),
       onTap: () {
         onTap(index);
         Navigator.pop(context);
