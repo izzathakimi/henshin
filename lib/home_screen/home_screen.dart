@@ -5,6 +5,20 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  static const List<String> categories = [
+    'Home Chores',
+    'Design',
+    'Manual Labor',
+    'Tech Support',
+  ];
+
+  static const List<IconData> categoryIcons = [
+    Icons.home_repair_service,
+    Icons.design_services,
+    Icons.construction,
+    Icons.computer,
+  ];
+
   @override
   Widget build(BuildContext context) {
     // final User? currentUser = FirebaseAuth.instance.currentUser;
@@ -41,22 +55,45 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: 4, // Replace with actual number of categories
+              SizedBox(
+                height: 100,  // Reduced height for horizontal scrolling
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,  // Changed to horizontal scrolling
+                  itemCount: categories.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(
-                        child: Text('Category ${index + 1}'),
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: InkWell(
+                        onTap: () {
+                          // Handle category selection
+                        },
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Container(
+                            width: 160,  // Fixed width for each card
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(categoryIcons[index], size: 24),
+                                const SizedBox(width: 8),
+                                Flexible(
+                                  child: Text(
+                                    categories[index],
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     );
                   },
