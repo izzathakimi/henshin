@@ -14,6 +14,8 @@ import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'common/henshin_theme.dart';
 import 'request_history/request_history_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+// Add this import at the top with other imports
+import 'dart:ui';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -113,7 +115,13 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_selectedIndex]),
+        centerTitle: true,
+        title: Text(
+          _titles[_selectedIndex],
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       drawer: Drawer(
         child: Container(
@@ -193,39 +201,44 @@ class HomePageState extends State<HomePage> {
         ),
       ),
       body: _screens[_selectedIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
+      bottomNavigationBar: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),  // Very subtle white background
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, -2),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+            child: BottomNavigationBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.forum),
+                  label: 'Community',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.chat),
+                  label: 'Chat',
+                ),
+              ],
+              currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
+              selectedItemColor: Colors.blue.withOpacity(0.7),
+              unselectedItemColor: Colors.black,
+              onTap: _onItemTapped,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.forum),
-              label: 'Community',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Chat',
-            ),
-          ],
-          currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
-          selectedItemColor: Colors.blue.withOpacity(0.7), // Changed to match drawer
-          unselectedItemColor: Colors.black,
-          onTap: _onItemTapped,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
