@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'login_with_email_page/login_with_email_page_widget.dart';
+import 'splash/splash_widget.dart';  // Add this import
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const LoginWithEmailPageWidget(), /*const CommunityForum(),*/
+      home: const SplashWidget(), // Changed from LoginWithEmailPageWidget
     );
   }
 }

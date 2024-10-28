@@ -13,6 +13,7 @@ import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'common/henshin_theme.dart';
 import 'request_history/request_history_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -82,7 +83,13 @@ class HomePageState extends State<HomePage> {
         icon,
         color: selectedIndex == index ? HenshinTheme.primaryColor : null,
       ),
-      title: Text(title),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,  // Added bold font weight
+          color: Colors.black,
+        ),
+      ),
       selected: selectedIndex == index,
       selectedColor: HenshinTheme.primaryColor,
       selectedTileColor: HenshinTheme.primaryColor.withOpacity(0.1),
@@ -104,7 +111,10 @@ class HomePageState extends State<HomePage> {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: HenshinTheme.primaryGradient,
+              colors: [
+                const Color(0xFF4A90E2).withOpacity(0.5),
+                const Color(0xFF50E3C2).withOpacity(0.5),
+              ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -114,13 +124,14 @@ class HomePageState extends State<HomePage> {
             children: [
               DrawerHeader(
                 decoration: const BoxDecoration(
-                  color: Colors.transparent, // Make header transparent to show gradient
+                  color: Colors.transparent,
                 ),
-                child: const Text(
-                  'Menu',
-                  style: TextStyle(
+                child: Text(
+                  'Henshin.',  // Changed from 'Menu' to 'Henshin.'
+                  style: GoogleFonts.ubuntu(  // Using GoogleFonts.ubuntu
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
