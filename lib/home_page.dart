@@ -40,7 +40,6 @@ class HomePageState extends State<HomePage> {
     const CommunityForum(),
     const ChatScreen(),
     const Profile(),
-    const ProfileScreen(),  // Added ProfileScreen
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
     const RequestServicePage1Widget(),

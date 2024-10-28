@@ -49,9 +49,6 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
       body: Column(
         children: [
           // Profile Section
@@ -272,6 +269,13 @@ class Profile extends StatelessWidget {
   }
 
   Future<void> _editProfile(BuildContext context) async {
+    // Initialize variables to store form data
+    String name = '';
+    String city = '';
+    String country = '';
+    String phone = '';
+    String specialty = '';
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -281,15 +285,19 @@ class Profile extends StatelessWidget {
           children: [
             TextField(
               decoration: const InputDecoration(labelText: 'Name'),
+              onChanged: (value) => name = value,
             ),
             TextField(
               decoration: const InputDecoration(labelText: 'City'),
+              onChanged: (value) => city = value,
             ),
             TextField(
               decoration: const InputDecoration(labelText: 'Country'),
+              onChanged: (value) => country = value,
             ),
             TextField(
               decoration: const InputDecoration(labelText: 'Phone Number'),
+              onChanged: (value) => phone = value,
             ),
           ],
         ),
@@ -299,9 +307,24 @@ class Profile extends StatelessWidget {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
-              // TODO: Implement save logic to freelancers collection
-              Navigator.pop(context);
+            onPressed: () async {
+              final user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                await FirebaseFirestore.instance
+                    .collection('freelancers')
+                    .doc(user.uid)
+                    .update({
+                  'name': name,
+                  'phone number': phone,
+                  'specialty': specialty,
+                  'country': country,
+                  'city': city,
+                });
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Profile updated successfully')),
+                );
+              }
             },
             child: const Text('Save'),
           ),
