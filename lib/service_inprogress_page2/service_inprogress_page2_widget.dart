@@ -1,6 +1,8 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import '../home_page.dart';
+import '../service_inprogress_page/service_inprogress_page_widget.dart';
 
 class ServiceInprogressPage2Widget extends StatefulWidget {
   const ServiceInprogressPage2Widget({super.key});
@@ -13,6 +15,32 @@ class ServiceInprogressPage2Widget extends StatefulWidget {
 class ServiceInprogressPage2WidgetState
     extends State<ServiceInprogressPage2Widget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final int _selectedIndex = 7; // For service in progress
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required int index,
+    Color textColor = Colors.white,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: _selectedIndex == index ? HenshinTheme.primaryColor : null,
+      ),
+      title: Text(title),
+      selected: _selectedIndex == index,
+      selectedColor: HenshinTheme.primaryColor,
+      selectedTileColor: HenshinTheme.primaryColor.withOpacity(0.1),
+      hoverColor: HenshinTheme.primaryColor.withOpacity(0.05),
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +48,65 @@ class ServiceInprogressPage2WidgetState
       key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () async {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
+        automaticallyImplyLeading: true,
+        title: const Text('Service Progress'),
         actions: const [],
         centerTitle: true,
         elevation: 0,
+      ),
+      drawer: Drawer(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: HenshinTheme.primaryGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              _buildDrawerItem(
+                icon: Icons.person,
+                title: 'Profile',
+                index: 3,
+              ),
+              const Divider(color: Colors.white30),
+              _buildDrawerItem(
+                icon: Icons.work,
+                title: 'Job Application',
+                index: 4,
+              ),
+              _buildDrawerItem(
+                icon: Icons.description,
+                title: 'Job Proposals',
+                index: 5,
+              ),
+              _buildDrawerItem(
+                icon: Icons.build,
+                title: 'Request Service',
+                index: 6,
+              ),
+              _buildDrawerItem(
+                icon: Icons.timer,
+                title: 'Service In Progress',
+                index: 7,
+              ),
+            ],
+          ),
+        ),
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -59,7 +132,14 @@ class ServiceInprogressPage2WidgetState
                 children: [
                   FFButtonWidget(
                     onPressed: () {
-                      print('Button pressed ...');
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ServiceInprogressPageWidget(
+                          // Pass the service in progress index
+                          ),
+                        ),
+                      );
                     },
                     text: 'In Progresss',
                     options: FFButtonOptions(
@@ -739,6 +819,32 @@ class ServiceInprogressPage2WidgetState
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.forum),
+            label: 'Community',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
+          ),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.black,
+        onTap: (index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        },
       ),
     );
   }

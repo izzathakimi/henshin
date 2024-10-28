@@ -85,7 +85,7 @@ class ServiceInprogressPageWidgetState
                   ),
                   FFButtonWidget(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const ServiceInprogressPage2Widget(),

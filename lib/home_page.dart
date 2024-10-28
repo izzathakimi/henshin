@@ -14,14 +14,21 @@ import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'common/henshin_theme.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int? initialIndex;
+  const HomePage({super.key, this.initialIndex});
 
   @override
   HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex ?? 0;
+  }
 
   final List<Widget> _screens = [
     const HomeScreen(),
