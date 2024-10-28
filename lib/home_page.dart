@@ -78,27 +78,34 @@ class HomePageState extends State<HomePage> {
     required Function(int) onTap,
     Color textColor = Colors.white,
   }) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: selectedIndex == index ? Colors.white : null,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),  // This makes it pill-shaped
+        color: selectedIndex == index ? Colors.blue.withOpacity(0.7) : Colors.transparent,
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          // Remove the fixed black color and let it inherit from selectedColor
-          color: selectedIndex == index ? Colors.white : Colors.black,
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: selectedIndex == index ? Colors.white : null,
         ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: selectedIndex == index ? Colors.white : Colors.black,
+          ),
+        ),
+        selected: selectedIndex == index,
+        selectedColor: Colors.white,
+        // Remove the selectedTileColor since we're handling the background in the Container
+        selectedTileColor: Colors.transparent,
+        hoverColor: Colors.white.withOpacity(0.1),
+        onTap: () {
+          onTap(index);
+          Navigator.pop(context);
+        },
       ),
-      selected: selectedIndex == index,
-      selectedColor: Colors.white,
-      selectedTileColor: Colors.white.withOpacity(0.2),
-      hoverColor: Colors.white.withOpacity(0.1),
-      onTap: () {
-        onTap(index);
-        Navigator.pop(context);
-      },
     );
   }
 
