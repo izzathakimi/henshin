@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
 
   static const List<String> categories = [
     'Home Chores',
-    'Design',
+    'Tailoring',
     'Manual Labor',
     'Tech Support',
   ];

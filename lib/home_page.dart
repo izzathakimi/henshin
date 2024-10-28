@@ -132,7 +132,7 @@ class HomePageState extends State<HomePage> {
               const Divider(color: Colors.white30), // Light divider
               _buildDrawerItem(
                 icon: Icons.work,
-                title: 'Job Application',
+                title: 'Gig Application',
                 index: 4,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
@@ -140,7 +140,7 @@ class HomePageState extends State<HomePage> {
               ),
               _buildDrawerItem(
                 icon: Icons.description,
-                title: 'Job Proposals',
+                title: 'Gig Proposals',
                 index: 5,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
