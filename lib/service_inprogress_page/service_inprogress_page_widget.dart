@@ -21,7 +21,8 @@ class ServiceInprogressPageWidgetState
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
+        backgroundColor:
+            HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () {
@@ -41,11 +42,14 @@ class ServiceInprogressPageWidgetState
         elevation: 0,
       ),
       body: Container(
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),          ),
+            colors: HenshinTheme.primaryGradient
+                .map((color) => color.withOpacity(0.5))
+                .toList(),
+          ),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -56,7 +60,6 @@ class ServiceInprogressPageWidgetState
                 children: [
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-
                   ),
                 ],
               ),
@@ -69,7 +72,7 @@ class ServiceInprogressPageWidgetState
                       onPressed: () {
                         print('Button pressed ...');
                       },
-                      text: 'In Progresss',
+                      text: 'Dalam progres',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
@@ -91,11 +94,12 @@ class ServiceInprogressPageWidgetState
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ServiceInprogressPage2Widget(),
+                            builder: (context) =>
+                                const ServiceInprogressPage2Widget(),
                           ),
                         );
                       },
-                      text: 'Finished',
+                      text: 'Selesai',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
@@ -120,7 +124,8 @@ class ServiceInprogressPageWidgetState
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -134,8 +139,8 @@ class ServiceInprogressPageWidgetState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 16, 0, 16),
                               child: Container(
                                 width: 65,
                                 height: 65,
@@ -156,21 +161,22 @@ class ServiceInprogressPageWidgetState
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Tukang Masak Sementara',
-                                            style: HenshinTheme.bodyText2
-                                                .override(
+                                            style:
+                                                HenshinTheme.bodyText2.override(
                                               fontFamily: 'NatoSansKhmer',
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
@@ -182,8 +188,9 @@ class ServiceInprogressPageWidgetState
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 2, 16, 0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 2, 16, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -213,8 +220,8 @@ class ServiceInprogressPageWidgetState
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 16, 0),
                               child: Container(
                                 width: 45,
                                 height: 45,
@@ -247,7 +254,8 @@ class ServiceInprogressPageWidgetState
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -261,8 +269,8 @@ class ServiceInprogressPageWidgetState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 16, 0, 16),
                               child: Container(
                                 width: 65,
                                 height: 65,
@@ -283,21 +291,22 @@ class ServiceInprogressPageWidgetState
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Tukang Masak Sementara',
-                                            style: HenshinTheme.bodyText2
-                                                .override(
+                                            style:
+                                                HenshinTheme.bodyText2.override(
                                               fontFamily: 'NatoSansKhmer',
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
@@ -309,8 +318,9 @@ class ServiceInprogressPageWidgetState
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 2, 16, 0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 2, 16, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -340,8 +350,8 @@ class ServiceInprogressPageWidgetState
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 16, 0),
                               child: Container(
                                 width: 45,
                                 height: 45,
@@ -374,7 +384,8 @@ class ServiceInprogressPageWidgetState
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -388,8 +399,8 @@ class ServiceInprogressPageWidgetState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 16, 0, 16),
                               child: Container(
                                 width: 65,
                                 height: 65,
@@ -410,21 +421,22 @@ class ServiceInprogressPageWidgetState
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Tukang Masak Sementara',
-                                            style: HenshinTheme.bodyText2
-                                                .override(
+                                            style:
+                                                HenshinTheme.bodyText2.override(
                                               fontFamily: 'NatoSansKhmer',
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
@@ -436,8 +448,9 @@ class ServiceInprogressPageWidgetState
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 2, 16, 0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 2, 16, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -467,8 +480,8 @@ class ServiceInprogressPageWidgetState
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 16, 0),
                               child: Container(
                                 width: 45,
                                 height: 45,
@@ -501,7 +514,8 @@ class ServiceInprogressPageWidgetState
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -515,8 +529,8 @@ class ServiceInprogressPageWidgetState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 16, 0, 16),
                               child: Container(
                                 width: 65,
                                 height: 65,
@@ -537,21 +551,22 @@ class ServiceInprogressPageWidgetState
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Tukang Masak Sementara',
-                                            style: HenshinTheme.bodyText2
-                                                .override(
+                                            style:
+                                                HenshinTheme.bodyText2.override(
                                               fontFamily: 'NatoSansKhmer',
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
@@ -563,8 +578,9 @@ class ServiceInprogressPageWidgetState
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 2, 16, 0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 2, 16, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -594,8 +610,8 @@ class ServiceInprogressPageWidgetState
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 16, 0),
                               child: Container(
                                 width: 45,
                                 height: 45,
@@ -628,7 +644,8 @@ class ServiceInprogressPageWidgetState
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 32),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 32),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -642,8 +659,8 @@ class ServiceInprogressPageWidgetState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 16, 0, 16),
                               child: Container(
                                 width: 65,
                                 height: 65,
@@ -664,21 +681,22 @@ class ServiceInprogressPageWidgetState
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Tukang Masak Sementara',
-                                            style: HenshinTheme.bodyText2
-                                                .override(
+                                            style:
+                                                HenshinTheme.bodyText2.override(
                                               fontFamily: 'NatoSansKhmer',
                                               fontWeight: FontWeight.bold,
                                               useGoogleFonts: false,
@@ -690,8 +708,9 @@ class ServiceInprogressPageWidgetState
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 2, 16, 0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 2, 16, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -721,8 +740,8 @@ class ServiceInprogressPageWidgetState
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 16, 0),
                               child: Container(
                                 width: 45,
                                 height: 45,

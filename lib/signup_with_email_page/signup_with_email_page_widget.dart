@@ -39,14 +39,15 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
   Future<void> _createAccount() async {
     if (formKey.currentState!.validate()) {
       if (textController2?.text != textController3?.text) {
-        showSnackbar(context, 'Passwords do not match');
+        showSnackbar(context, 'Kata laluan tidak sepadan');
         return;
       }
 
       try {
-        showSnackbar(context, 'Creating account...', loading: true);
-        
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        showSnackbar(context, 'Mencipta akaun...', loading: true);
+
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: textController1!.text,
           password: textController2!.text,
         );
@@ -54,20 +55,21 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
         if (userCredential.user != null) {
           // Navigate to FreelancerPageWidget instead of HomePage
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const FreelancerPageWidget()),
+            MaterialPageRoute(
+                builder: (context) => const FreelancerPageWidget()),
             (route) => false,
           );
         }
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          showSnackbar(context, 'The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          showSnackbar(context, 'The account already exists for that email.');
+        if (e.code == 'kata laluan lemah') {
+          showSnackbar(context, 'Kata laluan yang diberikan terlalu lemah.');
+        } else if (e.code == 'email sudah digunakan.') {
+          showSnackbar(context, 'Akaun sudah wujud untuk email tersebut.');
         } else {
           showSnackbar(context, 'Error: ${e.message}');
         }
       } catch (e) {
-        showSnackbar(context, 'An error occurred. Please try again.');
+        showSnackbar(context, 'Ralat telah berlaku. Sila cuba lagi.');
       }
     }
   }
@@ -109,7 +111,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
             child: SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+                  minHeight: MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top,
                 ),
                 child: IntrinsicHeight(
                   child: Column(
@@ -121,9 +124,10 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  32, 32, 32, 0),
                               child: Text(
-                                'Join our community today',
+                                'Sertai komuniti kami hari ini',
                                 textAlign: TextAlign.center,
                                 style: HenshinTheme.bodyText1.override(
                                   fontFamily: 'NatoSansKhmer',
@@ -131,10 +135,10 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
                                   useGoogleFonts: false,
+                                ),
                               ),
                             ),
-                          ),
-                          )                        
+                          )
                         ],
                       ),
                       Row(
@@ -142,9 +146,10 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16, 4, 16, 0),
                             child: Text(
-                              'Create an account to continue',
+                              'Cipta akaun untuk meneruskan.',
                               style: HenshinTheme.bodyText1.override(
                                 fontFamily: 'NatoSansKhmer',
                                 color: const Color(0xCD303030),
@@ -155,12 +160,13 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
                         child: TextFormField(
                           controller: textController1,
                           obscureText: false,
                           decoration: InputDecoration(
-                            hintText: 'Email Address',
+                            hintText: 'Alamat Emel',
                             hintStyle: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               color: Colors.grey[400],
@@ -182,7 +188,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                           ),
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
@@ -198,12 +205,13 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
                         child: TextFormField(
                           controller: textController2,
                           obscureText: !passwordVisibility1,
                           decoration: InputDecoration(
-                            hintText: 'Password',
+                            hintText: 'Kata Laluan',
                             hintStyle: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               color: Colors.grey[400],
@@ -225,11 +233,15 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                             suffixIcon: InkWell(
-                              onTap: () => setState(() => passwordVisibility1 = !passwordVisibility1),
+                              onTap: () => setState(() =>
+                                  passwordVisibility1 = !passwordVisibility1),
                               child: Icon(
-                                passwordVisibility1 ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                passwordVisibility1
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
                                 color: Colors.grey[400],
                                 size: 22,
                               ),
@@ -249,12 +261,13 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
                         child: TextFormField(
                           controller: textController3,
                           obscureText: !passwordVisibility2,
                           decoration: InputDecoration(
-                            hintText: 'Confirm Password',
+                            hintText: 'Sahkan Kata Laluan',
                             hintStyle: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               color: Colors.grey[400],
@@ -276,11 +289,15 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                             suffixIcon: InkWell(
-                              onTap: () => setState(() => passwordVisibility2 = !passwordVisibility2),
+                              onTap: () => setState(() =>
+                                  passwordVisibility2 = !passwordVisibility2),
                               child: Icon(
-                                passwordVisibility2 ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                passwordVisibility2
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
                                 color: Colors.grey[400],
                                 size: 22,
                               ),
@@ -293,7 +310,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                           ),
                           validator: (val) {
                             if (val!.isEmpty) {
-                              return 'Required';
+                              return 'Perlu diisi';
                             }
                             return null;
                           },
@@ -304,10 +321,11 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  32, 32, 32, 0),
                               child: FFButtonWidget(
                                 onPressed: _createAccount,
-                                text: 'Create Account',
+                                text: 'Cipta Akaun',
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 45,
@@ -329,14 +347,15 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Text(
-                                'By Creating Account, you agree to our Term of Service and Privicay Policy.',
+                                'Dengan mencipta akaun, anda bersetuju dengan Terma Perkhidmatan dan Dasar Privasi kami.',
                                 textAlign: TextAlign.center,
                                 style: HenshinTheme.bodyText1,
                               ),
@@ -345,16 +364,19 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    32, 0, 0, 0),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
                                   height: 2,
                                   decoration: const BoxDecoration(
                                     color: Color(0xFFEEEEEE),
@@ -363,7 +385,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  8, 0, 8, 0),
                               child: Text(
                                 'or',
                                 style: HenshinTheme.bodyText1,
@@ -371,7 +394,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 32, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 32, 0),
                                 child: Container(
                                   width: 100,
                                   height: 2,
@@ -389,7 +413,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  32, 4, 32, 4),
                               child: Container(
                                 width: 100,
                                 height: 45,
@@ -417,9 +442,10 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              16, 0, 0, 0),
                                       child: Text(
-                                        'Continue with Google',
+                                        'Teruskan melalui Google',
                                         style: HenshinTheme.subtitle2.override(
                                           fontFamily: 'NatoSansKhmer',
                                           color: Colors.black,
@@ -440,7 +466,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  32, 4, 32, 4),
                               child: Container(
                                 width: 100,
                                 height: 45,
@@ -459,9 +486,10 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              16, 0, 0, 0),
                                       child: Text(
-                                        'Continue with Apple',
+                                        'Teruskan melalui Apple',
                                         style: HenshinTheme.subtitle2.override(
                                           fontFamily: 'NatoSansKhmer',
                                           color: Colors.white,
@@ -478,27 +506,30 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 32),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16, 25, 16, 32),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Already have an account?',
+                              'Sudah mempunyai akaun?',
                               style: HenshinTheme.bodyText1,
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  4, 0, 0, 0),
                               child: InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => const LoginWithEmailPageWidget(),
+                                      builder: (context) =>
+                                          const LoginWithEmailPageWidget(),
                                     ),
                                   );
                                 },
                                 child: Text(
-                                  'Sign In',
+                                  'Log Masuk',
                                   style: HenshinTheme.bodyText1.override(
                                     fontFamily: 'NatoSansKhmer',
                                     color: Colors.white,
