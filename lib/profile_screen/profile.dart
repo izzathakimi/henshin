@@ -362,6 +362,7 @@ class _ProfileState extends State<Profile> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully')),
         );
+        _fetchUserData(); // Refresh the user data
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('No changes to update')),
