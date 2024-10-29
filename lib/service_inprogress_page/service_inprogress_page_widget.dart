@@ -143,27 +143,24 @@ class ServiceInprogressPageWidgetState
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 16, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Tukang Masak Sementara',
-                                              style: HenshinTheme.bodyText2
-                                                  .override(
-                                                fontFamily: 'NatoSansKhmer',
-                                                fontWeight: FontWeight.bold,
-                                                useGoogleFonts: false,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Tukang Masak Sementara',
+                                            style: HenshinTheme.bodyText2
+                                                .override(
+                                              fontFamily: 'NatoSansKhmer',
+                                              fontWeight: FontWeight.bold,
+                                              useGoogleFonts: false,
                                             ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
@@ -175,15 +172,18 @@ class ServiceInprogressPageWidgetState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Kerja Dapur',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x80303030),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              useGoogleFonts: false,
+                                          Flexible(
+                                            child: Text(
+                                              'Kerja Dapur',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x80303030),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                useGoogleFonts: false,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -270,27 +270,24 @@ class ServiceInprogressPageWidgetState
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 16, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Tukang Masak Sementara',
-                                              style: HenshinTheme.bodyText2
-                                                  .override(
-                                                fontFamily: 'NatoSansKhmer',
-                                                fontWeight: FontWeight.bold,
-                                                useGoogleFonts: false,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Tukang Masak Sementara',
+                                            style: HenshinTheme.bodyText2
+                                                .override(
+                                              fontFamily: 'NatoSansKhmer',
+                                              fontWeight: FontWeight.bold,
+                                              useGoogleFonts: false,
                                             ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
@@ -302,15 +299,18 @@ class ServiceInprogressPageWidgetState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Kerja Dapur',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x80303030),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              useGoogleFonts: false,
+                                          Flexible(
+                                            child: Text(
+                                              'Kerja Dapur',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x80303030),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                useGoogleFonts: false,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -397,27 +397,24 @@ class ServiceInprogressPageWidgetState
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 16, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Tukang Masak Sementara',
-                                              style: HenshinTheme.bodyText2
-                                                  .override(
-                                                fontFamily: 'NatoSansKhmer',
-                                                fontWeight: FontWeight.bold,
-                                                useGoogleFonts: false,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Tukang Masak Sementara',
+                                            style: HenshinTheme.bodyText2
+                                                .override(
+                                              fontFamily: 'NatoSansKhmer',
+                                              fontWeight: FontWeight.bold,
+                                              useGoogleFonts: false,
                                             ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
@@ -429,15 +426,18 @@ class ServiceInprogressPageWidgetState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Kerja Dapur',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x80303030),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              useGoogleFonts: false,
+                                          Flexible(
+                                            child: Text(
+                                              'Kerja Dapur',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x80303030),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                useGoogleFonts: false,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -524,27 +524,24 @@ class ServiceInprogressPageWidgetState
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 16, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Tukang Masak Sementara',
-                                              style: HenshinTheme.bodyText2
-                                                  .override(
-                                                fontFamily: 'NatoSansKhmer',
-                                                fontWeight: FontWeight.bold,
-                                                useGoogleFonts: false,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Tukang Masak Sementara',
+                                            style: HenshinTheme.bodyText2
+                                                .override(
+                                              fontFamily: 'NatoSansKhmer',
+                                              fontWeight: FontWeight.bold,
+                                              useGoogleFonts: false,
                                             ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
@@ -556,15 +553,18 @@ class ServiceInprogressPageWidgetState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Kerja Dapur',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x80303030),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              useGoogleFonts: false,
+                                          Flexible(
+                                            child: Text(
+                                              'Kerja Dapur',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x80303030),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                useGoogleFonts: false,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -651,27 +651,24 @@ class ServiceInprogressPageWidgetState
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 16, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'Tukang Masak Sementara',
-                                              style: HenshinTheme.bodyText2
-                                                  .override(
-                                                fontFamily: 'NatoSansKhmer',
-                                                fontWeight: FontWeight.bold,
-                                                useGoogleFonts: false,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Tukang Masak Sementara',
+                                            style: HenshinTheme.bodyText2
+                                                .override(
+                                              fontFamily: 'NatoSansKhmer',
+                                              fontWeight: FontWeight.bold,
+                                              useGoogleFonts: false,
                                             ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
@@ -683,15 +680,18 @@ class ServiceInprogressPageWidgetState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Kerja Dapur',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x80303030),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              useGoogleFonts: false,
+                                          Flexible(
+                                            child: Text(
+                                              'Kerja Dapur',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x80303030),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                useGoogleFonts: false,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],

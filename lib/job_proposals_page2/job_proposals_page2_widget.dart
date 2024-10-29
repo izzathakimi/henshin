@@ -175,15 +175,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Haji Ali',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Haji Ali',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                     Padding(
@@ -201,15 +204,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuala Linggi',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuala Linggi',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                   ],
@@ -403,15 +409,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Hajah Hajar',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Hajah Hajar',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                     Padding(
@@ -429,15 +438,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuala Linggi',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuala Linggi',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                   ],
@@ -631,15 +643,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Mamat Khalid',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Mamat Khalid',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                     Padding(
@@ -657,15 +672,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuala Linggi',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuala Linggi',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                   ],
@@ -859,15 +877,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Hajah Kalsom',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Hajah Kalsom',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                     Padding(
@@ -885,15 +906,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuala Linggi',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuala Linggi',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                   ],
@@ -1087,15 +1111,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Haji Abu',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Haji Abu',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                     Padding(
@@ -1113,15 +1140,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuala Linggi',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuala Linggi',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                   ],
@@ -1315,15 +1345,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Lee Chong Wei',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Lee Chong Wei',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                     Padding(
@@ -1341,15 +1374,18 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuala Linggi',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuala Linggi',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
                                                       ),
                                                     ),
                                                   ],
