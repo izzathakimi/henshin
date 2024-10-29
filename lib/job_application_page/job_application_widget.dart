@@ -58,7 +58,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                     child: Text(
-                      'Permohonan Kerja',
+                      'Kerja Tersedia',
                       style: HenshinTheme.title2,
                     ),
                   ),
