@@ -483,8 +483,8 @@ class _ProfileState extends State<Profile> {
             icon: const Icon(Icons.camera_alt),
             onPressed: _uploadProfilePicture,
             style: IconButton.styleFrom(
-              backgroundColor: Colors.purple[100],
-              foregroundColor: Colors.purple[900],
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
             ),
           ),
         ),
