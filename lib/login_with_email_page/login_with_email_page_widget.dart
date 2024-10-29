@@ -8,6 +8,7 @@ import '../common/henshin_util.dart';
 import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../forgot_password_page/forgot_password_page_widget.dart';
 
 class LoginWithEmailPageWidget extends StatefulWidget {
   const LoginWithEmailPageWidget({super.key});
@@ -36,8 +37,9 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
     if (formKey.currentState!.validate()) {
       try {
         showSnackbar(context, 'Signing in...', loading: true);
-        
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: textController1!.text,
           password: textController2!.text,
         );
@@ -103,11 +105,12 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          'Transform your career with Henshin!',
+                          'Mengubah kerjaya anda bersama Henshin!',
                           textAlign: TextAlign.center,
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
@@ -129,7 +132,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
                     child: Text(
-                      'Sign in to continue.',
+                      'Log masuk untuk meneruskan.',
                       style: HenshinTheme.bodyText1.override(
                         fontFamily: 'NatoSansKhmer',
                         color: const Color(0xCB303030),
@@ -145,7 +148,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   controller: textController1,
                   obscureText: false,
                   decoration: InputDecoration(
-                    hintText: 'Email Address',
+                    hintText: 'Alamat Email',
                     hintStyle: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
                       color: Colors.grey[400],
@@ -167,7 +170,8 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                     ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                   ),
                   style: HenshinTheme.bodyText1.override(
                     fontFamily: 'NatoSansKhmer',
@@ -188,7 +192,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   controller: textController2,
                   obscureText: !passwordVisibility,
                   decoration: InputDecoration(
-                    hintText: 'Password',
+                    hintText: 'Kata Laluan',
                     hintStyle: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
                       color: Colors.grey[400],
@@ -210,7 +214,8 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                     ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     suffixIcon: InkWell(
                       onTap: () => setState(
                         () => passwordVisibility = !passwordVisibility,
@@ -239,16 +244,27 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center, // Changed from MainAxisAlignment.end
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0), // Removed right padding
-                    child: Text(
-                      'Forgot Password?',
-                      style: HenshinTheme.bodyText1.override(
-                        fontFamily: 'NatoSansKhmer',
-                        color: Colors.white,
-                        useGoogleFonts: false,
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const ForgotPasswordPageWidget(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Lupa Kata Laluan?',
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.white,
+                          useGoogleFonts: false,
+                        ),
                       ),
                     ),
                   ),
@@ -259,10 +275,11 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
                       child: FFButtonWidget(
                         onPressed: _signIn,
-                        text: 'Sign In',
+                        text: 'Log Masuk',
                         options: FFButtonOptions(
                           width: 130,
                           height: 45,
@@ -291,7 +308,8 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.2,
                         height: 2,
@@ -304,13 +322,14 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Text(
-                      'or',
+                      'atau',
                       style: HenshinTheme.bodyText1,
                     ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 32, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 0, 32, 0),
                       child: Container(
                         width: 100,
                         height: 2,
@@ -328,7 +347,8 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                       child: Container(
                         width: 100,
                         height: 45,
@@ -355,10 +375,10 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 0, 0, 0),
                               child: Text(
-                                'Continue with Google',
+                                'Teruskan melalui Google',
                                 style: HenshinTheme.subtitle2.override(
                                   fontFamily: 'NatoSansKhmer',
                                   color: Colors.black,
@@ -379,7 +399,8 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
                       child: Container(
                         width: 100,
                         height: 45,
@@ -397,10 +418,10 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                               size: 24,
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 0, 0, 0),
                               child: Text(
-                                'Continue with Apple',
+                                'Teruskan melalui Apple',
                                 style: HenshinTheme.subtitle2.override(
                                   fontFamily: 'NatoSansKhmer',
                                   color: Colors.white,
@@ -423,7 +444,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account?',
+                      'Tiada akaun?',
                       style: HenshinTheme.bodyText1,
                     ),
                     Padding(
@@ -433,12 +454,13 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                           await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignupWithEmailPageWidget(),
+                              builder: (context) =>
+                                  const SignupWithEmailPageWidget(),
                             ),
                           );
                         },
                         child: Text(
-                          'Create Account',
+                          'Daftar Akaun',
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
                             color: Colors.white,
