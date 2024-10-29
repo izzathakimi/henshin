@@ -51,7 +51,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                   child: Text(
-                    'Job Applicatons',
+                    'Permohonan Kerja',
                     style: HenshinTheme.title2,
                   ),
                 ),
@@ -66,7 +66,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                     onPressed: () {
                       print('Button pressed ...');
                     },
-                    text: 'Answered',
+                    text: 'Dijawab',
                     options: FFButtonOptions(
                       width: 130,
                       height: 40,
@@ -92,7 +92,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                         ),
                       );
                     },
-                    text: 'Sent',
+                    text: 'Dihantar',
                     options: FFButtonOptions(
                       width: 130,
                       height: 40,
@@ -265,7 +265,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
@@ -459,7 +459,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
@@ -653,7 +653,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
@@ -847,7 +847,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
@@ -1041,7 +1041,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
@@ -1151,7 +1151,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                '',
+                                                'Pindah Rumah',
                                                 style: HenshinTheme
                                                     .bodyText1
                                                     .override(
@@ -1235,7 +1235,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
@@ -1429,7 +1429,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'View next steps',
+                                          'Lihat langkah seterusnya',
                                           style: HenshinTheme.bodyText1
                                               .override(
                                             fontFamily: 'NatoSansKhmer',
