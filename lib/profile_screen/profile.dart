@@ -11,12 +11,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
 import 'package:provider/provider.dart';
 import 'package:henshin/application_state.dart';
+import 'package:henshin/profile_screen/profile_screen.dart';
 
 class PostModel {
   final String id;
   final String description;
   final DateTime timestamp;
-  final String? userImage;
+  final String? profilePicture;
   final String? username;
   final String mediaUrl;
   final int likes;
@@ -27,7 +28,7 @@ class PostModel {
     required this.id,
     required this.description,
     required this.timestamp,
-    this.userImage,
+    this.profilePicture,
     this.username,
     required this.mediaUrl,
     this.likes = 0,
@@ -39,8 +40,10 @@ class PostModel {
     return PostModel(
       id: docId,
       description: data['description'] ?? '',
-      timestamp: (data['timestamp'] as Timestamp).toDate(),
-      userImage: data['userImage'],
+      timestamp: (data['timestamp'] != null) 
+          ? (data['timestamp'] as Timestamp).toDate()
+          : DateTime.now(),
+      profilePicture: data['profilePicture'],
       username: data['username'],
       mediaUrl: data['mediaUrl'] ?? '',
       likes: data['likes'] ?? 0,
@@ -164,10 +167,14 @@ class _ProfileState extends State<Profile> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     final doc = snapshot.data!.docs[index];
-                    final post = PostModel.fromFirestore(
-                      doc.data() as Map<String, dynamic>,
-                      doc.id,
-                    );
+                    final data = doc.data() as Map<String, dynamic>;
+                    print('Raw post data: $data');
+                    
+                    final post = PostModel.fromFirestore(data, doc.id);
+                    print('Post model data:');
+                    print('- Profile Picture: ${post.profilePicture}');
+                    print('- Username: ${post.username}');
+                    print('- Description: ${post.description}');
 
                     return Card(
                       margin: const EdgeInsets.all(8.0),
@@ -176,12 +183,17 @@ class _ProfileState extends State<Profile> {
                         children: [
                           ListTile(
                             leading: CircleAvatar(
-                              backgroundImage: post.userImage != null 
-                                ? NetworkImage(post.userImage!) 
-                                : null,
-                              child: post.userImage == null 
-                                ? const Icon(Icons.person) 
-                                : null,
+                              radius: 25,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: post.profilePicture != null 
+                                  ? CachedNetworkImageProvider(
+                                      post.profilePicture!,
+                                      errorListener: (error) => print('Image error: $error'),
+                                    ) 
+                                  : null,
+                              child: post.profilePicture == null
+                                  ? const Icon(Icons.person, color: Colors.grey) 
+                                  : null,
                             ),
                             title: Text(post.username ?? 'Anonymous'),
                             subtitle: Text(
@@ -256,6 +268,18 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          );
+        },
+        child: const Icon(Icons.add_a_photo),
+        backgroundColor: Colors.purple[100],
+        foregroundColor: Colors.purple[900],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -394,15 +418,19 @@ class _ProfileState extends State<Profile> {
               .doc(user?.uid)
               .snapshots(),
           builder: (context, snapshot) {
+            print('Snapshot data: ${snapshot.data?.data()}');
+            
             if (snapshot.hasData && snapshot.data!.exists) {
               final userData = snapshot.data!.data() as Map<String, dynamic>;
               final profilePicUrl = userData['profilePicture'] as String?;
               
+              print('Profile URL found: $profilePicUrl');
+              
               return CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.grey[200],
-                backgroundImage: profilePicUrl != null
-                    ? NetworkImage(profilePicUrl)
+                backgroundImage: profilePicUrl != null 
+                    ? CachedNetworkImageProvider(profilePicUrl) as ImageProvider
                     : null,
                 child: profilePicUrl == null
                     ? const Icon(Icons.person, size: 50, color: Colors.grey)
@@ -420,8 +448,12 @@ class _ProfileState extends State<Profile> {
           bottom: 0,
           right: 0,
           child: IconButton(
-            icon: const Icon(Icons.camera_alt, color: Colors.blue),
+            icon: const Icon(Icons.camera_alt),
             onPressed: _uploadProfilePicture,
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.purple[100],
+              foregroundColor: Colors.purple[900],
+            ),
           ),
         ),
       ],

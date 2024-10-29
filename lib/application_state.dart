@@ -22,18 +22,23 @@ class ApplicationState extends ChangeNotifier {
       final user = FirebaseAuth.instance.currentUser!;
       final imageUrl = await _uploadImage(imageBytes, imageName);
 
-      // Get user's name from freelancers collection
+      // Get user's data from freelancers collection
       final userDoc = await FirebaseFirestore.instance
           .collection('freelancers')
           .doc(user.uid)
           .get();
       
-      final userName = userDoc.data()?['name'] ?? 'Anonymous';
+      final userData = userDoc.data();
+      final userName = userData?['name'] ?? 'Anonymous';
+      final profilePicture = userData?['profilePicture'];
+      
+      print('Adding post with profile picture: $profilePicture'); // Debug print
 
+      // Create post with profilePicture field
       await FirebaseFirestore.instance.collection('posts').add({
         'userId': user.uid,
-        'username': userName,  // Use name from freelancers collection
-        'userImage': user.photoURL,
+        'username': userName,
+        'profilePicture': profilePicture,  // Add this field to posts
         'description': description,
         'mediaUrl': imageUrl,
         'likes': 0,
@@ -101,9 +106,10 @@ class ApplicationState extends ChangeNotifier {
           .collection('freelancers')
           .doc(user.uid)
           .update({
-        'profilePicture': downloadUrl,
+        'profilePicture': downloadUrl,  // Changed back to profilePicture
       });
 
+      print('Profile picture URL updated: $downloadUrl'); // Debug print
       notifyListeners();
       return downloadUrl;
     } catch (e) {
