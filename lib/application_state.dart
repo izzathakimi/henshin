@@ -75,4 +75,40 @@ class ApplicationState extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<String> uploadProfilePicture(Uint8List imageBytes, String imageName) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('Must be logged in to upload profile picture');
+
+    try {
+      // Create a reference specifically for profile pictures
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profile_pictures')
+          .child('${user.uid}.jpg');
+
+      // Upload the file
+      await storageRef.putData(
+        imageBytes,
+        SettableMetadata(contentType: 'image/jpeg'),
+      );
+
+      // Get the download URL
+      final downloadUrl = await storageRef.getDownloadURL();
+      
+      // Update the user's profile picture URL in Firestore
+      await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .update({
+        'profilePicture': downloadUrl,
+      });
+
+      notifyListeners();
+      return downloadUrl;
+    } catch (e) {
+      print('Error uploading profile picture: $e');
+      rethrow;
+    }
+  }
 }

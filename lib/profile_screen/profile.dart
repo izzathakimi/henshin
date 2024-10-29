@@ -4,6 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../home_page.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:typed_data';
+import 'package:provider/provider.dart';
+import 'package:henshin/application_state.dart';
 
 class PostModel {
   final String id;
@@ -43,8 +50,16 @@ class PostModel {
   }
 }
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -69,27 +84,7 @@ class Profile extends StatelessWidget {
                 child: Column(
                   children: [
                     // Profile Picture Section
-                    Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.grey[200],
-                          child: const Icon(Icons.person, size: 60, color: Colors.grey),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 20,
-                            child: IconButton(
-                              icon: const Icon(Icons.camera_alt, color: Colors.white),
-                              onPressed: () => _updateProfilePicture(context),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    _buildProfilePicture(),
                     const SizedBox(height: 16),
                     
                     // Name (previously username)
@@ -353,5 +348,83 @@ class Profile extends StatelessWidget {
 
   void _handleComment() {
     // TODO: Implement comment functionality
+  }
+
+  Future<void> _uploadProfilePicture() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    try {
+      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile == null) return;
+
+      late Uint8List imageBytes;
+      if (kIsWeb) {
+        // For web
+        imageBytes = await pickedFile.readAsBytes();
+      } else {
+        // For mobile platforms
+        final File file = File(pickedFile.path);
+        imageBytes = await file.readAsBytes();
+      }
+
+      // Upload using ApplicationState
+      final appState = Provider.of<ApplicationState>(context, listen: false);
+      await appState.uploadProfilePicture(imageBytes, pickedFile.name);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile picture updated successfully')),
+      );
+    } catch (e) {
+      print('Error updating profile picture: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error updating profile picture: $e')),
+      );
+    }
+  }
+
+  Widget _buildProfilePicture() {
+    final user = FirebaseAuth.instance.currentUser;
+    
+    return Stack(
+      children: [
+        StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('freelancers')
+              .doc(user?.uid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.exists) {
+              final userData = snapshot.data!.data() as Map<String, dynamic>;
+              final profilePicUrl = userData['profilePicture'] as String?;
+              
+              return CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.grey[200],
+                backgroundImage: profilePicUrl != null
+                    ? NetworkImage(profilePicUrl)
+                    : null,
+                child: profilePicUrl == null
+                    ? const Icon(Icons.person, size: 50, color: Colors.grey)
+                    : null,
+              );
+            }
+            return const CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.grey,
+              child: Icon(Icons.person, size: 50, color: Colors.white),
+            );
+          },
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: IconButton(
+            icon: const Icon(Icons.camera_alt, color: Colors.blue),
+            onPressed: _uploadProfilePicture,
+          ),
+        ),
+      ],
+    );
   }
 }
