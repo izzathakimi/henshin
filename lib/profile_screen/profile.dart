@@ -66,6 +66,13 @@ class _ProfileState extends State<Profile> {
   final ImagePicker _picker = ImagePicker();
   Map<String, dynamic>? userData;
 
+  // Define TextEditingController for each field
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _specialtyController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -163,7 +170,7 @@ class _ProfileState extends State<Profile> {
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: () => _editProfile(context),
+                          onPressed: _showEditDialog,
                           child: const Text('Ubah Maklumat'),
                         ),
                       ],
@@ -319,69 +326,48 @@ class _ProfileState extends State<Profile> {
     // TODO: Implement profile picture update
   }
 
-  Future<void> _editProfile(BuildContext context) async {
-    // Initialize variables to store form data
-    String name = '';
-    String city = '';
-    String country = '';
-    String phone = '';
-    String specialty = '';
+  Future<void> _updateUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      Map<String, dynamic> updatedData = {};
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Edit Profile'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              decoration: const InputDecoration(labelText: 'Name'),
-              onChanged: (value) => name = value,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'City'),
-              onChanged: (value) => city = value,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Country'),
-              onChanged: (value) => country = value,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Phone Number'),
-              onChanged: (value) => phone = value,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () async {
-              final user = FirebaseAuth.instance.currentUser;
-              if (user != null) {
-                await FirebaseFirestore.instance
-                    .collection('freelancers')
-                    .doc(user.uid)
-                    .update({
-                  'name': name,
-                  'phone number': phone,
-                  'specialty': specialty,
-                  'country': country,
-                  'city': city,
-                });
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Profile updated successfully')),
-                );
-              }
-            },
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
+      // Use the text from the controllers
+      final name = _nameController.text;
+      final phone = _phoneController.text;
+      final specialty = _specialtyController.text;
+      final country = _countryController.text;
+      final city = _cityController.text;
+
+      if (name.isNotEmpty) {
+        updatedData['name'] = name;
+      }
+      if (phone.isNotEmpty) {
+        updatedData['phone number'] = phone;
+      }
+      if (specialty.isNotEmpty) {
+        updatedData['specialty'] = specialty;
+      }
+      if (country.isNotEmpty) {
+        updatedData['country'] = country;
+      }
+      if (city.isNotEmpty) {
+        updatedData['city'] = city;
+      }
+
+      if (updatedData.isNotEmpty) {
+        await FirebaseFirestore.instance
+            .collection('freelancers')
+            .doc(user.uid)
+            .update(updatedData);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated successfully')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No changes to update')),
+        );
+      }
+    }
   }
 
   Future<String?> _getImageUrl(String mediaUrl) async {
@@ -489,6 +475,58 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showEditDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Profile'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                TextField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
+                ),
+                TextField(
+                  controller: _specialtyController,
+                  decoration: const InputDecoration(labelText: 'Specialty'),
+                ),
+                TextField(
+                  controller: _countryController,
+                  decoration: const InputDecoration(labelText: 'Country'),
+                ),
+                TextField(
+                  controller: _cityController,
+                  decoration: const InputDecoration(labelText: 'City'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _updateUserData();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
