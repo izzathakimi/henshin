@@ -12,6 +12,7 @@ import 'dart:typed_data';
 import 'package:provider/provider.dart';
 import 'package:henshin/application_state.dart';
 import 'package:henshin/profile_screen/profile_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PostModel {
   final String id;
@@ -63,210 +64,241 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
+  Map<String, dynamic>? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance
+          .collection('freelancers')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        userData = doc.data();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Profile Section
-          StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('freelancers')
-                .doc(FirebaseAuth.instance.currentUser?.uid)
-                .snapshots(),
-            builder: (context, userSnapshot) {
-              if (userSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              final userData = userSnapshot.data?.data() as Map<String, dynamic>?;
-              
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    // Profile Picture Section
-                    _buildProfilePicture(),
-                    const SizedBox(height: 16),
-                    
-                    // Name (previously username)
-                    Text(
-                      userData?['name'] ?? 'Name',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    
-                    // Location
-                    Text(
-                      '${userData?['city'] ?? 'City'}, ${userData?['country'] ?? 'Country'}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    
-                    // Phone Number
-                    Text(
-                      userData?['phone number'] ?? 'Phone Number',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Connections (hardcoded to 0 for now)
-                    Text(
-                      '0 connections',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Edit Profile Button
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple[100],
-                        foregroundColor: Colors.purple[900],
-                      ),
-                      onPressed: () => _editProfile(context),
-                      child: const Text('Ubah Maklumat'),
-                    ),
-                  ],
-                ),
-              );
-            },
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color(0xFF4A90E2).withOpacity(0.5),
+              const Color(0xFF50E3C2).withOpacity(0.5),
+            ],
           ),
-
-          // Existing Posts Section
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('posts')
-                  .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                  .orderBy('timestamp', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('No posts yet'));
-                }
-
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    final doc = snapshot.data!.docs[index];
-                    final data = doc.data() as Map<String, dynamic>;
-                    print('Raw post data: $data');
-                    
-                    final post = PostModel.fromFirestore(data, doc.id);
-                    print('Post model data:');
-                    print('- Profile Picture: ${post.profilePicture}');
-                    print('- Username: ${post.username}');
-                    print('- Description: ${post.description}');
-
-                    return Card(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            leading: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.grey[200],
-                              backgroundImage: post.profilePicture != null 
-                                  ? CachedNetworkImageProvider(
-                                      post.profilePicture!,
-                                      errorListener: (error) => print('Image error: $error'),
-                                    ) 
-                                  : null,
-                              child: post.profilePicture == null
-                                  ? const Icon(Icons.person, color: Colors.grey) 
-                                  : null,
-                            ),
-                            title: Text(post.username ?? 'Anonymous'),
-                            subtitle: Text(
-                              post.timestamp.toString(),
-                              style: const TextStyle(fontSize: 12),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Profile Section
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Profile Picture Section
+                        _buildProfilePicture(),
+                        const SizedBox(height: 16),
+                        
+                        // Name
+                        Text(
+                          userData?['name'] ?? 'Name',
+                          style: GoogleFonts.ubuntu(
+                            textStyle: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          if (post.mediaUrl.isNotEmpty)
-                            Container(
-                              width: double.infinity,
-                              height: 200,
-                              child: CachedNetworkImage(
-                                imageUrl: post.mediaUrl,
-                                fit: BoxFit.cover,
-                                httpHeaders: {
-                                  'Access-Control-Allow-Origin': '*',
-                                  'Access-Control-Allow-Methods': 'GET',
-                                  'Access-Control-Allow-Headers': 'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
-                                },
-                                progressIndicatorBuilder: (context, url, progress) => Center(
-                                  child: CircularProgressIndicator(
-                                    value: progress.progress,
-                                  ),
+                        ),
+                        const SizedBox(height: 8),
+                        
+                        // Location
+                        Text(
+                          '${userData?['city'] ?? 'City'}, ${userData?['country'] ?? 'Country'}',
+                          style: GoogleFonts.ubuntu(
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        
+                        // Phone Number
+                        Text(
+                          userData?['phone number'] ?? 'Phone Number',
+                          style: GoogleFonts.ubuntu(
+                            textStyle: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // Connections
+                        Text(
+                          '0 Kenalan',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // Edit Profile Button
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () => _editProfile(context),
+                          child: const Text('Ubah Maklumat'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Existing Posts Section
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('posts')
+                      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                      .orderBy('timestamp', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return const Center(child: Text('No posts yet'));
+                    }
+
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final doc = snapshot.data!.docs[index];
+                        final data = doc.data() as Map<String, dynamic>;
+                        print('Raw post data: $data');
+                        
+                        final post = PostModel.fromFirestore(data, doc.id);
+                        print('Post model data:');
+                        print('- Profile Picture: ${post.profilePicture}');
+                        print('- Username: ${post.username}');
+                        print('- Description: ${post.description}');
+
+                        return Card(
+                          margin: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListTile(
+                                leading: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.grey[200],
+                                  backgroundImage: post.profilePicture != null 
+                                      ? CachedNetworkImageProvider(
+                                          post.profilePicture!,
+                                          errorListener: (error) => print('Image error: $error'),
+                                        ) 
+                                      : null,
+                                  child: post.profilePicture == null
+                                      ? const Icon(Icons.person, color: Colors.grey) 
+                                      : null,
                                 ),
-                                errorWidget: (context, url, error) {
-                                  print('Image error: $error');
-                                  return Center(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.error, color: Colors.red),
-                                        Text('Error loading image'),
-                                        Text(error.toString(), style: TextStyle(fontSize: 10)),
-                                      ],
-                                    ),
-                                  );
-                                },
+                                title: Text(post.username ?? 'Anonymous'),
+                                subtitle: Text(
+                                  post.timestamp.toString(),
+                                  style: const TextStyle(fontSize: 12),
+                                ),
                               ),
-                            ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Description: ${post.description}'), // Modified to show field name
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    post.isLiked ? Icons.favorite : Icons.favorite_border,
-                                    color: post.isLiked ? Colors.red : null,
+                              if (post.mediaUrl.isNotEmpty)
+                                Container(
+                                  width: double.infinity,
+                                  height: 200,
+                                  child: CachedNetworkImage(
+                                    imageUrl: post.mediaUrl,
+                                    fit: BoxFit.cover,
+                                    httpHeaders: {
+                                      'Access-Control-Allow-Origin': '*',
+                                      'Access-Control-Allow-Methods': 'GET',
+                                      'Access-Control-Allow-Headers': 'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
+                                    },
+                                    progressIndicatorBuilder: (context, url, progress) => Center(
+                                      child: CircularProgressIndicator(
+                                        value: progress.progress,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) {
+                                      print('Image error: $error');
+                                      return Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.error, color: Colors.red),
+                                            Text('Error loading image'),
+                                            Text(error.toString(), style: TextStyle(fontSize: 10)),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  onPressed: () => _handleLike(post.id),
                                 ),
-                                Text('${post.likes}'),
-                                const SizedBox(width: 16),
-                                IconButton(
-                                  icon: const Icon(Icons.comment),
-                                  onPressed: () => _handleComment(),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Description: ${post.description}'), // Modified to show field name
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(
+                                        post.isLiked ? Icons.favorite : Icons.favorite_border,
+                                        color: post.isLiked ? Colors.red : null,
+                                      ),
+                                      onPressed: () => _handleLike(post.id),
+                                    ),
+                                    Text('${post.likes}'),
+                                    const SizedBox(width: 16),
+                                    IconButton(
+                                      icon: const Icon(Icons.comment),
+                                      onPressed: () => _handleComment(),
+                                    ),
+                                    Text('${post.comments}'),
+                                  ],
                                 ),
-                                Text('${post.comments}'),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -276,8 +308,8 @@ class _ProfileState extends State<Profile> {
           );
         },
         child: const Icon(Icons.add_a_photo),
-        backgroundColor: Colors.purple[100],
-        foregroundColor: Colors.purple[900],
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
