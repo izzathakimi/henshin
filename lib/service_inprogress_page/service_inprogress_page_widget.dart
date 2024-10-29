@@ -149,8 +149,8 @@ class ServiceInprogressPageWidgetState
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
+                                  child: Image.asset(
+                                    'assets/images/HensinLogo_removebg_preview.png',
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
@@ -276,8 +276,8 @@ class ServiceInprogressPageWidgetState
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
+                                  child: Image.asset(
+                                    'assets/images/HensinLogo_removebg_preview.png',
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
@@ -403,8 +403,8 @@ class ServiceInprogressPageWidgetState
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
+                                  child: Image.asset(
+                                    'assets/images/HensinLogo_removebg_preview.png',
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
@@ -530,8 +530,8 @@ class ServiceInprogressPageWidgetState
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
+                                  child: Image.asset(
+                                    'assets/images/HensinLogo_removebg_preview.png',
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
@@ -657,8 +657,8 @@ class ServiceInprogressPageWidgetState
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
+                                  child: Image.asset(
+                                    'assets/images/HensinLogo_removebg_preview.png',
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,

@@ -141,10 +141,10 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                       12, 12, 12, 12),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/126/600',
-                                      width: 100,
-                                      height: 100,
+                                    child: Image.asset(
+                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      width: 85,
+                                      height: 85,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -369,8 +369,8 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                       12, 12, 12, 12),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/126/600',
+                                    child: Image.asset(
+                                      'assets/images/HensinLogo_removebg_preview.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -597,8 +597,8 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                       12, 12, 12, 12),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/126/600',
+                                    child: Image.asset(
+                                      'assets/images/HensinLogo_removebg_preview.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -825,8 +825,8 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                       12, 12, 12, 12),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/126/600',
+                                    child: Image.asset(
+                                      'assets/images/HensinLogo_removebg_preview.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -1053,8 +1053,8 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                       12, 12, 12, 12),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/126/600',
+                                    child: Image.asset(
+                                      'assets/images/HensinLogo_removebg_preview.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -1281,8 +1281,8 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                       12, 12, 12, 12),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/126/600',
+                                    child: Image.asset(
+                                      'assets/images/HensinLogo_removebg_preview.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
