@@ -88,7 +88,23 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-
+    appBar: AppBar(
+        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
+        leading: IconButton(
+          icon: const Icon(Icons.keyboard_arrow_left_outlined,
+            color: Colors.black,
+            size: 24,
+            ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+        ),
+        // title: const Text('Request Service'),
+        // elevation: 0,
+      ),
       // Add gradient background
       body: Container(
         decoration:  BoxDecoration(
@@ -108,7 +124,9 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                   padding: const EdgeInsets.all(16),
                   child: Text(
                     'Apa-Apa Yang Anda Perlukan',
-                    style: HenshinTheme.title2.copyWith(color: Colors.white),
+                    style: HenshinTheme.title2.copyWith(fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,),
                   ),
                 ),
                 Padding(
@@ -117,7 +135,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                     'Kami Membantu Dengan Keperluan Anda',
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.black.withOpacity(0.8),
                       useGoogleFonts: false,
                     ),
                   ),

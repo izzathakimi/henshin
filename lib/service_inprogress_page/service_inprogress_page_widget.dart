@@ -20,7 +20,26 @@ class ServiceInprogressPageWidgetState
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-
+      appBar: AppBar(
+        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
+        automaticallyImplyLeading: false,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+          child: const Icon(
+            Icons.keyboard_arrow_left_outlined,
+            color: Colors.black,
+            size: 24,
+          ),
+        ),
+        actions: const [],
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: Container(
         decoration:  BoxDecoration(
           gradient: LinearGradient(
