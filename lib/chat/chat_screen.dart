@@ -27,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: const TextField(
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
-              hintText: 'Search messages',
+              hintText: 'Mesej carian',
               hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
               prefixIcon: Icon(Icons.search, color: Colors.grey),
               border: InputBorder.none,
@@ -42,41 +42,46 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       body: Container(
-        color: Colors.white,  // Ensure white background
+        color: Colors.white, // Ensure white background
         child: Column(
           children: [
             if (!isWideScreen || selectedChatIndex == null)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text('Focused', 
+                        child: const Text(
+                          'Fokus',
                           style: TextStyle(color: Colors.white, fontSize: 13),
                         ),
                       ),
                       const SizedBox(width: 8),
-                      _buildFilterChip('Unread'),
+                      _buildFilterChip('Belum dibaca'),
                       const SizedBox(width: 8),
-                      _buildFilterChip('Drafts'),
+                      _buildFilterChip('Draf'),
                       const SizedBox(width: 8),
-                      _buildFilterChip('InMail'),
+                      _buildFilterChip('dalam mel'),
                     ],
                   ),
                 ),
               ),
             Expanded(
-              child: ListView.separated(  // Change from ListView.builder
+              child: ListView.separated(
+                // Change from ListView.builder
                 itemCount: 10,
-                separatorBuilder: (context, index) => Divider(  // Add divider between items
+                separatorBuilder: (context, index) => Divider(
+                  // Add divider between items
                   height: 1,
                   color: Colors.grey[300],
                 ),
@@ -84,7 +89,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   return ListTile(
                     selected: selectedChatIndex == index,
                     selectedTileColor: Colors.grey[100],
-                    contentPadding: const EdgeInsets.symmetric(  // Add padding
+                    contentPadding: const EdgeInsets.symmetric(
+                      // Add padding
                       horizontal: 16,
                       vertical: 8,
                     ),
@@ -95,7 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     title: isWideScreen && selectedChatIndex != null
                         ? null
                         : const Text(
-                            'User Name',
+                            'Nama Pengguna',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -104,7 +110,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     subtitle: isWideScreen && selectedChatIndex != null
                         ? null
                         : Text(
-                            'Message preview...',
+                            'Pratonton mesej...',
                             style: TextStyle(
                               color: Colors.grey[600],
                               fontSize: 16,
@@ -121,7 +127,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                     onTap: () {
                       setState(() => selectedChatIndex = index);
-                      _showChatDialog(context);  // Add this line to show the chat dialog
+                      _showChatDialog(
+                          context); // Add this line to show the chat dialog
                     },
                   );
                 },
@@ -149,12 +156,14 @@ class _ChatScreenState extends State<ChatScreen> {
                 Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage: NetworkImage('https://placeholder.com/user'),
+                      backgroundImage:
+                          NetworkImage('https://placeholder.com/user'),
                     ),
                     const SizedBox(width: 12),
                     const Text(
                       'User Name',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const Spacer(),
                     IconButton(
@@ -214,7 +223,7 @@ class _ChatScreenState extends State<ChatScreen> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        label, 
+        label,
         style: const TextStyle(color: Colors.white, fontSize: 13),
       ),
     );

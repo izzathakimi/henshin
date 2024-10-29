@@ -16,7 +16,7 @@ class CommunityForum extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search, color: Color(0xFF50E3C2)),
-                      hintText: 'Search',
+                      hintText: 'Cari',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -77,8 +77,11 @@ class CommunityForum extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.white, // Logo background color to white
-                            child: const Icon(Icons.work, color: Colors.black), // Change icon color to black for visibility
+                            backgroundColor:
+                                Colors.white, // Logo background color to white
+                            child: const Icon(Icons.work,
+                                color: Colors
+                                    .black), // Change icon color to black for visibility
                           ),
                           const SizedBox(width: 10),
                           Expanded(
@@ -114,44 +117,51 @@ class CommunityForum extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'A dedicated space for job seekers to connect, share opportunities, exchange career advice, and support each other in their professional journeys. Join our community to access job listings, resume tips, interview strategies, and networking opportunities.',
+                        'Ruang khusus untuk pencari kerja untuk berhubung, berkongsi peluang, bertukar nasihat kerjaya, dan menyokong satu sama lain dalam perjalanan profesional mereka. Sertai komuniti kami untuk mengakses senarai pekerjaan, tips resume, strategi temuduga, dan peluang rangkaian.',
                         style: TextStyle(color: Colors.black, fontSize: 14),
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.thumb_up, color: Colors.white), // Change to white
+                            icon: Icon(Icons.thumb_up,
+                                color: Colors.white), // Change to white
                             onPressed: () {},
                           ),
                           const Text('551',
                               style: TextStyle(color: Colors.black)),
                           const SizedBox(width: 10),
                           IconButton(
-                            icon: Icon(Icons.comment, color: Colors.white), // Change to white
+                            icon: Icon(Icons.comment,
+                                color: Colors.white), // Change to white
                             onPressed: () {},
                           ),
                           const Text('46',
                               style: TextStyle(color: Colors.black)),
                           const SizedBox(width: 10),
                           IconButton(
-                            icon: Icon(Icons.bookmark_border, color: Colors.white), // Change to white
+                            icon: Icon(Icons.bookmark_border,
+                                color: Colors.white), // Change to white
                             onPressed: () {},
                           ),
                           const SizedBox(width: 10),
                           IconButton(
-                            icon: Icon(Icons.location_on, color: Colors.white), // Location symbol in white
+                            icon: Icon(Icons.location_on,
+                                color:
+                                    Colors.white), // Location symbol in white
                             onPressed: () {},
                           ),
                           const SizedBox(
                             width: 10, // Spacing for location icon
                           ),
                           IconButton(
-                            icon: Icon(Icons.link, color: Colors.white), // Change to white
+                            icon: Icon(Icons.link,
+                                color: Colors.white), // Change to white
                             onPressed: () {},
                           ),
                           IconButton(
-                            icon: Icon(Icons.share, color: Colors.white), // Change to white
+                            icon: Icon(Icons.share,
+                                color: Colors.white), // Change to white
                             onPressed: () {},
                           ),
                         ],

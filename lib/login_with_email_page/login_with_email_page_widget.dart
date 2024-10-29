@@ -36,7 +36,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
   Future<void> _signIn() async {
     if (formKey.currentState!.validate()) {
       try {
-        showSnackbar(context, 'Signing in...', loading: true);
+        showSnackbar(context, 'Sedang log masuk...', loading: true);
 
         UserCredential userCredential =
             await FirebaseAuth.instance.signInWithEmailAndPassword(
