@@ -47,18 +47,18 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                    child: Text(
-                      'Kerja Tersedia',
-                      style: HenshinTheme.title2,
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisSize: MainAxisSize.max,
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+              //       child: Text(
+              //         'Kerja Tersedia',
+              //         style: HenshinTheme.title2,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
                 child: Row(

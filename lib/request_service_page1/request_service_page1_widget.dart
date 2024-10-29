@@ -121,14 +121,14 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    'Anything You EverNeed',
+                    'Apa-Apa Yang Anda Perlukan',
                     style: HenshinTheme.title2.copyWith(color: Colors.white),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'We Help With What You Need',
+                    'Kami Membantu Dengan Keperluan Anda',
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
                       color: Colors.white.withOpacity(0.8),
@@ -149,7 +149,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Description',
+                            'Penerangan',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             controller: _descriptionController,
                             maxLines: 3,
                             decoration: InputDecoration(
-                              hintText: 'Briefly describe what you need',
+                              hintText: 'Terangkan secara ringkas apa yang anda perlukan',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -169,7 +169,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Price',
+                            'Harga (RM)',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               fontWeight: FontWeight.bold,
@@ -181,7 +181,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             controller: _priceController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              hintText: 'Enter your desired price',
+                              hintText: 'Masukkan harga yang dikehendaki',
                               prefixText: '\$',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -190,7 +190,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Requirements',
+                            'Butiran Perhatian',
                             style: HenshinTheme.bodyText1.override(
                               fontFamily: 'NatoSansKhmer',
                               fontSize: 16,
@@ -203,7 +203,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             controller: _requirementsController,
                             maxLines: 5,
                             decoration: InputDecoration(
-                              hintText: 'List your requirements (one per line)',
+                              hintText: 'Senaraikan butiran yang perlu diberi perhatian (satu baris setiap satu)',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -215,7 +215,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Reference Image',
+                                  'Gambar Rujukan',
                                   style: HenshinTheme.bodyText1.override(
                                     fontFamily: 'NatoSansKhmer',
                                     fontSize: 16,
@@ -241,8 +241,8 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Icon(Icons.add_photo_alternate, size: 50, color: Colors.grey),
-                                              Text('Upload Image'),
-                                              Text('PNG, JPEG, WEBP (10Mb max)', style: TextStyle(color: Colors.grey)),
+                                              Text('Muat Naik Gambar'),
+                                              Text('PNG, JPEG, WEBP (Maksimum 10Mb)', style: TextStyle(color: Colors.grey)),
                                             ],
                                           )
                                         : Image.file(_image!, fit: BoxFit.cover),
@@ -260,7 +260,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                   padding: const EdgeInsets.all(16),
                   child: FFButtonWidget(
                     onPressed: navigateToSummary,
-                    text: 'Proceed to Summary',
+                    text: 'Teruskan ke Ringkasan',
                     options: FFButtonOptions(
                       width: double.infinity,
                       height: 50,
@@ -280,7 +280,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                 ),
                 Center(
                   child: Text(
-                    'You won\'t be charged now',
+                    'Anda tidak akan dicaj sekarang',
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
                       color: const Color(0xCF303030),

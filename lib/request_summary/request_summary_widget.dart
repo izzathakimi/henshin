@@ -56,17 +56,17 @@ class RequestSummaryWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Request Summary', style: HenshinTheme.title3),
+                    Text('Ringkasan Permintaan', style: HenshinTheme.title3),
                     const SizedBox(height: 20),
-                    _buildInfoRow('Request ID:', requestId),
-                    _buildInfoRow('Amount:', 'RM ${price.toStringAsFixed(2)}'),
-                    _buildInfoRow('Request Status:', 'Completed'),
+                    _buildInfoRow('ID Permintaan:', requestId),
+                    _buildInfoRow('Jumlah:', 'RM ${price.toStringAsFixed(2)}'),
+                    _buildInfoRow('Status Permintaan:', 'Selesai'),
                     const SizedBox(height: 16),
-                    Text('Description:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
+                    Text('Penerangan:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
                     const SizedBox(height: 8),
                     Text(description, style: HenshinTheme.bodyText1),
                     const SizedBox(height: 16),
-                    Text('Requirements:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
+                    Text('Keperluan:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),
                     const SizedBox(height: 8),
                     ...requirements.map((req) => Padding(
                       padding: const EdgeInsets.only(bottom: 4),
@@ -90,7 +90,7 @@ class RequestSummaryWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: Text('Download Summary', style: HenshinTheme.subtitle2),
+                      child: Text('Muat Turun Ringkasan', style: HenshinTheme.subtitle2),
                     ),
                     const SizedBox(height: 12),
                     OutlinedButton(
@@ -108,7 +108,7 @@ class RequestSummaryWidget extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Back to homescreen',
+                        'Kembali ke Skrin Utama',
                         style: HenshinTheme.subtitle2.copyWith(
                           color: const Color(0xFF4A90E2),
                         ),

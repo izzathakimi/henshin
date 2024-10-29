@@ -18,7 +18,7 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: HenshinTheme.primaryGradient[0],
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () async {
@@ -34,248 +34,460 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
         centerTitle: true,
         elevation: 0,
       ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                  child: Text(
-                    'Job Proposales',
-                    style: HenshinTheme.title2,
-                  ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: HenshinTheme.primaryGradient,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              // Row(
+              //   mainAxisSize: MainAxisSize.max,
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+              //       child: Text(
+              //         'Cadangan Kerja',
+              //         style: HenshinTheme.title2,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    FFButtonWidget(
+                      onPressed: () {
+                        print('Button pressed ...');
+                      },
+                      text: 'Diterima',
+                      options: FFButtonOptions(
+                        width: 130,
+                        height: 40,
+                        color: Colors.white,
+                        textStyle: HenshinTheme.subtitle2.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.black,
+                          useGoogleFonts: false,
+                        ),
+                        borderSide: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 36,
+                      ),
+                    ),
+                    FFButtonWidget(
+                      onPressed: () {
+                        print('Button pressed ...');
+                      },
+                      text: 'Dijawab',
+                      options: FFButtonOptions(
+                        width: 130,
+                        height: 40,
+                        color: HenshinTheme.primaryColor,
+                        textStyle: HenshinTheme.subtitle2.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.white,
+                          useGoogleFonts: false,
+                        ),
+                        borderSide: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 36,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
-              child: Row(
+              ),
+              Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
-                    text: 'Received',
-                    options: FFButtonOptions(
-                      width: 130,
-                      height: 40,
-                      color: Colors.white,
-                      textStyle: HenshinTheme.subtitle2.override(
-                        fontFamily: 'NatoSansKhmer',
-                        color: Colors.black,
-                        useGoogleFonts: false,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: const Color(0x66757575),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              child: Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: HenshinTheme.primaryColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      'https://picsum.photos/seed/126/600',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 16, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Tukang Masak Sementara',
+                                                  style: HenshinTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'NatoSansKhmer',
+                                                    fontWeight: FontWeight.bold,
+                                                    useGoogleFonts: false,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Haji Ali',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x99303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 8, 8, 0),
+                                                      child: Container(
+                                                        width: 3,
+                                                        height: 3,
+                                                        decoration: const BoxDecoration(
+                                                          color:
+                                                              Color(0xC3313131),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Kuala Linggi',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x98303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    16, 0, 16, 0),
+                                            child: Text(
+                                              '11:29',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x99303030),
+                                                useGoogleFonts: false,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 8, 0, 16),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                color: const Color(0x4C757575),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      12, 4, 12, 4),
+                                              child: Text(
+                                                'Resume',
+                                                style: HenshinTheme.bodyText1,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    12, 0, 0, 0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: const Color(0x4C757575),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(12, 4, 12, 4),
+                                                child: Text(
+                                                  'Portfolio',
+                                                  style:
+                                                      HenshinTheme.bodyText1,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      0, 0, 10, 0),
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFF23AE10),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.check_rounded,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      borderSide: const BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
-                      borderRadius: 36,
-                    ),
-                  ),
-                  FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
-                    text: 'Answered',
-                    options: FFButtonOptions(
-                      width: 130,
-                      height: 40,
-                      color: HenshinTheme.primaryColor,
-                      textStyle: HenshinTheme.subtitle2.override(
-                        fontFamily: 'NatoSansKhmer',
-                        color: Colors.white,
-                        useGoogleFonts: false,
-                      ),
-                      borderSide: const BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
-                      borderRadius: 36,
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: const Color(0x66757575),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: const Color(0x66757575),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                            child: Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                color: HenshinTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              child: Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: HenshinTheme.primaryColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      'https://picsum.photos/seed/126/600',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 16, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lead Product Designer',
-                                                style: HenshinTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  fontWeight: FontWeight.bold,
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Behance',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x99303030),
-                                                      useGoogleFonts: false,
-                                                    ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 16, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Tukang Masak Sementara',
+                                                  style: HenshinTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'NatoSansKhmer',
+                                                    fontWeight: FontWeight.bold,
+                                                    useGoogleFonts: false,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 8, 0),
-                                                    child: Container(
-                                                      width: 3,
-                                                      height: 3,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xC3313131),
-                                                        shape: BoxShape.circle,
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Hajah Hajar',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x99303030),
+                                                        useGoogleFonts: false,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'Kuala Perlis, Perlis',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x98303030),
-                                                      useGoogleFonts: false,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 8, 8, 0),
+                                                      child: Container(
+                                                        width: 3,
+                                                        height: 3,
+                                                        decoration: const BoxDecoration(
+                                                          color:
+                                                              Color(0xC3313131),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16, 0, 16, 0),
-                                          child: Text(
-                                            '11:29',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x99303030),
-                                              useGoogleFonts: false,
+                                                    Text(
+                                                      'Kuala Linggi',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x98303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: const Color(0x4C757575),
-                                            ),
-                                          ),
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    12, 4, 12, 4),
+                                                    16, 0, 16, 0),
                                             child: Text(
-                                              'Resume',
-                                              style: HenshinTheme.bodyText1,
+                                              '11:29',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x99303030),
+                                                useGoogleFonts: false,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Container(
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 8, 0, 16),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -285,225 +497,225 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(12, 4, 12, 4),
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      12, 4, 12, 4),
                                               child: Text(
-                                                'Portfolio',
-                                                style:
-                                                    HenshinTheme.bodyText1,
+                                                'Resume',
+                                                style: HenshinTheme.bodyText1,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
+                                                    12, 0, 0, 0),
                                             child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFF23AE10),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: const Icon(
-                                                Icons.check_rounded,
+                                              decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                size: 24,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: const Color(0x4C757575),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(12, 4, 12, 4),
+                                                child: Text(
+                                                  'Portfolio',
+                                                  style:
+                                                      HenshinTheme.bodyText1,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      0, 0, 10, 0),
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE4451C),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: const Color(0x66757575),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: const Color(0x66757575),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                            child: Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                color: HenshinTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              child: Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: HenshinTheme.primaryColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      'https://picsum.photos/seed/126/600',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 16, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lead Product Designer',
-                                                style: HenshinTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  fontWeight: FontWeight.bold,
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Behance',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x99303030),
-                                                      useGoogleFonts: false,
-                                                    ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 16, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Tukang Masak Sementara',
+                                                  style: HenshinTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'NatoSansKhmer',
+                                                    fontWeight: FontWeight.bold,
+                                                    useGoogleFonts: false,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 8, 0),
-                                                    child: Container(
-                                                      width: 3,
-                                                      height: 3,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xC3313131),
-                                                        shape: BoxShape.circle,
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Mamat Khalid',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x99303030),
+                                                        useGoogleFonts: false,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'Gua Musang, Perak',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x98303030),
-                                                      useGoogleFonts: false,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 8, 8, 0),
+                                                      child: Container(
+                                                        width: 3,
+                                                        height: 3,
+                                                        decoration: const BoxDecoration(
+                                                          color:
+                                                              Color(0xC3313131),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16, 0, 16, 0),
-                                          child: Text(
-                                            '11:29',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x99303030),
-                                              useGoogleFonts: false,
+                                                    Text(
+                                                      'Kuala Linggi',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x98303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: const Color(0x4C757575),
-                                            ),
-                                          ),
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    12, 4, 12, 4),
+                                                    16, 0, 16, 0),
                                             child: Text(
-                                              'Resume',
-                                              style: HenshinTheme.bodyText1,
+                                              '11:29',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x99303030),
+                                                useGoogleFonts: false,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Container(
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 8, 0, 16),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -513,225 +725,225 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(12, 4, 12, 4),
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      12, 4, 12, 4),
                                               child: Text(
-                                                'Portfolio',
-                                                style:
-                                                    HenshinTheme.bodyText1,
+                                                'Resume',
+                                                style: HenshinTheme.bodyText1,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
+                                                    12, 0, 0, 0),
                                             child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFFE4451C),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: const Icon(
-                                                Icons.close,
+                                              decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                size: 24,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: const Color(0x4C757575),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(12, 4, 12, 4),
+                                                child: Text(
+                                                  'Portfolio',
+                                                  style:
+                                                      HenshinTheme.bodyText1,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      0, 0, 10, 0),
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFE4BB1C),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.keyboard_control,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: const Color(0x66757575),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: const Color(0x66757575),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                            child: Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                color: HenshinTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              child: Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: HenshinTheme.primaryColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      'https://picsum.photos/seed/126/600',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 16, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lead Product Designer',
-                                                style: HenshinTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  fontWeight: FontWeight.bold,
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Behance',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x99303030),
-                                                      useGoogleFonts: false,
-                                                    ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 16, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Tukang Masak Sementara',
+                                                  style: HenshinTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'NatoSansKhmer',
+                                                    fontWeight: FontWeight.bold,
+                                                    useGoogleFonts: false,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 8, 0),
-                                                    child: Container(
-                                                      width: 3,
-                                                      height: 3,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xC3313131),
-                                                        shape: BoxShape.circle,
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Hajah Kalsom',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x99303030),
+                                                        useGoogleFonts: false,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'Johor Bahru, Johor',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x98303030),
-                                                      useGoogleFonts: false,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 8, 8, 0),
+                                                      child: Container(
+                                                        width: 3,
+                                                        height: 3,
+                                                        decoration: const BoxDecoration(
+                                                          color:
+                                                              Color(0xC3313131),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16, 0, 16, 0),
-                                          child: Text(
-                                            '11:29',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x99303030),
-                                              useGoogleFonts: false,
+                                                    Text(
+                                                      'Kuala Linggi',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x98303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: const Color(0x4C757575),
-                                            ),
-                                          ),
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    12, 4, 12, 4),
+                                                    16, 0, 16, 0),
                                             child: Text(
-                                              'Resume',
-                                              style: HenshinTheme.bodyText1,
+                                              '11:29',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x99303030),
+                                                useGoogleFonts: false,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Container(
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 8, 0, 16),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -741,225 +953,225 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(12, 4, 12, 4),
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      12, 4, 12, 4),
                                               child: Text(
-                                                'Portfolio',
-                                                style:
-                                                    HenshinTheme.bodyText1,
+                                                'Resume',
+                                                style: HenshinTheme.bodyText1,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
+                                                    12, 0, 0, 0),
                                             child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFFE4BB1C),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: const Icon(
-                                                Icons.keyboard_control,
+                                              decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                size: 24,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: const Color(0x4C757575),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(12, 4, 12, 4),
+                                                child: Text(
+                                                  'Portfolio',
+                                                  style:
+                                                      HenshinTheme.bodyText1,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      0, 0, 10, 0),
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFF23AE10),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.check_outlined,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: const Color(0x66757575),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: const Color(0x66757575),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                            child: Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                color: HenshinTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              child: Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: HenshinTheme.primaryColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      'https://picsum.photos/seed/126/600',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 16, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lead Product Designer',
-                                                style: HenshinTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  fontWeight: FontWeight.bold,
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Behance',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x99303030),
-                                                      useGoogleFonts: false,
-                                                    ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 16, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Tukang Masak Sementara',
+                                                  style: HenshinTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'NatoSansKhmer',
+                                                    fontWeight: FontWeight.bold,
+                                                    useGoogleFonts: false,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 8, 0),
-                                                    child: Container(
-                                                      width: 3,
-                                                      height: 3,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xC3313131),
-                                                        shape: BoxShape.circle,
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Haji Abu',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x99303030),
+                                                        useGoogleFonts: false,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'Muar, Johor',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x98303030),
-                                                      useGoogleFonts: false,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 8, 8, 0),
+                                                      child: Container(
+                                                        width: 3,
+                                                        height: 3,
+                                                        decoration: const BoxDecoration(
+                                                          color:
+                                                              Color(0xC3313131),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16, 0, 16, 0),
-                                          child: Text(
-                                            '11:29',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x99303030),
-                                              useGoogleFonts: false,
+                                                    Text(
+                                                      'Kuala Linggi',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x98303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: const Color(0x4C757575),
-                                            ),
-                                          ),
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    12, 4, 12, 4),
+                                                    16, 0, 16, 0),
                                             child: Text(
-                                              'Resume',
-                                              style: HenshinTheme.bodyText1,
+                                              '11:29',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x99303030),
+                                                useGoogleFonts: false,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Container(
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 8, 0, 16),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -969,225 +1181,225 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(12, 4, 12, 4),
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      12, 4, 12, 4),
                                               child: Text(
-                                                'Portfolio',
-                                                style:
-                                                    HenshinTheme.bodyText1,
+                                                'Resume',
+                                                style: HenshinTheme.bodyText1,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
+                                                    12, 0, 0, 0),
                                             child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFF23AE10),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: const Icon(
-                                                Icons.check_outlined,
+                                              decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                size: 24,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: const Color(0x4C757575),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(12, 4, 12, 4),
+                                                child: Text(
+                                                  'Portfolio',
+                                                  style:
+                                                      HenshinTheme.bodyText1,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      0, 0, 10, 0),
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFF23AE10),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.check_outlined,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: const Color(0x66757575),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 32),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: const Color(0x66757575),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                            child: Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                color: HenshinTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                              child: Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: HenshinTheme.primaryColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      'https://picsum.photos/seed/126/600',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 16, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lead Product Designer',
-                                                style: HenshinTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  fontWeight: FontWeight.bold,
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Behance',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x99303030),
-                                                      useGoogleFonts: false,
-                                                    ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 16, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Tukang Masak Sementara',
+                                                  style: HenshinTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'NatoSansKhmer',
+                                                    fontWeight: FontWeight.bold,
+                                                    useGoogleFonts: false,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 8, 0),
-                                                    child: Container(
-                                                      width: 3,
-                                                      height: 3,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xC3313131),
-                                                        shape: BoxShape.circle,
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Lee Chong Wei',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x99303030),
+                                                        useGoogleFonts: false,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'Changkat Jering, Perak',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x98303030),
-                                                      useGoogleFonts: false,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8, 8, 8, 0),
+                                                      child: Container(
+                                                        width: 3,
+                                                        height: 3,
+                                                        decoration: const BoxDecoration(
+                                                          color:
+                                                              Color(0xC3313131),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16, 0, 16, 0),
-                                          child: Text(
-                                            '11:29',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x99303030),
-                                              useGoogleFonts: false,
+                                                    Text(
+                                                      'Kuala Linggi',
+                                                      style: HenshinTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily:
+                                                            'NatoSansKhmer',
+                                                        color: const Color(0x98303030),
+                                                        useGoogleFonts: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: const Color(0x4C757575),
-                                            ),
-                                          ),
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    12, 4, 12, 4),
+                                                    16, 0, 16, 0),
                                             child: Text(
-                                              'Resume',
-                                              style: HenshinTheme.bodyText1,
+                                              '11:29',
+                                              style: HenshinTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'NatoSansKhmer',
+                                                color: const Color(0x99303030),
+                                                useGoogleFonts: false,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Container(
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0, 8, 0, 16),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -1197,279 +1409,75 @@ class JobProposalsPage2WidgetState extends State<JobProposalsPage2Widget> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(12, 4, 12, 4),
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      12, 4, 12, 4),
                                               child: Text(
-                                                'Portfolio',
-                                                style:
-                                                    HenshinTheme.bodyText1,
+                                                'Resume',
+                                                style: HenshinTheme.bodyText1,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
+                                                    12, 0, 0, 0),
                                             child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFF23AE10),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: const Icon(
-                                                Icons.check_outlined,
+                                              decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                size: 24,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: const Color(0x4C757575),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(12, 4, 12, 4),
+                                                child: Text(
+                                                  'Portfolio',
+                                                  style:
+                                                      HenshinTheme.bodyText1,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional.fromSTEB(
+                                                      0, 0, 10, 0),
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFF23AE10),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.check_outlined,
+                                                  color: Colors.white,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 32),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: const Color(0x66757575),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                            child: Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                color: HenshinTheme.primaryColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/126/600',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 16, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Lead Product Designer',
-                                                style: HenshinTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  fontWeight: FontWeight.bold,
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Behance',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x99303030),
-                                                      useGoogleFonts: false,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 8, 0),
-                                                    child: Container(
-                                                      width: 3,
-                                                      height: 3,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xC3313131),
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Changkat Lada, Perak',
-                                                    style: HenshinTheme
-                                                        .bodyText1
-                                                        .override(
-                                                      fontFamily:
-                                                          'NatoSansKhmer',
-                                                      color: const Color(0x98303030),
-                                                      useGoogleFonts: false,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16, 0, 16, 0),
-                                          child: Text(
-                                            '11:29',
-                                            style: HenshinTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'NatoSansKhmer',
-                                              color: const Color(0x99303030),
-                                              useGoogleFonts: false,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: const Color(0x4C757575),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    12, 4, 12, 4),
-                                            child: Text(
-                                              'Resume',
-                                              style: HenshinTheme.bodyText1,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                color: const Color(0x4C757575),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(12, 4, 12, 4),
-                                              child: Text(
-                                                'Portfolio',
-                                                style:
-                                                    HenshinTheme.bodyText1,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
-                                            child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFF23AE10),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: const Icon(
-                                                Icons.check_outlined,
-                                                color: Colors.white,
-                                                size: 24,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
