@@ -9,17 +9,13 @@ class RequestHistoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // title: const Text('Request History'),
-        backgroundColor: HenshinTheme.primaryColor,
-      ),
+
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: HenshinTheme.primaryGradient,
-          ),
+            colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),          ),
         ),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance

@@ -88,28 +88,14 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-        ),
-        // title: const Text('Request Service'),
-        // elevation: 0,
-      ),
+
       // Add gradient background
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: HenshinTheme.primaryGradient,
-            stops: [0.0, 1.0],
+            colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),                     stops: [0.0, 1.0],
           ),
         ),
         child: SafeArea(

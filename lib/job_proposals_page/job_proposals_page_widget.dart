@@ -19,32 +19,13 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryGradient[0],
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );},
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-        actions: const [],
-        centerTitle: true,
-        elevation: 0,
-      ),
+
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: HenshinTheme.primaryGradient,
-          ),
+            colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),          ),
         ),
         child: SingleChildScrollView(
           child: Column(
