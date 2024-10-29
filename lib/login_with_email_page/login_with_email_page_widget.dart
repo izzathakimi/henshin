@@ -180,7 +180,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   ),
                   validator: (val) {
                     if (val!.isEmpty) {
-                      return 'Required';
+                      return 'Perlu diisi';
                     }
                     return null;
                   },
@@ -236,7 +236,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                   ),
                   validator: (val) {
                     if (val!.isEmpty) {
-                      return 'Required';
+                      return 'Perlu diisi';
                     }
                     return null;
                   },
