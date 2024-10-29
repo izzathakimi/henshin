@@ -8,10 +8,10 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const List<String> categories = [
-    'Home Chores',
-    'Tailoring',
-    'Manual Labor',
-    'Tech Support',
+    'Kerja Rumah',
+    'Menjahit',
+    'Kerja Manual',
+    'Sokongan Teknikal',
   ];
 
   static const List<IconData> categoryIcons = [
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Search gigs...',
+                      hintText: 'Cari pekerjaan...',
                       hintStyle: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 16,
