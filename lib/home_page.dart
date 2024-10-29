@@ -48,30 +48,21 @@ class HomePageState extends State<HomePage> {
   ];
 
   final List<String> _titles = [
-    'Home',
-    'Community Forum',
-    'Chat',
-    'Profile',
-    'Create Post',  // Added corresponding title
-    'Job Application',
-    'Job Proposals',
-    'Request Service',
-    'Service In Progress',
-    'Request History',
+    'Halaman Utama',
+    'Forum Komuniti',
+    'Ruang Pesan',
+    'Halaman Profil',
+    'Kerja Tersedia',
+    'Permohonan Kerja',
+    'Postingan Pekerjaan',
+    'Servis dalam Proses',
+    'Rekod Servis',
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    // if (index == 1) { // Community Forum index
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const CommunityForum()),
-    //   );
-    // } else {
-    //   Navigator.of(context).pop(); // Close the drawer
-    // }
   }
 
   Widget _buildDrawerItem({
@@ -165,8 +156,8 @@ class HomePageState extends State<HomePage> {
               ),
               _buildDrawerItem(
                 icon: Icons.person,
-                title: 'Profile',
-                index: 3,  // Changed to match ProfileScreen
+                title: 'Halaman Profil',
+                index: 3,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
                 textColor: Colors.white,
@@ -174,37 +165,37 @@ class HomePageState extends State<HomePage> {
               const Divider(color: Colors.white30),
               _buildDrawerItem(
                 icon: Icons.work,
-                title: 'Gig Application',
-                index: 4,  // Changed from 4 to 5
+                title: 'Kerja Tersedia',
+                index: 4,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
                 textColor: Colors.white,
               ),
               _buildDrawerItem(
                 icon: Icons.description,
-                title: 'Gig Proposals',
-                index: 5,  // Changed from 5 to 6
+                title: 'Permohonan Kerja',
+                index: 5,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
               _buildDrawerItem(
                 icon: Icons.build,
-                title: 'Request Service',
-                index: 6,  // Changed from 6 to 7
+                title: 'Postingan Pekerjaan',
+                index: 6,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
               _buildDrawerItem(
                 icon: Icons.timer,
-                title: 'Service In Progress',
-                index: 7,  // Changed from 7 to 8
+                title: 'Servis Dalam Proses',
+                index: 7,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
               _buildDrawerItem(
                 icon: Icons.history,
-                title: 'Request History',
-                index: 8,  // Changed from 8 to 9
+                title: 'Rekod Servis',
+                index: 8,
                 selectedIndex: _selectedIndex,
                 onTap: _onItemTapped,
               ),
