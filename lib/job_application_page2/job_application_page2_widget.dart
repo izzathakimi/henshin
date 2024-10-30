@@ -186,6 +186,8 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                     fontWeight: FontWeight.bold,
                                                     useGoogleFonts: false,
                                                   ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                 ),
                                                 Row(
                                                   mainAxisSize: MainAxisSize.max,
@@ -194,15 +196,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Haji Ali',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Haji Ali',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                     Padding(
@@ -220,15 +226,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kuantan',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kuantan',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                   ],
@@ -394,6 +404,8 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                     fontWeight: FontWeight.bold,
                                                     useGoogleFonts: false,
                                                   ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                 ),
                                                 Row(
                                                   mainAxisSize: MainAxisSize.max,
@@ -402,15 +414,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Ramasamy',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Ramasamy',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                     Padding(
@@ -428,15 +444,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kampung Baru',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Kampung Baru',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                   ],
@@ -602,6 +622,8 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                     fontWeight: FontWeight.bold,
                                                     useGoogleFonts: false,
                                                   ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                 ),
                                                 Row(
                                                   mainAxisSize: MainAxisSize.max,
@@ -610,15 +632,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Tan Boon Heong',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Tan Boon Heong',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                     Padding(
@@ -636,15 +662,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Tanjung Malim',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Tanjung Malim',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                   ],
@@ -810,6 +840,8 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                     fontWeight: FontWeight.bold,
                                                     useGoogleFonts: false,
                                                   ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                 ),
                                                 Row(
                                                   mainAxisSize: MainAxisSize.max,
@@ -818,15 +850,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Abdullah Mamat',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Abdullah Mamat',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                     Padding(
@@ -844,15 +880,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Tanjung Karang',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Tanjung Karang',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                   ],
@@ -1018,6 +1058,8 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                     fontWeight: FontWeight.bold,
                                                     useGoogleFonts: false,
                                                   ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                 ),
                                                 Row(
                                                   mainAxisSize: MainAxisSize.max,
@@ -1026,15 +1068,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Yeh Sekupang',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x99303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Yeh Sekupang',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x99303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                     Padding(
@@ -1052,15 +1098,19 @@ class JobApplicationPage2WidgetState extends State<JobApplicationPage2Widget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Tanjung Kerau',
-                                                      style: HenshinTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily:
-                                                            'NatoSansKhmer',
-                                                        color: const Color(0x98303030),
-                                                        useGoogleFonts: false,
+                                                    Flexible(
+                                                      child: Text(
+                                                        'Tanjung Kerau',
+                                                        style: HenshinTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily:
+                                                              'NatoSansKhmer',
+                                                          color: const Color(0x98303030),
+                                                          useGoogleFonts: false,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                   ],
