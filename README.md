@@ -56,9 +56,53 @@ To empower rural Malaysian communities by providing accessible digital platforms
 ## Installation & Setup
 
 ### Android Installation
-
+<!-- Currently facing difficulties making an apk file -->
 
 ### Web Access
+
+#### Using Flutter
+#### Step-by-Step Guide
+#### Prerequisites
+- Install Flutter
+- Install Git
+Have a code editor (preferably VS Code or Android Studio)
+- Install Firebase CLI
+
+#### Clone the Repository
+1.   git clone [repository-url]
+2.   cd [project-directory]
+
+#### Install Dependencies
+1. flutter pub get
+
+#### Firebase Setup
+Since this project uses Firebase, you'll need to:
+1. Create your own Firebase project:
+   - Go to [Firebase Console](https://console.firebase.google.com/)
+   - Create a new project
+   - Enable required services (Authentication, Firestore, Storage, etc.)
+
+2. Configure Firebase for your app:
+   ```bash
+   flutterfire configure
+   ```
+   This will generate your own `firebase_options.dart` file
+
+3. Platform-specific setup:
+   
+   For Android:
+   - Download `google-services.json` from Firebase Console
+   - Place it in `android/app/`
+
+   For iOS:
+   - Download `GoogleService-Info.plist` from Firebase Console
+   - Place it in `ios/Runner/`
+
+### Run the Project
+1. flutter clean
+2. flutter pub get
+3. flutter run
+
 
 
 ### Account Creation
@@ -66,14 +110,6 @@ To empower rural Malaysian communities by providing accessible digital platforms
 2. Verify contact information
 3. Set up profile details
 4. Add skills and portfolio
-
-## Security & Privacy
-
-### Data Protection
-- End-to-end encryption for messages
-- Secure payment processing
-- Regular security audits
-- Data backup and recovery systems
 
 ### Privacy Controls
 - Customizable profile visibility
@@ -93,13 +129,9 @@ Henshin utilizes Firebase for:
 - Authentication services
 - Real-time database
 - Cloud storage
-- Push notifications
 
 
 ### Help Resources
-- In-app tutorial guides
-- FAQ section
-- Community guidelines
 - Video tutorials
 
 ### Contact Channels
