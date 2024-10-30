@@ -92,6 +92,7 @@ Empowering rural Malaysian communities through an accessible digital platform fo
 - Email: njmdnyusof.work@gmail.com
 - Community forum
 - Video tutorials
+- [Video Demonstration](https://drive.google.com/file/d/1DZTsQfl9j8VxcaiaYoL35buBXUqAVnZI/view?usp=sharing)
 
 ---
 
