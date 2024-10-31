@@ -90,12 +90,12 @@ Download the latest release: [v1.1](https://github.com/MalakaPunche/henshin/rele
 ## Demo
 
 ### Authentication Flow
-<img src="assets/demo/auth_flow.png" alt="Login, Register, Forgot password, Add Details">
+<img src="assets/demo/First.jpg" alt="Login, Register, Forgot password, Add Details">
 
 Login, register, forgot password and profile details screens
 
 ### Main Application Screens
-<img src="assets/demo/main_screens.png" alt="Home Page, Community Forum, Chat Page and Sidebar">
+<img src="assets/demo/Second.jpg" alt="Home Page, Community Forum, Chat Page and Sidebar">
 
 Key application interfaces showing the home page with job listings, community forum for discussions, messaging system, and navigation sidebar
 
