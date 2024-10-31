@@ -11,16 +11,12 @@ Empowering rural Malaysian communities through an accessible digital platform fo
 
 ### Core Functionality
 - **Service Marketplace**: Post and find local service opportunities
-- **Bilingual Platform**: Full support for Malay and English
-- **Rural-Optimized**: Designed for areas with limited connectivity
+- **Rural-Friendly Platform**: Implementing Malay Language UI
 - **Simplified UX**: Intuitive interface for all technical skill levels
 
 ### For Service Providers
 - Customizable professional profiles
 - Digital portfolio management
-- Skill categorization system
-- Location-based matching
-- Custom pricing tools
 
 ### For Clients
 - Detailed service request system

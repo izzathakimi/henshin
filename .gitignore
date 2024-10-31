@@ -51,14 +51,16 @@ key.properties
 .env
 *.keystore
 
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-build/
-.env
+# Firebase related
+lib/firebase_options.dart
+google-services.json
+GoogleService-Info.plist
+
+# Secrets and keys
 *.jks
 key.properties
-google-services.json
+.env
+*.keystore
+
 *.log
 *.bak
