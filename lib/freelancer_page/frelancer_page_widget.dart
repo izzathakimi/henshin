@@ -367,9 +367,6 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              prefixIcon: const Icon(
-                                Icons.keyboard_arrow_down,
-                              ),
                             ),
                             style: HenshinTheme.bodyText1,
                           ),
@@ -427,9 +424,6 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(18),
-                              ),
-                              prefixIcon: const Icon(
-                                Icons.keyboard_arrow_down,
                               ),
                             ),
                             style: HenshinTheme.bodyText1,

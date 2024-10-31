@@ -56,10 +56,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (!appState.loggedIn) {
       return Scaffold(
-        appBar: AppBar(title: Text('Add Post')),
+        appBar: AppBar(title: Text('Tambah Hantaran')),
         body: Center(
           child: ElevatedButton(
-            child: Text('Sign In to Add Post'),
+            child: Text('Log Masuk untuk Tambah Hantaran'),
             onPressed: () {
               Navigator.pushNamed(context, '/sign-in');
             },
@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Post')),
+      appBar: AppBar(title: Text('Tambah Hantaran')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -79,16 +79,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Description'),
+                  decoration: InputDecoration(labelText: 'Penerangan'),
                   onSaved: (value) => _description = value ?? '',
                   validator: (value) => value?.isEmpty ?? true
-                      ? 'Please enter a description'
+                      ? 'Sila masukkan penerangan'
                       : null,
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _pickImage,
-                  child: Text('Pick Image'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text('Pilih Gambar'),
                 ),
                 SizedBox(height: 20),
                 if (_imageBytes != null)
@@ -103,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         await appState.addPost(
                             _description, _imageBytes!, _imageName!);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Post created successfully')),
+                          SnackBar(content: Text('Hantaran berjaya dihantar')),
                         );
                         Navigator.pushReplacement(
                           context,
@@ -111,16 +115,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error creating post: $e')),
+                          SnackBar(content: Text('Ralat membuat hantaran: $e')),
                         );
                       }
                     } else if (_imageBytes == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please select an image')),
+                        SnackBar(content: Text('Sila pilih gambar')),
                       );
                     }
                   },
-                  child: Text('Post'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text('Hantar'),
                 ),
               ],
             ),

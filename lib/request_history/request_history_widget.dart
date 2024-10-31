@@ -39,7 +39,7 @@ class RequestHistoryWidget extends StatelessWidget {
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return Center(
                 child: Text(
-                  'No previous requests found',
+                  'Tiada permintaan sebelumnya',
                   style: HenshinTheme.bodyText1.copyWith(color: Colors.white),
                 ),
               );

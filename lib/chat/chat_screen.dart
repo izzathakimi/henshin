@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../common/henshin_theme.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -58,20 +59,21 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Colors.blue,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Fokus',
-                          style: TextStyle(color: Colors.white, fontSize: 13),
+                          style: GoogleFonts.ubuntu(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       _buildFilterChip('Belum dibaca'),
                       const SizedBox(width: 8),
                       _buildFilterChip('Draf'),
-                      const SizedBox(width: 8),
-                      _buildFilterChip('dalam mel'),
                     ],
                   ),
                 ),
@@ -219,12 +221,16 @@ class _ChatScreenState extends State<ChatScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: Colors.white,
+        border: Border.all(color: Colors.blue),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white, fontSize: 13),
+        style: GoogleFonts.ubuntu(
+          color: Colors.blue,
+          fontSize: 13,
+        ),
       ),
     );
   }

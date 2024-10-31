@@ -484,29 +484,29 @@ class _ProfileState extends State<Profile> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Profile'),
+          title: const Text('Ubah Profil'),
           content: SingleChildScrollView(
             child: Column(
               children: [
                 TextField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
+                  decoration: const InputDecoration(labelText: 'Nama'),
                 ),
                 TextField(
                   controller: _phoneController,
-                  decoration: const InputDecoration(labelText: 'Phone Number'),
+                  decoration: const InputDecoration(labelText: 'Nombor Telefon'),
                 ),
                 TextField(
                   controller: _specialtyController,
-                  decoration: const InputDecoration(labelText: 'Specialty'),
+                  decoration: const InputDecoration(labelText: 'Kepakaran'),
                 ),
                 TextField(
                   controller: _countryController,
-                  decoration: const InputDecoration(labelText: 'Country'),
+                  decoration: const InputDecoration(labelText: 'Negara'),
                 ),
                 TextField(
                   controller: _cityController,
-                  decoration: const InputDecoration(labelText: 'City'),
+                  decoration: const InputDecoration(labelText: 'Bandar'),
                 ),
               ],
             ),
@@ -516,14 +516,14 @@ class _ProfileState extends State<Profile> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
                 _updateUserData();
                 Navigator.of(context).pop();
               },
-              child: const Text('Save'),
+              child: const Text('Simpan'),
             ),
           ],
         );

@@ -35,11 +35,11 @@ class CommunityForum extends StatelessWidget {
                     ),
                     const PopupMenuItem(
                       value: 'By upvotes',
-                      child: Text('By upvotes'),
+                      child: Text('Mengikut Undian'),
                     ),
                     const PopupMenuItem(
                       value: 'By comments',
-                      child: Text('By comments'),
+                      child: Text('Mengikut Komen'),
                     ),
                   ],
                 ),

@@ -41,10 +41,13 @@ Empowering rural Malaysian communities through an accessible digital platform fo
 - **Web**: Modern browsers (Chrome, Firefox, Safari)
 
 ### System Requirements
-- Storage: 100MB minimum
+- Storage: 60MB minimum
 - Network: 3G connection or better
 - Valid email/phone for registration
 - Location services enabled
+
+### Installation
+Download the latest release: [v1.0.0](https://github.com/MalakaPunche/henshin/releases/tag/v1.0.0)
 
 ## Getting Started
 
