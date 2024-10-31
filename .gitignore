@@ -41,3 +41,24 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Add these to your .gitignore
+lib/firebase_options.dart
+google-services.json
+GoogleService-Info.plist
+*.jks
+key.properties
+.env
+*.keystore
+
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+.env
+*.jks
+key.properties
+google-services.json
+*.log
+*.bak
