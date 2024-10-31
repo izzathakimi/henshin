@@ -43,7 +43,7 @@ Empowering rural Malaysian communities through an accessible digital platform fo
 - Location services enabled
 
 ### Installation
-Download the latest release: [v1.0.0](https://github.com/MalakaPunche/henshin/releases/tag/v1.0.0)
+Download the latest release: [v1.1](https://github.com/MalakaPunche/henshin/releases/tag/v1.1)
 
 ## Getting Started
 
@@ -86,6 +86,12 @@ Download the latest release: [v1.0.0](https://github.com/MalakaPunche/henshin/re
 - Location sharing controls
 - Communication preferences
 - Data management options
+
+## Demo
+
+### Authentication Flow
+![Login, Register, Forgot password, Add Details](assets/demo/auth_flow.png)
+Login, register, forgot password and profile details screens
 
 ## Support
 - Email: njmdnyusof.work@gmail.com
