@@ -99,6 +99,11 @@ Login, register, forgot password and profile details screens
 
 Key application interfaces showing the home page with job listings, community forum for discussions, messaging system, and navigation sidebar
 
+### Service Management Screens
+<img src="assets/demo/Third.jpg" alt="Profile, Request Gig, Gigs Available, Job Application">
+
+Core service interfaces displaying user profile management, gig request system, available jobs listing, and the job application process in Malay language for better accessibility
+
 ## Support
 - Email: njmdnyusof.work@gmail.com
 - Community forum
