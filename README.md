@@ -112,4 +112,4 @@ Core service interfaces displaying user profile management, gig request system, 
 
 ---
 
-Built with ❤️ for rural Malaysia
+Built with ❤️ for rural Malaysia hehe tq
