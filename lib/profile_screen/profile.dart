@@ -70,13 +70,18 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _specialtyController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _fetchUserData();
+    _nameController.text = userData?['name'] ?? '';
+    _phoneController.text = userData?['phone'] ?? '';
+    _specialtyController.text = userData?['specialty'] ?? '';
+    _stateController.text = userData?['state'] ?? '';
+    _cityController.text = userData?['city'] ?? '';
   }
 
   Future<void> _fetchUserData() async {
@@ -135,7 +140,7 @@ class _ProfileState extends State<Profile> {
                         
                         // Location
                         Text(
-                          '${userData?['city'] ?? 'City'}, ${userData?['country'] ?? 'Country'}',
+                          '${userData?['city'] ?? 'City'}, ${userData?['state'] ?? 'State'}',
                           style: GoogleFonts.ubuntu(
                             textStyle: const TextStyle(
                               fontSize: 16,
@@ -335,7 +340,7 @@ class _ProfileState extends State<Profile> {
       final name = _nameController.text;
       final phone = _phoneController.text;
       final specialty = _specialtyController.text;
-      final country = _countryController.text;
+      final state = _stateController.text;
       final city = _cityController.text;
 
       if (name.isNotEmpty) {
@@ -347,8 +352,8 @@ class _ProfileState extends State<Profile> {
       if (specialty.isNotEmpty) {
         updatedData['specialty'] = specialty;
       }
-      if (country.isNotEmpty) {
-        updatedData['country'] = country;
+      if (state.isNotEmpty) {
+        updatedData['state'] = state;
       }
       if (city.isNotEmpty) {
         updatedData['city'] = city;
@@ -480,6 +485,13 @@ class _ProfileState extends State<Profile> {
   }
 
   void _showEditDialog() {
+    // Set the current values to the controllers before showing the dialog
+    _nameController.text = userData?['name'] ?? '';
+    _phoneController.text = userData?['phone number'] ?? '';
+    _specialtyController.text = userData?['specialty'] ?? '';
+    _stateController.text = userData?['state'] ?? '';
+    _cityController.text = userData?['city'] ?? '';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -487,23 +499,28 @@ class _ProfileState extends State<Profile> {
           title: const Text('Ubah Profil'),
           content: SingleChildScrollView(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Nama'),
                 ),
+                const SizedBox(height: 8),
                 TextField(
                   controller: _phoneController,
                   decoration: const InputDecoration(labelText: 'Nombor Telefon'),
                 ),
+                const SizedBox(height: 8),
                 TextField(
                   controller: _specialtyController,
                   decoration: const InputDecoration(labelText: 'Kepakaran'),
                 ),
+                const SizedBox(height: 8),
                 TextField(
-                  controller: _countryController,
-                  decoration: const InputDecoration(labelText: 'Negara'),
+                  controller: _stateController,
+                  decoration: const InputDecoration(labelText: 'Negeri'),
                 ),
+                const SizedBox(height: 8),
                 TextField(
                   controller: _cityController,
                   decoration: const InputDecoration(labelText: 'Bandar'),
@@ -513,9 +530,7 @@ class _ProfileState extends State<Profile> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('Batal'),
             ),
             TextButton(
