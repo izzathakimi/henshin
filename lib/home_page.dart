@@ -181,7 +181,7 @@ class HomePageState extends State<HomePage> {
                         color: Colors.transparent,
                       ),
                       child: Text(
-                        'Henshin.',
+                        'RuralHub.',
                         style: GoogleFonts.ubuntu(
                           color: Colors.white,
                           fontSize: 48,
