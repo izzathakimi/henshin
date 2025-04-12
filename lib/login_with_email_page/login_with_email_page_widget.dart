@@ -92,7 +92,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
             children: [
               SizedBox(height: 80), // Adjust this value as needed
               Text(
-                'Henshin.',
+                'RuralHub.',
                 style: GoogleFonts.ubuntu(
                   color: Colors.white,
                   fontSize: 48, // Increased from 40 to 48
@@ -110,7 +110,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          'Mengubah kerjaya anda bersama Henshin!',
+                          'Ubah kerjaya anda bersama kamir!',
                           textAlign: TextAlign.center,
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',
