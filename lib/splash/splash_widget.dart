@@ -65,7 +65,7 @@ class SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixi
         ),
         child: Center(
           child: Image.asset(
-            'assets/images/HensinLogo_removebg_preview.png',
+            'assets/images/RuralHubLogo.png',
             width: logoSize,
             height: logoSize,
             fit: BoxFit.contain,
