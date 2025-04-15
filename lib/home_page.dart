@@ -11,7 +11,8 @@ import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'request_history/request_history_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' as stream;
 import 'dart:ui';
 import 'splash/splash_widget.dart';
 
@@ -25,17 +26,41 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late int _selectedIndex;
+  late stream.StreamChatClient _client;
+  late stream.Channel _channel;
+  bool _isChatInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex ?? 0;
+    _initializeStreamChat();
+  }
+
+  Future<void> _initializeStreamChat() async {
+    _client = stream.StreamChatClient(
+      'b67pax5b2wdq',
+      logLevel: stream.Level.INFO,
+    );
+
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await _client.connectUser(
+        stream.User(id: currentUser.uid),
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZmx1dHRlciJ9.S-MJpoSwDiqyXpUURgO5wVqJ4vKlIVFLSEyrFYCOE1c',
+      );
+
+      _channel = _client.channel('messaging', id: 'general');
+      await _channel.watch();
+      setState(() {
+        _isChatInitialized = true;
+      });
+    }
   }
 
   final List<Widget> _screens = [
     const HomeScreen(),
     const CommunityForum(),
-    const ChatScreen(),
     const Profile(),
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
@@ -44,8 +69,22 @@ class HomePageState extends State<HomePage> {
     const RequestHistoryWidget(),
     const JobApplicationPage2Widget(),
     const JobProposalsPage2Widget(),
-
   ];
+
+  List<Widget> get screens {
+    final screens = List<Widget>.from(_screens);
+    if (_isChatInitialized) {
+      screens[2] = ChatScreen(
+        client: _client,
+        channel: _channel,
+      );
+    } else {
+      screens[2] = const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return screens;
+  }
 
   final List<String> _titles = [
     'Halaman Utama',
@@ -76,13 +115,15 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _logout() async {
     try {
-      await FirebaseAuth.instance.signOut(); // Sign out from Firebase
+      if (_isChatInitialized) {
+        await _client.disconnectUser();
+      }
+      await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (context) => SplashWidget()), // Redirect to SplashWidget
+            builder: (context) => SplashWidget()),
       );
     } catch (e) {
-      // Handle error (e.g., show a Snackbar)
       String errorMessage;
 
       if (e is FirebaseAuthException) {
@@ -95,45 +136,6 @@ class HomePageState extends State<HomePage> {
         SnackBar(content: Text(errorMessage)),
       );
     }
-  }
-
-  Widget _buildDrawerItem({
-    required IconData icon,
-    required String title,
-    required int index,
-    required int selectedIndex,
-    required Function(int) onTap,
-  }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: selectedIndex == index
-            ? Colors.blue.withOpacity(0.7)
-            : Colors.transparent,
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: selectedIndex == index ? Colors.white : null,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: selectedIndex == index ? Colors.white : Colors.black,
-          ),
-        ),
-        selected: selectedIndex == index,
-        selectedColor: Colors.white,
-        selectedTileColor: Colors.transparent,
-        hoverColor: Colors.white.withOpacity(0.1),
-        onTap: () {
-          onTap(index);
-          Navigator.pop(context);
-        },
-      ),
-    );
   }
 
   @override
@@ -230,7 +232,7 @@ class HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: _screens[_selectedIndex],
+      body: screens[_selectedIndex],
       bottomNavigationBar: ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -272,6 +274,45 @@ class HomePageState extends State<HomePage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required int index,
+    required int selectedIndex,
+    required Function(int) onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: selectedIndex == index
+            ? Colors.blue.withOpacity(0.7)
+            : Colors.transparent,
+      ),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: selectedIndex == index ? Colors.white : null,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: selectedIndex == index ? Colors.white : Colors.black,
+          ),
+        ),
+        selected: selectedIndex == index,
+        selectedColor: Colors.white,
+        selectedTileColor: Colors.transparent,
+        hoverColor: Colors.white.withOpacity(0.1),
+        onTap: () {
+          onTap(index);
+          Navigator.pop(context);
+        },
       ),
     );
   }

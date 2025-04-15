@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import '../common/henshin_theme.dart';
+import 'package:jiffy/jiffy.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final StreamChatClient client;
+  final Channel channel;
+
+  const ChatScreen({
+    super.key,
+    required this.client,
+    required this.channel,
+  });
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  int? selectedChatIndex;
-
   @override
   Widget build(BuildContext context) {
     final bool isWideScreen = MediaQuery.of(context).size.width > 600;
@@ -42,14 +49,13 @@ class _ChatScreenState extends State<ChatScreen> {
           SizedBox(width: 16),
         ],
       ),
-      body: Container(
-        color: Colors.white, // Ensure white background
+      body: StreamChannel(
+        channel: widget.channel,
         child: Column(
           children: [
-            if (!isWideScreen || selectedChatIndex == null)
+            if (!isWideScreen)
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -79,141 +85,53 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             Expanded(
-              child: ListView.separated(
-                // Change from ListView.builder
-                itemCount: 10,
-                separatorBuilder: (context, index) => Divider(
-                  // Add divider between items
-                  height: 1,
-                  color: Colors.grey[300],
-                ),
-                itemBuilder: (context, index) {
+              child: StreamMessageListView(
+                messageBuilder: (context, details, messages, defaultMessage) {
+                  final message = messages[details.index];
+                  final user = message.user;
+                  if (user == null) return defaultMessage;
+                  
                   return ListTile(
-                    selected: selectedChatIndex == index,
-                    selectedTileColor: Colors.grey[100],
                     contentPadding: const EdgeInsets.symmetric(
-                      // Add padding
                       horizontal: 16,
                       vertical: 8,
                     ),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      child: const Icon(Icons.person, color: Colors.white),
+                    leading: StreamUserAvatar(
+                      user: user,
+                      showOnlineStatus: true,
                     ),
-                    title: isWideScreen && selectedChatIndex != null
-                        ? null
-                        : const Text(
-                            'Nama Pengguna',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                          ),
-                    subtitle: isWideScreen && selectedChatIndex != null
-                        ? null
-                        : Text(
-                            'Pratonton mesej...',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 16,
-                            ),
-                          ),
-                    trailing: isWideScreen && selectedChatIndex != null
-                        ? null
-                        : Text(
-                            '1:01 pm',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 15,
-                            ),
-                          ),
+                    title: Text(
+                      user.name,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(
+                      message.text ?? '',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 16,
+                      ),
+                    ),
+                    trailing: Text(
+                      Jiffy.parseFromDateTime(message.createdAt).fromNow(),
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 15,
+                      ),
+                    ),
                     onTap: () {
-                      setState(() => selectedChatIndex = index);
-                      _showChatDialog(
-                          context); // Add this line to show the chat dialog
+                      // Handle chat selection
                     },
                   );
                 },
               ),
             ),
+            const StreamMessageInput(),
           ],
         ),
       ),
-    );
-  }
-
-  void _showChatDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: EdgeInsets.zero,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.8,
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                // Chat header
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://placeholder.com/user'),
-                    ),
-                    const SizedBox(width: 12),
-                    const Text(
-                      'User Name',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                // Chat messages area
-                const Expanded(
-                  child: Center(
-                    child: Text('Chat messages will appear here'),
-                  ),
-                ),
-                // Message input
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.attach_file),
-                        onPressed: () {},
-                      ),
-                      const Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Type a message...',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 
