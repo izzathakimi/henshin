@@ -11,8 +11,8 @@ import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'request_history/request_history_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart' as stream;
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'dart:ui';
 import 'splash/splash_widget.dart';
 
@@ -26,8 +26,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late int _selectedIndex;
-  late stream.StreamChatClient _client;
-  late stream.Channel _channel;
+  late StreamChatClient _client;
+  late Channel _channel;
   bool _isChatInitialized = false;
 
   @override
@@ -38,29 +38,66 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> _initializeStreamChat() async {
-    _client = stream.StreamChatClient(
-      'b67pax5b2wdq',
-      logLevel: stream.Level.INFO,
-    );
-
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      await _client.connectUser(
-        stream.User(id: currentUser.uid),
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZmx1dHRlciJ9.S-MJpoSwDiqyXpUURgO5wVqJ4vKlIVFLSEyrFYCOE1c',
+    try {
+      _client = StreamChatClient(
+        'b67pax5b2wdq',
+        logLevel: Level.INFO,
       );
 
-      _channel = _client.channel('messaging', id: 'general');
-      await _channel.watch();
-      setState(() {
-        _isChatInitialized = true;
-      });
+      final currentUser = firebase.FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        // First create the user
+        await _client.connectUser(
+          User(
+            id: 'tutorial-flutter', // Use the same ID as the token
+            name: currentUser.displayName ?? 'User',
+            image: currentUser.photoURL,
+            extraData: {
+              'firebase_uid': currentUser.uid, // Store Firebase UID in extraData
+            },
+          ),
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZmx1dHRlciJ9.S-MJpoSwDiqyXpUURgO5wVqJ4vKlIVFLSEyrFYCOE1c',
+        );
+
+        // Create a general channel
+        _channel = _client.channel('messaging', id: 'general', extraData: {
+          'name': 'General Chat',
+          'image': 'https://picsum.photos/100',
+          'members': ['tutorial-flutter'], // Use the same user ID
+        });
+        await _channel.watch();
+
+        // Create some example channels
+        await _client.channel('messaging', id: 'support', extraData: {
+          'name': 'Support',
+          'image': 'https://picsum.photos/101',
+          'members': ['tutorial-flutter'],
+        }).watch();
+
+        await _client.channel('messaging', id: 'announcements', extraData: {
+          'name': 'Announcements',
+          'image': 'https://picsum.photos/102',
+          'members': ['tutorial-flutter'],
+        }).watch();
+
+        setState(() {
+          _isChatInitialized = true;
+        });
+      }
+    } catch (e) {
+      print('Error initializing chat: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to initialize chat: $e')),
+        );
+      }
     }
   }
 
   final List<Widget> _screens = [
     const HomeScreen(),
     const CommunityForum(),
+    const Center(child: CircularProgressIndicator()), // Chat placeholder
     const Profile(),
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
@@ -74,13 +111,18 @@ class HomePageState extends State<HomePage> {
   List<Widget> get screens {
     final screens = List<Widget>.from(_screens);
     if (_isChatInitialized) {
-      screens[2] = ChatScreen(
-        client: _client,
-        channel: _channel,
-      );
-    } else {
-      screens[2] = const Center(
-        child: CircularProgressIndicator(),
+      screens[2] = Builder(
+        builder: (context) => StreamChat(
+          client: _client,
+          streamChatThemeData: StreamChatThemeData.light(),
+          child: StreamChannel(
+            channel: _channel,
+            child: ChatScreen(
+              client: _client,
+              channel: _channel,
+            ),
+          ),
+        ),
       );
     }
     return screens;
@@ -118,7 +160,7 @@ class HomePageState extends State<HomePage> {
       if (_isChatInitialized) {
         await _client.disconnectUser();
       }
-      await FirebaseAuth.instance.signOut();
+      await firebase.FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (context) => SplashWidget()),
@@ -126,7 +168,7 @@ class HomePageState extends State<HomePage> {
     } catch (e) {
       String errorMessage;
 
-      if (e is FirebaseAuthException) {
+      if (e is firebase.FirebaseAuthException) {
         errorMessage = 'Firebase Error: ${e.message}';
       } else {
         errorMessage = 'Logout failed: $e';
@@ -203,11 +245,10 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
               const Divider(color: Colors.white30),
-              // Log Keluar Button with Hover Effect
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
-                  onTap: _logout, // Call the logout function
+                  onTap: _logout,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
