@@ -108,6 +108,7 @@ class RequestHistoryWidget extends StatelessWidget {
                               requirements: List<String>.from(data['requirements'] ?? []),
                               description: data['description'] ?? '',
                               imageUrl: data['imageUrl'] ?? '',
+                              paymentRate: data['paymentRate'] ?? '',
                               dateTime: timestamp,
                               requestId: doc.id,
                             ),

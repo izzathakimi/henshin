@@ -10,12 +10,14 @@ class RequestSummaryWidget extends StatelessWidget {
   final String imageUrl;
   final DateTime? dateTime;  // Make it nullable and optional
   final String requestId;
+  final String paymentRate;
   const RequestSummaryWidget({
     super.key,  // Changed from Key? key to super.key
     required this.price,
     required this.requirements,
     required this.description,
     required this.imageUrl,
+    required this.paymentRate,
     this.dateTime,  // Made optional
     this.requestId = '#REQ123456',
   });
@@ -60,6 +62,7 @@ class RequestSummaryWidget extends StatelessWidget {
                     const SizedBox(height: 20),
                     _buildInfoRow('ID Permintaan:', requestId),
                     _buildInfoRow('Jumlah:', 'RM ${price.toStringAsFixed(2)}'),
+                    _buildInfoRow('Kadar Bayaran:', paymentRate),
                     _buildInfoRow('Status Permintaan:', 'Selesai'),
                     const SizedBox(height: 16),
                     Text('Penerangan:', style: HenshinTheme.bodyText1.copyWith(color: Colors.grey)),

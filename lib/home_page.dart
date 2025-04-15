@@ -54,18 +54,18 @@ class HomePageState extends State<HomePage> {
     'Halaman Profil',
     'Kerja Tersedia',
     'Permohonan Kerja',
-    'Postingan Pekerjaan',
+    'Tawar Pekerjaan',
     'Servis dalam Proses',
-    'Rekod Servis',
+    'Senarai Pekerjaan Yang Ditawarkan',
   ];
 
   final List<Map<String, dynamic>> _drawerItems = [
     {'icon': Icons.person, 'title': 'Halaman Profil', 'index': 3},
     {'icon': Icons.work, 'title': 'Kerja Tersedia', 'index': 4},
     {'icon': Icons.description, 'title': 'Permohonan Kerja', 'index': 5},
-    {'icon': Icons.build, 'title': 'Postingan Pekerjaan', 'index': 6},
+    {'icon': Icons.build, 'title': 'Tawar Pekerjaan', 'index': 6},
     {'icon': Icons.timer, 'title': 'Servis Dalam Proses', 'index': 7},
-    {'icon': Icons.history, 'title': 'Rekod Servis', 'index': 8},
+    {'icon': Icons.history, 'title': 'Senarai Pekerjaan Yang Ditawarkan', 'index': 8},
   ];
 
   void _onItemTapped(int index) {

@@ -154,7 +154,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -358,7 +358,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -562,7 +562,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -766,7 +766,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -970,7 +970,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -1174,7 +1174,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
@@ -1378,7 +1378,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.asset(
-                                      'assets/images/HensinLogo_removebg_preview.png',
+                                      'assets/images/RuralHubLogo.png',
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
