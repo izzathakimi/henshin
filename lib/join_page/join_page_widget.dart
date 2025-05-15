@@ -133,22 +133,6 @@ class JoinPageWidgetState extends State<JoinPageWidget>
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Join to Henshin',
-                style: HenshinTheme.bodyText1.override(
-                  fontFamily: 'NatoSansKhmer',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  useGoogleFonts: false,
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Row(
-            mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                 child: Padding(
@@ -192,97 +176,6 @@ class JoinPageWidgetState extends State<JoinPageWidget>
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
-                  child: Container(
-                    width: 100,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(36),
-                      border: Border.all(
-                        color: const Color(0x40313131),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 25,
-                          height: 25,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/images/google_icon.svg',
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                          child: Text(
-                            'Continue with Google',
-                            style: HenshinTheme.subtitle2.override(
-                              fontFamily: 'NatoSansKhmer',
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              useGoogleFonts: false,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(32, 4, 32, 4),
-                  child: Container(
-                    width: 100,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(36),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const FaIcon(
-                          FontAwesomeIcons.apple,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                          child: Text(
-                            'Continue with Apple',
-                            style: HenshinTheme.subtitle2.override(
-                              fontFamily: 'NatoSansKhmer',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              useGoogleFonts: false,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ),
