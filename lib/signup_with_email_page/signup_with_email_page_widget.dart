@@ -4,26 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../common/henshin_util.dart';
-// import '../home_page.dart';
+import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../freelancer_page/frelancer_page_widget.dart'; // Add this import
-import '../login_with_email_page/login_with_email_page_widget.dart'; // Add this import
+import '../freelancer_page/frelancer_page_widget.dart';
+import '../login_with_email_page/login_with_email_page_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../admin/admin_dashboard.dart'; // Add this import
 
 class SignupWithEmailPageWidget extends StatefulWidget {
   const SignupWithEmailPageWidget({super.key});
 
   @override
-  SignupWithEmailPageWidgetState createState() =>
-      SignupWithEmailPageWidgetState();
+  SignupWithEmailPageWidgetState createState() => SignupWithEmailPageWidgetState();
 }
 
 class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
   TextEditingController? textController1;
   TextEditingController? textController2;
-  late bool passwordVisibility1;
   TextEditingController? textController3;
+  late bool passwordVisibility1;
   late bool passwordVisibility2;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -34,8 +32,8 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
-    passwordVisibility1 = false;
     textController3 = TextEditingController();
+    passwordVisibility1 = false;
     passwordVisibility2 = false;
   }
 
@@ -60,20 +58,20 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
           // Create user document in Firestore with role
           await _firestore.collection('users').doc(userCredential.user!.uid).set({
             'email': textController1!.text,
-            'role': 'user', // Default role is user
+            'role': 'user',
             'createdAt': FieldValue.serverTimestamp(),
           });
 
-          // Navigate based on role
+          // Navigate to freelancer page
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const FreelancerPageWidget()),
             (route) => false,
           );
         }
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'kata laluan lemah') {
+        if (e.code == 'weak-password') {
           showSnackbar(context, 'Kata laluan yang diberikan terlalu lemah.');
-        } else if (e.code == 'email sudah digunakan.') {
+        } else if (e.code == 'email-already-in-use') {
           showSnackbar(context, 'Akaun sudah wujud untuk email tersebut.');
         } else {
           showSnackbar(context, 'Error: ${e.message}');
@@ -411,7 +409,6 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                           ],
                         ),
                       ),
-                      // Add this at the end of your column
                       Expanded(child: SizedBox()),
                     ],
                   ),
@@ -422,5 +419,13 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    textController1?.dispose();
+    textController2?.dispose();
+    textController3?.dispose();
+    super.dispose();
   }
 }

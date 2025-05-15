@@ -7,6 +7,8 @@ import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import '../request_summary/request_summary_widget.dart';
 import '../home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class RequestServicePage1Widget extends StatefulWidget {
   const RequestServicePage1Widget({Key? key}) : super(key: key);
 
@@ -51,6 +53,9 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
     List<String> requirements = _requirementsController.text.split('\n');
     String description = _descriptionController.text;
     String? imageUrl;
+    final user = FirebaseAuth.instance.currentUser;
+    String? userEmail = user?.email;
+    String? userUid = user?.uid;
     if (_image != null) {
       imageUrl = await uploadImage(_image!);
     }
@@ -63,6 +68,9 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
         'description': description,
         'timestamp': FieldValue.serverTimestamp(),
         'imageUrl': imageUrl,
+        'createdByEmail': userEmail,
+        'createdByUid': userUid,
+        'approved': false,
       });
 
       Navigator.push(
@@ -251,48 +259,6 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Gambar Rujukan',
-                                  style: HenshinTheme.bodyText1.override(
-                                    fontFamily: 'NatoSansKhmer',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    useGoogleFonts: false,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                GestureDetector(
-                                  onTap: getImage,
-                                  child: Container(
-                                    height: 140,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(18),
-                                      border: Border.all(
-                                        color: const Color(0x65757575),
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: _image == null
-                                        ? Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Icon(Icons.add_photo_alternate, size: 50, color: Colors.grey),
-                                              Text('Muat Naik Gambar'),
-                                              Text('PNG, JPEG, WEBP (Maksimum 10Mb)', style: TextStyle(color: Colors.grey)),
-                                            ],
-                                          )
-                                        : Image.file(_image!, fit: BoxFit.cover),
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ],

@@ -1,7 +1,6 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
-import '../job_proposals_page2/job_proposals_page2_widget.dart';
 import '../home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,12 +61,13 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
               return Center(child: Text('Sila log masuk.'));
             }
             final userId = user.uid;
-            // Filter jobs: only show if status[userId] == 'Dimohon'
+            // Filter jobs: only show if status[userId] == 'Dimohon' and approved == true
             final appliedDocs = snapshot.data!.docs.where((doc) {
               final data = doc.data() as Map<String, dynamic>;
               final statusMap = data['status'] as Map<String, dynamic>?;
               final status = statusMap != null ? statusMap[userId] as String? : null;
-              return status == 'Dimohon';
+              final approved = data['approved'] == true;
+              return approved && status == 'Dimohon';
             }).toList();
             if (appliedDocs.isEmpty) {
               return Center(child: Text('Tiada permohonan kerja.'));
@@ -132,6 +132,16 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
                                       ),
                                     ),
                                   ],
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Diminta Oleh: ${data['createdByEmail'] ?? '-'}',
+                                  style: HenshinTheme.bodyText1.override(
+                                    fontFamily: 'NatoSansKhmer',
+                                    color: Colors.black54,
+                                    useGoogleFonts: false,
+                                    fontSize: 13,
+                                  ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(

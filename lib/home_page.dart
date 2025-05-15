@@ -4,7 +4,6 @@ import 'profile_screen/profile.dart';
 import 'community_forum/community_forum.dart';
 import 'chat/chat_screen.dart';
 import 'job_application_page/job_application_widget.dart';
-import 'job_proposals_page2/job_proposals_page2_widget.dart';
 import 'job_proposals_page/job_proposals_page_widget.dart';
 import 'request_service_page1/request_service_page1_widget.dart';
 import 'service_inprogress_page/service_inprogress_page_widget.dart';
@@ -103,7 +102,6 @@ class HomePageState extends State<HomePage> {
     const RequestServicePage1Widget(),
     const ServiceInprogressPageWidget(),
     const RequestHistoryWidget(),
-    const JobProposalsPage2Widget(),
   ];
 
   List<Widget> get screens {

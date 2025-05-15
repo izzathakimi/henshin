@@ -21,7 +21,7 @@ class CreateAdminState extends State<CreateAdmin> {
   Future<void> _createAdmin() async {
     if (_formKey.currentState!.validate()) {
       // Verify admin creation code
-      if (_adminCodeController.text != 'YOUR_SECRET_ADMIN_CODE') {
+      if (_adminCodeController.text != 'henshin') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Invalid admin creation code')),
         );

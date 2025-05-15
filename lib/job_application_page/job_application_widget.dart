@@ -72,7 +72,8 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                     final data = doc.data() as Map<String, dynamic>;
                     final statusMap = data['status'] as Map<String, dynamic>?;
                     final status = statusMap != null ? statusMap[userId] as String? : null;
-                    return status == null || status == 'Kerja Tersedia';
+                    final approved = data['approved'] == true;
+                    return approved && (status == null || status == 'Kerja Tersedia');
                   }).toList();
                   if (availableDocs.isEmpty) {
                     return Center(child: Text('Tiada kerja tersedia.'));
@@ -139,6 +140,16 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                             ),
                                           ),
                                         ],
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Diminta Oleh: ${data['createdByEmail'] ?? '-'}',
+                                        style: HenshinTheme.bodyText1.override(
+                                          fontFamily: 'NatoSansKhmer',
+                                          color: Colors.black54,
+                                          useGoogleFonts: false,
+                                          fontSize: 13,
+                                        ),
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
