@@ -3,6 +3,8 @@ import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
 import '../job_proposals_page2/job_proposals_page2_widget.dart';
 import '../home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class JobProposalsPageWidget extends StatefulWidget {
   const JobProposalsPageWidget({super.key});
@@ -13,26 +15,6 @@ class JobProposalsPageWidget extends StatefulWidget {
 
 class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // Sample job proposals data
-  final List<Map<String, dynamic>> jobProposals = [
-    {
-      'title': 'Tukang Masak Sementara',
-      'name': 'Suhaimi Haji Ali',
-      'location': 'Kuala Linggi',
-      'time': '11:29',
-      'hasResume': true,
-      'hasPortfolio': true,
-    },
-    {
-      'title': 'Tukang Masak Sementara',
-      'name': 'Rahimah Husin',
-      'location': 'Kuala Linggi',
-      'time': '11:29',
-      'hasResume': true,
-      'hasPortfolio': true,
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,252 +48,123 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
             colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),
           ),
         ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 45, 16, 45),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            FFButtonWidget(
-                              onPressed: () {
-                                print('Received button pressed ...');
-                              },
-                              text: 'Diterima',
-                              options: FFButtonOptions(
-                                width: 130,
-                                height: 40,
-                                color: HenshinTheme.primaryColor,
-                                textStyle: HenshinTheme.subtitle2.override(
-                                  fontFamily: 'NatoSansKhmer',
-                                  color: Colors.white,
-                                  useGoogleFonts: false,
-                                ),
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
-                                ),
-                                borderRadius: 36,
-                              ),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('service_requests').orderBy('timestamp', descending: true).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return Center(child: Text('Tiada permohonan kerja.'));
+            }
+            final user = FirebaseAuth.instance.currentUser;
+            if (user == null) {
+              return Center(child: Text('Sila log masuk.'));
+            }
+            final userId = user.uid;
+            // Filter jobs: only show if status[userId] == 'Dimohon'
+            final appliedDocs = snapshot.data!.docs.where((doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              final statusMap = data['status'] as Map<String, dynamic>?;
+              final status = statusMap != null ? statusMap[userId] as String? : null;
+              return status == 'Dimohon';
+            }).toList();
+            if (appliedDocs.isEmpty) {
+              return Center(child: Text('Tiada permohonan kerja.'));
+            }
+            return ListView.builder(
+              padding: const EdgeInsets.only(top: 32, bottom: 32),
+              itemCount: appliedDocs.length,
+              itemBuilder: (context, index) {
+                final doc = appliedDocs[index];
+                final data = doc.data() as Map<String, dynamic>;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: const Color(0x66757575)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: HenshinTheme.primaryColor,
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            FFButtonWidget(
-                              onPressed: () {
-                                print('Answered button pressed ...');
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const JobProposalsPage2Widget(),
-                                  ),
-                                );
-                              },
-                              text: 'Dijawab',
-                              options: FFButtonOptions(
-                                width: 130,
-                                height: 40,
-                                color: Colors.white,
-                                textStyle: HenshinTheme.subtitle2.override(
-                                  fontFamily: 'NatoSansKhmer',
-                                  color: Colors.black,
-                                  useGoogleFonts: false,
-                                ),
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
-                                ),
-                                borderRadius: 36,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(18),
-                            border: Border.all(
-                              color: const Color(0x66757575),
-                            ),
+                            child: Icon(Icons.work, color: Colors.white, size: 32),
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
-                                child: Container(
-                                  width: 65,
-                                  height: 65,
-                                  decoration: BoxDecoration(
-                                    color: HenshinTheme.primaryColor,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.asset(
-                                        'assets/images/HensinLogo_removebg_preview.png',
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        data['description'] ?? 'Kerja',
+                                        style: HenshinTheme.bodyText1.override(
+                                          fontFamily: 'NatoSansKhmer',
+                                          fontWeight: FontWeight.bold,
+                                          useGoogleFonts: false,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Tukang Masak Sementara',
-                                                    style: HenshinTheme.bodyText1.override(
-                                                      fontFamily: 'NatoSansKhmer',
-                                                      fontWeight: FontWeight.bold,
-                                                      useGoogleFonts: false,
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisSize: MainAxisSize.max,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Flexible(
-                                                        child: Text(
-                                                          'Suhaimi Haji Ali',
-                                                          style: HenshinTheme.bodyText1.override(
-                                                            fontFamily: 'NatoSansKhmer',
-                                                            color: const Color(0x99303030),
-                                                            useGoogleFonts: false,
-                                                          ),
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
-                                                        child: Container(
-                                                          width: 3,
-                                                          height: 3,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xC3313131),
-                                                            shape: BoxShape.circle,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Flexible(
-                                                        child: Text(
-                                                          'Kuala Linggi',
-                                                          style: HenshinTheme.bodyText1.override(
-                                                            fontFamily: 'NatoSansKhmer',
-                                                            color: const Color(0x98303030),
-                                                            useGoogleFonts: false,
-                                                          ),
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                                              child: Text(
-                                                '11:29',
-                                                style: HenshinTheme.bodyText1.override(
-                                                  fontFamily: 'NatoSansKhmer',
-                                                  color: const Color(0x99303030),
-                                                  useGoogleFonts: false,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    Text(
+                                      data['timestamp'] != null
+                                          ? (data['timestamp'] as Timestamp).toDate().toString().substring(0, 16)
+                                          : '',
+                                      style: HenshinTheme.bodyText1.override(
+                                        fontFamily: 'NatoSansKhmer',
+                                        color: const Color(0x99303030),
+                                        useGoogleFonts: false,
+                                        fontSize: 12,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 16),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  color: const Color(0x4C757575),
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                                                child: Text(
-                                                  'Resume',
-                                                  style: HenshinTheme.bodyText1,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                    color: const Color(0x4C757575),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                                                  child: Text(
-                                                    'Portfolio',
-                                                    style: HenshinTheme.bodyText1,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Harga: RM${data['price'] ?? '-'} (${data['paymentRate'] ?? ''})',
+                                  style: HenshinTheme.bodyText1,
+                                ),
+                                if (data['requirements'] != null && data['requirements'] is List)
+                                  ...List.generate(
+                                    (data['requirements'] as List).length,
+                                    (i) => Text('- ${data['requirements'][i]}', style: HenshinTheme.bodyText1),
+                                  ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Status: Dimohon',
+                                      style: HenshinTheme.bodyText1.override(
+                                        fontFamily: 'NatoSansKhmer',
+                                        color: Colors.green,
+                                        useGoogleFonts: false,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           },
         ),
