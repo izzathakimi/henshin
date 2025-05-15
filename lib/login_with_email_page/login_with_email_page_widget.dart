@@ -7,8 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../common/henshin_util.dart';
 import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../forgot_password_page/forgot_password_page_widget.dart';
+import '../admin/admin_dashboard.dart';
 
 class LoginWithEmailPageWidget extends StatefulWidget {
   const LoginWithEmailPageWidget({super.key});
@@ -24,6 +26,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
   late bool passwordVisibility;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -45,10 +48,30 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
         );
 
         if (userCredential.user != null) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const HomePage()),
-            (route) => false,
-          );
+          // Get user role from Firestore
+          DocumentSnapshot userDoc = await _firestore
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .get();
+
+          if (userDoc.exists) {
+            String role = userDoc.get('role') as String;
+            
+            // Navigate based on role
+            if (role == 'admin') {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const AdminDashboard()),
+                (route) => false,
+              );
+            } else {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const HomePage()),
+                (route) => false,
+              );
+            }
+          } else {
+            showSnackbar(context, 'User data not found. Please contact support.');
+          }
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

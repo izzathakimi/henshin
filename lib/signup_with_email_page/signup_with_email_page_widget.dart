@@ -8,6 +8,8 @@ import '../common/henshin_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../freelancer_page/frelancer_page_widget.dart'; // Add this import
 import '../login_with_email_page/login_with_email_page_widget.dart'; // Add this import
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../admin/admin_dashboard.dart'; // Add this import
 
 class SignupWithEmailPageWidget extends StatefulWidget {
   const SignupWithEmailPageWidget({super.key});
@@ -25,6 +27,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
   late bool passwordVisibility2;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -46,6 +49,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
       try {
         showSnackbar(context, 'Mencipta akaun...', loading: true);
 
+        // Create the user account
         UserCredential userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: textController1!.text,
@@ -53,10 +57,16 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
         );
 
         if (userCredential.user != null) {
-          // Navigate to FreelancerPageWidget instead of HomePage
+          // Create user document in Firestore with role
+          await _firestore.collection('users').doc(userCredential.user!.uid).set({
+            'email': textController1!.text,
+            'role': 'user', // Default role is user
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+
+          // Navigate based on role
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => const FreelancerPageWidget()),
+            MaterialPageRoute(builder: (context) => const FreelancerPageWidget()),
             (route) => false,
           );
         }
