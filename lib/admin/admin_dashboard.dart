@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui';
 import '../splash/splash_widget.dart';
 import 'create_admin.dart';
+import '../common/Henshin_theme.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -19,12 +20,12 @@ class AdminDashboardState extends State<AdminDashboard> {
 
   final List<String> _titles = [
     'Permohonan Perkhidmatan',
-    'Cipta Admin',
+    'Cipta Pentadbir',
   ];
 
   final List<Map<String, dynamic>> _drawerItems = [
     {'icon': Icons.work, 'title': 'Permohonan Perkhidmatan', 'index': 0},
-    {'icon': Icons.admin_panel_settings, 'title': 'Cipta Admin', 'index': 1}, 
+    {'icon': Icons.admin_panel_settings, 'title': 'Cipta Pentadbir', 'index': 1}, 
   ];
 
   void _onItemTapped(int index) {
@@ -239,7 +240,7 @@ class AdminDashboardState extends State<AdminDashboard> {
                         'Admin Panel',
                         style: GoogleFonts.ubuntu(
                           color: Colors.white,
-                          fontSize: 48,
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -284,7 +285,16 @@ class AdminDashboardState extends State<AdminDashboard> {
           ),
         ),
       ),
-      body: _selectedIndex == 0 ? _buildServiceRequests() : _buildCreateAdmin(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),
+          ),
+        ),
+        child: _selectedIndex == 0 ? _buildServiceRequests() : _buildCreateAdmin(),
+      ),
     );
   }
 
