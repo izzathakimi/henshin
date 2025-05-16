@@ -67,13 +67,15 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                     return Center(child: Text('Sila log masuk.'));
                   }
                   final userId = user.uid;
-                  // Filter jobs: only show if status[userId] != 'Applied'
+                  final userEmail = user.email;
+                  // Only show jobs NOT posted by the current user
                   final availableDocs = snapshot.data!.docs.where((doc) {
                     final data = doc.data() as Map<String, dynamic>;
                     final statusMap = data['status'] as Map<String, dynamic>?;
                     final status = statusMap != null ? statusMap[userId] as String? : null;
                     final approved = data['approved'] == true;
-                    return approved && (status == null || status == 'Kerja Tersedia');
+                    final createdByEmail = data['createdByEmail'];
+                    return approved && (status == null || status == 'Kerja Tersedia') && createdByEmail != userEmail;
                   }).toList();
                   if (availableDocs.isEmpty) {
                     return Center(child: Text('Tiada kerja tersedia.'));
