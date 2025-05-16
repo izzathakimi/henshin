@@ -124,17 +124,17 @@ class ServiceInprogressPageWidgetState
                           borderRadius: BorderRadius.circular(18),
                           border: Border.all(color: const Color(0x4D757575)),
                         ),
-                        child: Padding(
+                              child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                               Text(
                                 data['description'] ?? 'Servis',
                                 style: HenshinTheme.bodyText2.override(
-                                  fontFamily: 'NatoSansKhmer',
-                                  fontWeight: FontWeight.bold,
-                                  useGoogleFonts: false,
+                                              fontFamily: 'NatoSansKhmer',
+                                              fontWeight: FontWeight.bold,
+                                              useGoogleFonts: false,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -143,7 +143,7 @@ class ServiceInprogressPageWidgetState
                               const SizedBox(height: 8),
                               Text('Status: Dalam Progres', style: HenshinTheme.bodyText1.copyWith(color: Colors.blue)),
                               if (waitingMsg.isNotEmpty)
-                                Padding(
+                            Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(waitingMsg, style: TextStyle(color: Colors.orange)),
                                 ),
@@ -207,14 +207,14 @@ class ServiceInprogressPageWidgetState
           title: Text('Beri Penilaian'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+                children: [
               Text('Sila beri rating dan ulasan anda'),
               const SizedBox(height: 8),
               // If flutter_rating_bar is not available, use a simple slider
               StatefulBuilder(
                 builder: (context, setState) {
                   return Column(
-                    children: [
+                          children: [
                       Slider(
                         value: rating,
                         min: 1,

@@ -206,14 +206,6 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         const SizedBox(height: 16),
-                        Text(
-                          '0 Kenalan',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
                         if (isCurrentUserProfile)
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -229,24 +221,24 @@ class _ProfileState extends State<Profile> {
                   // Servis Selesai Section
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Text('Servis Selesai', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+                    child: Text('Sejarah Perkhidmatan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                   if (completedServices.isEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text('Tiada servis selesai.'),
+                      child: Text('Tiada sejarah perkhidmatan.'),
                     )
                   else
                     ...completedServices.map((doc) => _buildCompletedServiceCard(doc, userId)).toList(),
                   // Posts Section
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Text('Posts', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+                    child: Text('Kandungan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                   if (posts.isEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text('No posts yet'),
+                      child: Text('Tiada kandungan.'),
                     )
                   else
                     ...posts.map((doc) {
@@ -287,7 +279,7 @@ class _ProfileState extends State<Profile> {
       final data = doc.data() as Map<String, dynamic>;
       final statusMap = data['status'] as Map<String, dynamic>?;
       final isApplicant = statusMap != null && statusMap[userId] == 'Selesai';
-      final isOwner = data['createdById'] == userId && (statusMap?.values.contains('Selesai') ?? false);
+      final isOwner = data['createdByUid'] == userId && (statusMap?.values.contains('Selesai') ?? false);
       return isApplicant || isOwner;
     }).toList();
 
@@ -303,19 +295,58 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildCompletedServiceCard(QueryDocumentSnapshot doc, String? userId) {
     final data = doc.data() as Map<String, dynamic>;
-    final ownerId = data['createdById'];
+    final ownerId = data['createdByUid'];
     final ownerEmail = data['createdByEmail'];
     final ownerReview = data['ownerReview'] as Map<String, dynamic>?;
     final applicantReview = data['applicantReview'] as Map<String, dynamic>?;
     final finishedTimestamp = ownerReview?['timestamp'] ?? applicantReview?['timestamp'];
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection('freelancers').doc(ownerId).get(),
-      builder: (context, ownerSnap) {
-        String ownerName = ownerEmail;
-        if (ownerSnap.hasData && ownerSnap.data!.exists) {
-          final ownerData = ownerSnap.data!.data() as Map<String, dynamic>;
-          if (ownerData['name'] != null) ownerName = ownerData['name'];
+    final statusMap = data['status'] as Map<String, dynamic>?;
+    String? applicantId;
+    if (statusMap != null) {
+      final found = statusMap.entries.firstWhere(
+        (e) => e.value == 'Selesai',
+        orElse: () => const MapEntry<String, dynamic>('', null),
+      );
+      applicantId = found.key.isNotEmpty ? found.key : null;
+    }
+    final isOwner = userId == ownerId;
+    final isApplicant = userId == applicantId;
+    // Debug print
+    print('ownerId: ' + ownerId.toString() + ', applicantId: ' + applicantId.toString() + ', isOwner: ' + isOwner.toString() + ', isApplicant: ' + isApplicant.toString());
+    final otherPartyId = isOwner ? applicantId : ownerId;
+    final otherPartyEmail = isOwner ? applicantId : ownerEmail;
+    final label = isOwner ? 'Penerima: ' : 'Pemohon: ';
+    // Debug print
+    print('otherPartyId: ' + (otherPartyId?.toString() ?? 'null') + ', otherPartyEmail: ' + otherPartyEmail);
+    return FutureBuilder<List<DocumentSnapshot>>(
+      future: Future.wait([
+        FirebaseFirestore.instance.collection('freelancers').doc(ownerId).get(),
+        if (applicantId != null)
+          FirebaseFirestore.instance.collection('freelancers').doc(applicantId).get(),
+      ]),
+      builder: (context, snap) {
+        String ownerEmailFetched = ownerEmail;
+        String applicantEmailFetched = '';
+        if (snap.hasData) {
+          final ownerData = snap.data![0].data() as Map<String, dynamic>?;
+          if (ownerData != null && ownerData['email'] != null && ownerData['email'].toString().isNotEmpty) {
+            ownerEmailFetched = ownerData['email'];
+          } else if (ownerId != null) {
+            ownerEmailFetched = ownerId;
+          }
+          if (applicantId != null && snap.data!.length > 1) {
+            final applicantData = snap.data![1].data() as Map<String, dynamic>?;
+            if (applicantData != null && applicantData['email'] != null && applicantData['email'].toString().isNotEmpty) {
+              applicantEmailFetched = applicantData['email'];
+            } else {
+              applicantEmailFetched = applicantId;
+            }
+          }
         }
+        final isOwner = userId == ownerId;
+        final otherPartyId = isOwner ? applicantId : ownerId;
+        final otherPartyEmail = isOwner ? applicantEmailFetched : ownerEmailFetched;
+        final label = isOwner ? 'Penerima: ' : 'Pemohon: ';
         return Card(
           margin: const EdgeInsets.all(8.0),
           child: Padding(
@@ -329,16 +360,19 @@ class _ProfileState extends State<Profile> {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Text('Pemohon: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => Profile(userId: ownerId)),
-                        );
-                      },
-                      child: Text(ownerName, style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
-                    ),
+                    Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+                    if (otherPartyId != null && otherPartyEmail.isNotEmpty)
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => Profile(userId: otherPartyId)),
+                          );
+                        },
+                        child: Text(otherPartyEmail, style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
+                      )
+                    else
+                      Text(otherPartyEmail),
                   ],
                 ),
                 if (finishedTimestamp != null)
@@ -374,87 +408,129 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildPostCard(PostModel post) {
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.grey[200],
-              backgroundImage: post.profilePicture != null 
-                  ? CachedNetworkImageProvider(post.profilePicture!) as ImageProvider
-                  : null,
-              child: post.profilePicture == null
-                  ? const Icon(Icons.person, color: Colors.grey) 
-                  : null,
-            ),
-            title: Text(post.username ?? 'Anonymous'),
-            subtitle: Text(
-              post.timestamp.toString(),
-              style: const TextStyle(fontSize: 12),
-            ),
-          ),
-          if (post.mediaUrl.isNotEmpty)
-            Container(
-              width: double.infinity,
-              height: 200,
-              child: CachedNetworkImage(
-                imageUrl: post.mediaUrl,
-                fit: BoxFit.cover,
-                httpHeaders: {
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Methods': 'GET',
-                  'Access-Control-Allow-Headers': 'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
-                },
-                progressIndicatorBuilder: (context, url, progress) => Center(
-                  child: CircularProgressIndicator(
-                    value: progress.progress,
-                  ),
+    final isCurrentUserPost = isCurrentUserProfile;
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance.collection('freelancers').doc(FirebaseAuth.instance.currentUser?.uid).get(),
+      builder: (context, snapshot) {
+        String displayName = post.username ?? 'Anonymous';
+        if (snapshot.hasData && snapshot.data!.exists) {
+          final userData = snapshot.data!.data() as Map<String, dynamic>;
+          if (userData['name'] != null) displayName = userData['name'];
+        }
+        return Card(
+          margin: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.grey[200],
+                  backgroundImage: post.profilePicture != null 
+                      ? CachedNetworkImageProvider(post.profilePicture!) as ImageProvider
+                      : null,
+                  child: post.profilePicture == null
+                      ? const Icon(Icons.person, color: Colors.grey) 
+                      : null,
                 ),
-                errorWidget: (context, url, error) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error, color: Colors.red),
-                        Text('Error loading image'),
-                        Text(error.toString(), style: TextStyle(fontSize: 10)),
-                      ],
-                    ),
-                  );
-                },
+                title: Text(displayName),
+                trailing: isCurrentUserPost ? PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      _showEditPostDialog(post);
+                    } else if (value == 'delete') {
+                      _deletePost(post.id);
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(value: 'edit', child: Text('Sunting')), 
+                    const PopupMenuItem(value: 'delete', child: Text('Padam')),
+                  ],
+                ) : null,
               ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Description: ${post.description}'),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    post.isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: post.isLiked ? Colors.red : null,
+              if (post.mediaUrl.isNotEmpty)
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  child: CachedNetworkImage(
+                    imageUrl: post.mediaUrl,
+                    fit: BoxFit.cover,
+                    httpHeaders: {
+                      'Access-Control-Allow-Origin': '*',
+                      'Access-Control-Allow-Methods': 'GET',
+                      'Access-Control-Allow-Headers': 'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
+                    },
+                    progressIndicatorBuilder: (context, url, progress) => Center(
+                      child: CircularProgressIndicator(
+                        value: progress.progress,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.error, color: Colors.red),
+                            Text('Error loading image'),
+                            Text(error.toString(), style: TextStyle(fontSize: 10)),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  onPressed: () => _handleLike(post.id),
                 ),
-                Text('${post.likes}'),
-                const SizedBox(width: 16),
-                IconButton(
-                  icon: const Icon(Icons.comment),
-                  onPressed: () => _handleComment(),
-                ),
-                Text('${post.comments}'),
-              ],
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(post.description),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  void _showEditPostDialog(PostModel post) {
+    final TextEditingController controller = TextEditingController(text: post.description);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Post'),
+          content: TextField(
+            controller: controller,
+            maxLines: 3,
+            decoration: InputDecoration(hintText: 'Edit caption...'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance.collection('posts').doc(post.id).update({'description': controller.text});
+                Navigator.pop(context);
+                setState(() {});
+              },
+              child: Text('Simpan'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await _deletePost(post.id);
+                Navigator.pop(context);
+              },
+              child: Text('Padam', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deletePost(String postId) async {
+    await FirebaseFirestore.instance.collection('posts').doc(postId).delete();
+    setState(() {});
   }
 
   Future<void> _updateProfilePicture(BuildContext context) async {
