@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/Henshin_theme.dart';
 import '../request_summary/request_summary_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RequestHistoryWidget extends StatelessWidget {
   const RequestHistoryWidget({super.key});
@@ -45,11 +46,27 @@ class RequestHistoryWidget extends StatelessWidget {
               );
             }
 
+            final user = FirebaseAuth.instance.currentUser;
+            final userEmail = user?.email;
+            final userDocs = snapshot.data!.docs.where((doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              return data['createdByEmail'] == userEmail;
+            }).toList();
+
+            if (userDocs.isEmpty) {
+              return Center(
+                child: Text(
+                  'Tiada permintaan sebelumnya',
+                  style: HenshinTheme.bodyText1.copyWith(color: Colors.white),
+                ),
+              );
+            }
+
             return ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: snapshot.data!.docs.length,
+              itemCount: userDocs.length,
               itemBuilder: (context, index) {
-                final doc = snapshot.data!.docs[index];
+                final doc = userDocs[index];
                 final data = doc.data() as Map<String, dynamic>;
                 final timestamp = (data['timestamp'] as Timestamp?)?.toDate();
 
