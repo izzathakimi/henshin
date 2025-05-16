@@ -158,28 +158,35 @@ class RequestHistoryWidget extends StatelessWidget {
                                 final applicants = snapshot.data!;
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: applicants.map((app) => InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => Profile(userId: app['id']),
+                                  children: applicants.map((app) {
+                                    final applicantId = app['id'];
+                                    final applicantEmail = app['email'] ?? applicantId;
+                                    final status = (statusMap != null && statusMap[applicantId] != null) ? statusMap[applicantId] : null;
+                                    if (status != 'Dimohon') return SizedBox.shrink();
+                                    return Row(
+                                      children: [
+                                        Expanded(child: Text(applicantEmail)),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (_) => Profile(userId: applicantId)),
+                                            );
+                                          },
+                                          child: Text('Lihat'),
                                         ),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 2.0),
-                                      child: Text(
-                                        app['name'] != null && app['name'].toString().isNotEmpty
-                                            ? app['name'] + ' (' + (app['email'] ?? '') + ')'
-                                            : (app['email'] ?? app['id']),
-                                        style: HenshinTheme.bodyText2.copyWith(
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline,
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('service_requests')
+                                                .doc(doc.id)
+                                                .update({'status.$applicantId': 'Diterima'});
+                                          },
+                                          child: Text('Terima'),
                                         ),
-                                      ),
-                                    ),
-                                  )).toList(),
+                                      ],
+                                    );
+                                  }).toList(),
                                 );
                               },
                             ),

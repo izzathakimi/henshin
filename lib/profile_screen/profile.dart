@@ -146,85 +146,81 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: [
               // Profile Section
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Profile Picture Section
-                        _buildProfilePicture(),
-                        const SizedBox(height: 16),
-                        // Name
-                        Text(
-                          userData?['name'] ?? 'Tiada Nama',
-                          style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Profile Picture Section
+                    _buildProfilePicture(),
+                    const SizedBox(height: 16),
+                    // Name
+                    Text(
+                      userData?['name'] ?? 'Tiada Nama',
+                      style: GoogleFonts.ubuntu(
+                        textStyle: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(height: 8),
-                        // Location
-                        Text(
-                          '${userData?['city'] ?? '-'}, ${userData?['state'] ?? '-'}',
-                          style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        // Phone Number
-                        Text(
-                          userData?['phone number'] ?? '-',
-                          style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        // Specialty
-                        if (userData?['specialty'] != null && (userData?['specialty'] as String).isNotEmpty)
-                          Text(
-                            userData?['specialty'],
-                            style: GoogleFonts.ubuntu(
-                              textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
-                            ),
-                          ),
-                        // Email (if available)
-                        if (userData?['email'] != null && (userData?['email'] as String).isNotEmpty)
-                          Text(
-                            userData?['email'],
-                            style: GoogleFonts.ubuntu(
-                              textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
-                            ),
-                          ),
-                        const SizedBox(height: 16),
-                        // Connections
-                        Text(
-                          '0 Kenalan',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Edit Profile Button (only for current user)
-                        if (isCurrentUserProfile)
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              foregroundColor: Colors.white,
-                            ),
-                            onPressed: _showEditDialog,
-                            child: const Text('Ubah Maklumat'),
-                          ),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    // Location
+                    Text(
+                      '${userData?['city'] ?? '-'}, ${userData?['state'] ?? '-'}',
+                      style: GoogleFonts.ubuntu(
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Phone Number
+                    Text(
+                      userData?['phone number'] ?? '-',
+                      style: GoogleFonts.ubuntu(
+                        textStyle: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Specialty
+                    if (userData?['specialty'] != null && (userData?['specialty'] as String).isNotEmpty)
+                      Text(
+                        userData?['specialty'],
+                        style: GoogleFonts.ubuntu(
+                          textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                      ),
+                    // Email (if available)
+                    if (userData?['email'] != null && (userData?['email'] as String).isNotEmpty)
+                      Text(
+                        userData?['email'],
+                        style: GoogleFonts.ubuntu(
+                          textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                      ),
+                    const SizedBox(height: 16),
+                    // Connections
+                    Text(
+                      '0 Kenalan',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Edit Profile Button (only for current user)
+                    if (isCurrentUserProfile)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: _showEditDialog,
+                        child: const Text('Ubah Maklumat'),
+                      ),
+                  ],
                 ),
               ),
 
