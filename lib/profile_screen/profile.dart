@@ -109,6 +109,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = widget.userId ?? user?.uid;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -223,8 +225,115 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-
-              // Existing Posts Section
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('Servis Selesai', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('service_requests')
+                      .orderBy('timestamp', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return const Center(child: Text('Tiada servis selesai.'));
+                    }
+                    final completedServices = snapshot.data!.docs.where((doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      final statusMap = data['status'] as Map<String, dynamic>?;
+                      final isApplicant = statusMap != null && statusMap[userId] == 'Selesai';
+                      final isOwner = data['createdById'] == userId && (statusMap?.values.contains('Selesai') ?? false);
+                      return isApplicant || isOwner;
+                    }).toList();
+                    if (completedServices.isEmpty) {
+                      return const Center(child: Text('Tiada servis selesai.'));
+                    }
+                    return ListView.builder(
+                      itemCount: completedServices.length,
+                      itemBuilder: (context, index) {
+                        final doc = completedServices[index];
+                        final data = doc.data() as Map<String, dynamic>;
+                        final ownerId = data['createdById'];
+                        final ownerEmail = data['createdByEmail'];
+                        final ownerReview = data['ownerReview'] as Map<String, dynamic>?;
+                        final applicantReview = data['applicantReview'] as Map<String, dynamic>?;
+                        final finishedTimestamp = ownerReview?['timestamp'] ?? applicantReview?['timestamp'];
+                        return FutureBuilder<DocumentSnapshot>(
+                          future: FirebaseFirestore.instance.collection('freelancers').doc(ownerId).get(),
+                          builder: (context, ownerSnap) {
+                            String ownerName = ownerEmail;
+                            if (ownerSnap.hasData && ownerSnap.data!.exists) {
+                              final ownerData = ownerSnap.data!.data() as Map<String, dynamic>;
+                              if (ownerData['name'] != null) ownerName = ownerData['name'];
+                            }
+                            return Card(
+                              margin: const EdgeInsets.all(8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(data['description'] ?? 'Servis', style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 8),
+                                    Text('Status: Selesai', style: TextStyle(color: Colors.green)),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Text('Pemohon: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (_) => Profile(userId: ownerId)),
+                                            );
+                                          },
+                                          child: Text(ownerName, style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
+                                        ),
+                                      ],
+                                    ),
+                                    if (finishedTimestamp != null)
+                                      Text('Tarikh Selesai: ' + _formatTimestamp(finishedTimestamp)),
+                                    if (ownerReview != null) ...[
+                                      const SizedBox(height: 8),
+                                      Text('Ulasan Pemohon:', style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.star, color: Colors.amber),
+                                          Text('${ownerReview['rating'] ?? '-'}'),
+                                        ],
+                                      ),
+                                      Text(ownerReview['review'] ?? ''),
+                                    ],
+                                    if (applicantReview != null) ...[
+                                      const SizedBox(height: 8),
+                                      Text('Ulasan Penerima:', style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.star, color: Colors.amber),
+                                          Text('${applicantReview['rating'] ?? '-'}'),
+                                        ],
+                                      ),
+                                      Text(applicantReview['review'] ?? ''),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('Posts', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -236,28 +345,18 @@ class _ProfileState extends State<Profile> {
                     if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }
-
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                       return const Center(child: Text('No posts yet'));
                     }
-
                     return ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         final doc = snapshot.data!.docs[index];
                         final data = doc.data() as Map<String, dynamic>;
-                        print('Raw post data: $data');
-                        
                         final post = PostModel.fromFirestore(data, doc.id);
-                        print('Post model data:');
-                        print('- Profile Picture: ${post.profilePicture}');
-                        print('- Username: ${post.username}');
-                        print('- Description: ${post.description}');
-
                         return Card(
                           margin: const EdgeInsets.all(8.0),
                           child: Column(
@@ -268,10 +367,7 @@ class _ProfileState extends State<Profile> {
                                   radius: 25,
                                   backgroundColor: Colors.grey[200],
                                   backgroundImage: post.profilePicture != null 
-                                      ? CachedNetworkImageProvider(
-                                          post.profilePicture!,
-                                          errorListener: (error) => print('Image error: $error'),
-                                        ) 
+                                      ? CachedNetworkImageProvider(post.profilePicture!) as ImageProvider
                                       : null,
                                   child: post.profilePicture == null
                                       ? const Icon(Icons.person, color: Colors.grey) 
@@ -301,7 +397,6 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     ),
                                     errorWidget: (context, url, error) {
-                                      print('Image error: $error');
                                       return Center(
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -317,7 +412,7 @@ class _ProfileState extends State<Profile> {
                                 ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Description: ${post.description}'), // Modified to show field name
+                                child: Text('Description: ${post.description}'),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -587,5 +682,13 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+
+  String _formatTimestamp(dynamic timestamp) {
+    if (timestamp is Timestamp) {
+      final date = timestamp.toDate();
+      return '${date.day}/${date.month}/${date.year}';
+    }
+    return '-';
   }
 }
