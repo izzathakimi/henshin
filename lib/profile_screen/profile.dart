@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:henshin/application_state.dart';
 import 'package:henshin/profile_screen/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../common/Henshin_theme.dart';
 
 class PostModel {
   final String id;
@@ -55,7 +56,8 @@ class PostModel {
 }
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final String? userId;
+  const Profile({super.key, this.userId});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -73,26 +75,34 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
 
+  bool get isCurrentUserProfile {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    return widget.userId == null || widget.userId == currentUser?.uid;
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchUserData();
-    _nameController.text = userData?['name'] ?? '';
-    _phoneController.text = userData?['phone'] ?? '';
-    _specialtyController.text = userData?['specialty'] ?? '';
-    _stateController.text = userData?['state'] ?? '';
-    _cityController.text = userData?['city'] ?? '';
   }
 
   Future<void> _fetchUserData() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    final userId = widget.userId ?? FirebaseAuth.instance.currentUser?.uid;
+    print('Fetching profile for userId: ' + (userId ?? 'null'));
+    if (userId != null) {
       final doc = await FirebaseFirestore.instance
           .collection('freelancers')
-          .doc(user.uid)
+          .doc(userId)
           .get();
+      print('Document exists: \\${doc.exists}');
+      print('Document data: \\${doc.data()}');
       setState(() {
         userData = doc.data();
+        _nameController.text = userData?['name'] ?? '';
+        _phoneController.text = userData?['phone number'] ?? '';
+        _specialtyController.text = userData?['specialty'] ?? '';
+        _stateController.text = userData?['state'] ?? '';
+        _cityController.text = userData?['city'] ?? '';
       });
     }
   }
@@ -100,6 +110,27 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+          child: const Icon(
+            Icons.keyboard_arrow_left_outlined,
+            color: Colors.black,
+            size: 24,
+          ),
+        ),
+        actions: const [],
+        centerTitle: true,
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -125,10 +156,9 @@ class _ProfileState extends State<Profile> {
                         // Profile Picture Section
                         _buildProfilePicture(),
                         const SizedBox(height: 16),
-                        
                         // Name
                         Text(
-                          userData?['name'] ?? 'Name',
+                          userData?['name'] ?? 'Tiada Nama',
                           style: GoogleFonts.ubuntu(
                             textStyle: const TextStyle(
                               fontSize: 24,
@@ -137,10 +167,9 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        
                         // Location
                         Text(
-                          '${userData?['city'] ?? 'City'}, ${userData?['state'] ?? 'State'}',
+                          '${userData?['city'] ?? '-'}, ${userData?['state'] ?? '-'}',
                           style: GoogleFonts.ubuntu(
                             textStyle: const TextStyle(
                               fontSize: 16,
@@ -149,16 +178,31 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        
                         // Phone Number
                         Text(
-                          userData?['phone number'] ?? 'Phone Number',
+                          userData?['phone number'] ?? '-',
                           style: GoogleFonts.ubuntu(
                             textStyle: const TextStyle(fontSize: 16),
                           ),
                         ),
+                        const SizedBox(height: 8),
+                        // Specialty
+                        if (userData?['specialty'] != null && (userData?['specialty'] as String).isNotEmpty)
+                          Text(
+                            userData?['specialty'],
+                            style: GoogleFonts.ubuntu(
+                              textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                            ),
+                          ),
+                        // Email (if available)
+                        if (userData?['email'] != null && (userData?['email'] as String).isNotEmpty)
+                          Text(
+                            userData?['email'],
+                            style: GoogleFonts.ubuntu(
+                              textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                            ),
+                          ),
                         const SizedBox(height: 16),
-                        
                         // Connections
                         Text(
                           '0 Kenalan',
@@ -168,16 +212,16 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        
-                        // Edit Profile Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
+                        // Edit Profile Button (only for current user)
+                        if (isCurrentUserProfile)
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                            ),
+                            onPressed: _showEditDialog,
+                            child: const Text('Ubah Maklumat'),
                           ),
-                          onPressed: _showEditDialog,
-                          child: const Text('Ubah Maklumat'),
-                        ),
                       ],
                     ),
                   ),
@@ -189,7 +233,7 @@ class _ProfileState extends State<Profile> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('posts')
-                      .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                      .where('userId', isEqualTo: widget.userId ?? FirebaseAuth.instance.currentUser?.uid)
                       .orderBy('timestamp', descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -312,17 +356,19 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ProfileScreen()),
-          );
-        },
-        child: const Icon(Icons.add_a_photo),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
+      floatingActionButton: isCurrentUserProfile
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                );
+              },
+              child: const Icon(Icons.add_a_photo),
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -433,13 +479,13 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildProfilePicture() {
     final user = FirebaseAuth.instance.currentUser;
-    
+    final isCurrent = isCurrentUserProfile;
     return Stack(
       children: [
         StreamBuilder<DocumentSnapshot>(
           stream: FirebaseFirestore.instance
               .collection('freelancers')
-              .doc(user?.uid)
+              .doc(widget.userId ?? user?.uid)
               .snapshots(),
           builder: (context, snapshot) {
             print('Snapshot data: ${snapshot.data?.data()}');
@@ -468,18 +514,19 @@ class _ProfileState extends State<Profile> {
             );
           },
         ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: IconButton(
-            icon: const Icon(Icons.camera_alt),
-            onPressed: _uploadProfilePicture,
-            style: IconButton.styleFrom(
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+        if (isCurrent)
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: IconButton(
+              icon: const Icon(Icons.camera_alt),
+              onPressed: _uploadProfilePicture,
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

@@ -3,9 +3,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/Henshin_theme.dart';
 import '../request_summary/request_summary_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../profile_screen/profile.dart';
+// Add this import for navigation to user profile
+// import '../user_profile/user_profile_page.dart'; // Uncomment and adjust path if you have a profile page
 
 class RequestHistoryWidget extends StatelessWidget {
   const RequestHistoryWidget({super.key});
+
+  Future<List<Map<String, dynamic>>> _fetchApplicants(List<String> userIds) async {
+    if (userIds.isEmpty) return [];
+    final usersSnap = await FirebaseFirestore.instance
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: userIds)
+        .get();
+    return usersSnap.docs.map((doc) {
+      final data = doc.data();
+      data['id'] = doc.id;
+      return data;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +86,15 @@ class RequestHistoryWidget extends StatelessWidget {
                 final data = doc.data() as Map<String, dynamic>;
                 final timestamp = (data['timestamp'] as Timestamp?)?.toDate();
 
+                // Get applicant userIds
+                final statusMap = data['status'] as Map<String, dynamic>?;
+                final applicantIds = statusMap == null
+                    ? <String>[]
+                    : statusMap.entries
+                        .where((e) => e.value == 'Dimohon')
+                        .map((e) => e.key)
+                        .toList();
+
                 return Card(
                   margin: const EdgeInsets.only(bottom: 16),
                   shape: RoundedRectangleBorder(
@@ -114,6 +139,51 @@ class RequestHistoryWidget extends StatelessWidget {
                                 color: Colors.grey[600],
                               ),
                             ),
+                          // APPLICANTS SECTION
+                          if (applicantIds.isNotEmpty) ...[
+                            const SizedBox(height: 8),
+                            Text('Pemohon:', style: HenshinTheme.bodyText1.copyWith(fontWeight: FontWeight.bold)),
+                            FutureBuilder<List<Map<String, dynamic>>>(
+                              future: _fetchApplicants(applicantIds),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                                    child: LinearProgressIndicator(),
+                                  );
+                                }
+                                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                  return Text('Tiada pemohon.', style: HenshinTheme.bodyText2);
+                                }
+                                final applicants = snapshot.data!;
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: applicants.map((app) => InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => Profile(userId: app['id']),
+                                        ),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                      child: Text(
+                                        app['name'] != null && app['name'].toString().isNotEmpty
+                                            ? app['name'] + ' (' + (app['email'] ?? '') + ')'
+                                            : (app['email'] ?? app['id']),
+                                        style: HenshinTheme.bodyText2.copyWith(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  )).toList(),
+                                );
+                              },
+                            ),
+                          ],
                         ],
                       ),
                       trailing: Row(
