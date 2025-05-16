@@ -116,6 +116,95 @@ class RequestHistoryWidget extends StatelessWidget {
                             ),
                         ],
                       ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () async {
+                              final descController = TextEditingController(text: data['description'] ?? '');
+                              final priceController = TextEditingController(text: (data['price'] ?? '').toString());
+                              final paymentRateController = TextEditingController(text: data['paymentRate'] ?? '');
+                              final result = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Edit Permintaan'),
+                                    content: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          TextField(
+                                            controller: descController,
+                                            decoration: const InputDecoration(labelText: 'Deskripsi'),
+                                          ),
+                                          TextField(
+                                            controller: priceController,
+                                            decoration: const InputDecoration(labelText: 'Harga'),
+                                            keyboardType: TextInputType.number,
+                                          ),
+                                          TextField(
+                                            controller: paymentRateController,
+                                            decoration: const InputDecoration(labelText: 'Kadar Bayaran'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, false),
+                                        child: const Text('Batal'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, true),
+                                        child: const Text('Simpan'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              if (result == true) {
+                                await FirebaseFirestore.instance
+                                    .collection('service_requests')
+                                    .doc(doc.id)
+                                    .update({
+                                  'description': descController.text,
+                                  'price': double.tryParse(priceController.text) ?? 0.0,
+                                  'paymentRate': paymentRateController.text,
+                                });
+                              }
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Padam Permintaan'),
+                                  content: const Text('Anda pasti mahu memadam permintaan ini?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, false),
+                                      child: const Text('Batal'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, true),
+                                      child: const Text('Padam'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              if (confirm == true) {
+                                await FirebaseFirestore.instance
+                                    .collection('service_requests')
+                                    .doc(doc.id)
+                                    .delete();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
