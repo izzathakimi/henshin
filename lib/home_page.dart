@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_screen/home_screen.dart';
 import 'profile_screen/profile.dart';
-import 'community_forum/community_forum.dart';
 import 'chat/chat_screen.dart';
 import 'job_application_page/job_application_widget.dart';
 import 'job_proposals_page/job_proposals_page_widget.dart';
@@ -93,10 +92,9 @@ class HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _screens = [
-    const HomeScreen(),
-    const CommunityForum(),
-    const Center(child: CircularProgressIndicator()), // Chat placeholder
-    const Profile(),
+    const HomeScreen(),              // Home (left)
+    const Profile(),                 // Profile (middle)
+    const Center(child: CircularProgressIndicator()), // Chat (right, placeholder)
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
     const RequestServicePage1Widget(),
@@ -126,9 +124,8 @@ class HomePageState extends State<HomePage> {
 
   final List<String> _titles = [
     'Halaman Utama',
-    'Forum Komuniti',
-    'Ruang Pesan',
     'Halaman Profil',
+    'Ruang Pesan',
     'Kerja Tersedia',
     'Permohonan Kerja',
     'Tawar Pekerjaan',
@@ -137,12 +134,12 @@ class HomePageState extends State<HomePage> {
   ];
 
   final List<Map<String, dynamic>> _drawerItems = [
-    {'icon': Icons.person, 'title': 'Halaman Profil', 'index': 3},
-    {'icon': Icons.work, 'title': 'Kerja Tersedia', 'index': 4},
-    {'icon': Icons.description, 'title': 'Permohonan Kerja', 'index': 5},
-    {'icon': Icons.build, 'title': 'Tawar Pekerjaan', 'index': 6},
-    {'icon': Icons.timer, 'title': 'Servis Dalam Proses', 'index': 7},
-    {'icon': Icons.history, 'title': 'Senarai Pekerjaan Yang Ditawarkan', 'index': 8},
+    {'icon': Icons.person, 'title': 'Halaman Profil', 'index': 1},
+    {'icon': Icons.work, 'title': 'Kerja Tersedia', 'index': 3},
+    {'icon': Icons.description, 'title': 'Permohonan Kerja', 'index': 4},
+    {'icon': Icons.build, 'title': 'Tawar Pekerjaan', 'index': 5},
+    {'icon': Icons.timer, 'title': 'Servis Dalam Proses', 'index': 6},
+    {'icon': Icons.history, 'title': 'Senarai Pekerjaan Yang Ditawarkan', 'index': 7},
   ];
 
   void _onItemTapped(int index) {
@@ -296,7 +293,7 @@ class HomePageState extends State<HomePage> {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.forum),
+                  icon: Icon(Icons.person),
                   label: '',
                 ),
                 BottomNavigationBarItem(

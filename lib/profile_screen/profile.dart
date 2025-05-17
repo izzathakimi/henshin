@@ -25,6 +25,7 @@ class PostModel {
   final int likes;
   final int comments;
   final bool isLiked;
+  final String userId;
 
   PostModel({
     required this.id,
@@ -36,6 +37,7 @@ class PostModel {
     this.likes = 0,
     this.comments = 0,
     this.isLiked = false,
+    required this.userId,
   });
 
   factory PostModel.fromFirestore(Map<String, dynamic> data, String docId) {
@@ -51,6 +53,7 @@ class PostModel {
       likes: data['likes'] ?? 0,
       comments: data['comments'] ?? 0,
       isLiked: (data['likedBy'] ?? []).contains(FirebaseAuth.instance.currentUser?.uid),
+      userId: data['userId'] ?? '',
     );
   }
 }
@@ -409,13 +412,15 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildPostCard(PostModel post) {
     final isCurrentUserPost = isCurrentUserProfile;
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection('freelancers').doc(FirebaseAuth.instance.currentUser?.uid).get(),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection('freelancers').doc(post.userId).snapshots(),
       builder: (context, snapshot) {
         String displayName = post.username ?? 'Anonymous';
+        String? profilePicUrl = post.profilePicture;
         if (snapshot.hasData && snapshot.data!.exists) {
           final userData = snapshot.data!.data() as Map<String, dynamic>;
           if (userData['name'] != null) displayName = userData['name'];
+          if (userData['profilePicture'] != null) profilePicUrl = userData['profilePicture'];
         }
         return Card(
           margin: const EdgeInsets.all(8.0),
@@ -426,10 +431,10 @@ class _ProfileState extends State<Profile> {
                 leading: CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.grey[200],
-                  backgroundImage: post.profilePicture != null 
-                      ? CachedNetworkImageProvider(post.profilePicture!) as ImageProvider
+                  backgroundImage: profilePicUrl != null 
+                      ? CachedNetworkImageProvider(profilePicUrl) as ImageProvider
                       : null,
-                  child: post.profilePicture == null
+                  child: profilePicUrl == null
                       ? const Icon(Icons.person, color: Colors.grey) 
                       : null,
                 ),
