@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late int _selectedIndex;
-  late StreamChatClient _client;
+  late StreamChatClient client;
   late Channel _channel;
   bool _isChatInitialized = false;
 
@@ -36,7 +36,7 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _initializeStreamChat() async {
     try {
-      _client = StreamChatClient(
+      client = StreamChatClient(
         'b67pax5b2wdq',
         logLevel: Level.INFO,
       );
@@ -44,7 +44,7 @@ class HomePageState extends State<HomePage> {
       final currentUser = firebase.FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
         // First create the user
-        await _client.connectUser(
+        await client.connectUser(
           User(
             id: 'tutorial-flutter', // Use the same ID as the token
             name: currentUser.displayName ?? 'User',
@@ -57,7 +57,7 @@ class HomePageState extends State<HomePage> {
         );
 
         // Create a general channel
-        _channel = _client.channel('messaging', id: 'general', extraData: {
+        _channel = client.channel('messaging', id: 'general', extraData: {
           'name': 'General Chat',
           'image': 'https://picsum.photos/100',
           'members': ['tutorial-flutter'], // Use the same user ID
@@ -65,13 +65,13 @@ class HomePageState extends State<HomePage> {
         await _channel.watch();
 
         // Create some example channels
-        await _client.channel('messaging', id: 'support', extraData: {
+        await client.channel('messaging', id: 'support', extraData: {
           'name': 'Support',
           'image': 'https://picsum.photos/101',
           'members': ['tutorial-flutter'],
         }).watch();
 
-        await _client.channel('messaging', id: 'announcements', extraData: {
+        await client.channel('messaging', id: 'announcements', extraData: {
           'name': 'Announcements',
           'image': 'https://picsum.photos/102',
           'members': ['tutorial-flutter'],
@@ -107,12 +107,12 @@ class HomePageState extends State<HomePage> {
     if (_isChatInitialized) {
       screens[2] = Builder(
         builder: (context) => StreamChat(
-          client: _client,
+          client: client,
           streamChatThemeData: StreamChatThemeData.light(),
           child: StreamChannel(
             channel: _channel,
             child: ChatScreen(
-              client: _client,
+              client: client,
               channel: _channel,
             ),
           ),
@@ -151,7 +151,7 @@ class HomePageState extends State<HomePage> {
   Future<void> _logout() async {
     try {
       if (_isChatInitialized) {
-        await _client.disconnectUser();
+        await client.disconnectUser();
       }
       await firebase.FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(

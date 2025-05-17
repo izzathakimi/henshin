@@ -14,6 +14,7 @@ import 'package:henshin/application_state.dart';
 import 'package:henshin/profile_screen/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../common/Henshin_theme.dart';
+import '../chat/chat_screen_direct.dart';
 
 class PostModel {
   final String id;
@@ -782,6 +783,27 @@ class _ProfileState extends State<Profile> {
   }
 
   void _startDirectChat() {
-    // TODO: Implement navigation to direct chat screen
+    // Find the StreamChatClient from the HomePageState
+    final homePageState = context.findAncestorStateOfType<HomePageState>();
+    if (homePageState == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Chat client not found.')),
+      );
+      return;
+    }
+    final client = homePageState.client;
+    final targetUserId = widget.userId;
+    final targetUserName = userData?['name'] ?? 'User';
+    if (targetUserId == null) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ChatScreenDirect(
+          client: client,
+          targetUserId: targetUserId,
+          targetUserName: targetUserName,
+        ),
+      ),
+    );
   }
 }
