@@ -133,7 +133,22 @@ class _ProfileState extends State<Profile> {
             size: 24,
           ),
         ),
-        actions: const [],
+        actions: [
+          if (!isCurrentUserProfile)
+            Container(
+              margin: const EdgeInsets.only(right: 8, top: 6, bottom: 6),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.chat, color: Colors.white),
+                onPressed: _startDirectChat,
+                tooltip: 'Chat',
+              ),
+            ),
+        ],
         centerTitle: true,
       ),
       body: Container(
@@ -764,5 +779,9 @@ class _ProfileState extends State<Profile> {
       return '${date.day}/${date.month}/${date.year}';
     }
     return '-';
+  }
+
+  void _startDirectChat() {
+    // TODO: Implement navigation to direct chat screen
   }
 }
