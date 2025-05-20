@@ -6,23 +6,11 @@ import 'dart:typed_data';
 
 class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
-  bool _isSuspended = false;
   bool get loggedIn => _loggedIn;
-  bool get isSuspended => _isSuspended;
 
   ApplicationState() {
     FirebaseAuth.instance.userChanges().listen((user) async {
       _loggedIn = user != null;
-      if (user != null) {
-        // Check if user is suspended
-        final userDoc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-        _isSuspended = userDoc.data()?['isSuspended'] ?? false;
-      } else {
-        _isSuspended = false;
-      }
       notifyListeners();
     });
   }

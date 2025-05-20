@@ -128,16 +128,12 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
 
                     if (data == null) return false;
                     if (data['role'] != 'user') return false;
-                    if (data['isSuspended'] == true) return false;
 
                     final name = data['name'];
                     if (name is! String) return false;
 
                     return name.toLowerCase().contains(query);
                   }).toList();
-
-
-
 
                   if (users.isEmpty) {
                     return const Center(child: Text('Tiada pengguna dijumpai'));
@@ -181,36 +177,6 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                                   );
                                 },
                                 tooltip: 'Lihat Profil',
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.block),
-                                onPressed: () async {
-                                  final docRef = FirebaseFirestore.instance.collection('users').doc(users[index].id);
-                                  final docSnap = await docRef.get();
-                                  final data = docSnap.data();
-                                  if (docSnap.exists && data != null && data['role'] == 'user' && data['name'] is String) {
-                                    try {
-                                      await docRef.update({'isSuspended': true});
-                                      if (mounted) {
-                                        setState(() {}); // Force rebuild
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Akaun telah digantung'),
-                                          ),
-                                        );
-                                      }
-                                    } catch (e) {
-                                      if (mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Ralat telah berlaku'),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  }
-                                },
-                                tooltip: 'Gantung',
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete),

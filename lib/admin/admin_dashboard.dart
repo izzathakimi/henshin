@@ -7,7 +7,6 @@ import '../splash/splash_widget.dart';
 import 'create_admin.dart';
 import '../common/Henshin_theme.dart';
 import 'akaun_pengguna_page.dart';
-import 'suspended_accounts_page.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -24,14 +23,12 @@ class AdminDashboardState extends State<AdminDashboard> {
     'Permohonan Perkhidmatan',
     'Cipta Pentadbir',
     'Akaun Pengguna',
-    'Akaun Digantung',
   ];
 
   final List<Map<String, dynamic>> _drawerItems = [
     {'icon': Icons.work, 'title': 'Permohonan Perkhidmatan', 'index': 0},
     {'icon': Icons.admin_panel_settings, 'title': 'Cipta Pentadbir', 'index': 1},
     {'icon': Icons.people, 'title': 'Akaun Pengguna', 'index': 2},
-    {'icon': Icons.block, 'title': 'Akaun Digantung', 'index': 3},
   ];
 
   void _onItemTapped(int index) {
@@ -204,12 +201,6 @@ class AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  Widget _buildSuspendedAccounts() {
-    return const Center(
-      child: SuspendedAccountsPage(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -291,7 +282,6 @@ class AdminDashboardState extends State<AdminDashboard> {
             _buildServiceRequests(),
             _buildCreateAdmin(),
             _buildUserAccounts(),
-            _buildSuspendedAccounts(),
           ],
         ),
       ),
