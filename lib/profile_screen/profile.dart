@@ -237,7 +237,25 @@ class _ProfileState extends State<Profile> {
                   // Servis Selesai Section
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Text('Sejarah Perkhidmatan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+                    child: Row(
+                      children: [
+                        Text('Sejarah Perkhidmatan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+                        if ((userData?['reportsReceived'] ?? 0) > 0) ...[
+                          const SizedBox(width: 12),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'Nombor Laporan Diterima: ${userData?['reportsReceived'] ?? 0}',
+                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                   if (completedServices.isEmpty)
                     Padding(

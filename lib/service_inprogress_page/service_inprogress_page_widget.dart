@@ -1,10 +1,10 @@
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
-import '../service_inprogress_page2/service_inprogress_page2_widget.dart';
 import '../home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../report_page.dart';
 
 class ServiceInprogressPageWidget extends StatefulWidget {
   const ServiceInprogressPageWidget({super.key});
@@ -149,23 +149,51 @@ class ServiceInprogressPageWidgetState
                                 ),
                               const SizedBox(height: 8),
                               if ((isOwner && !ownerConfirmed) || (isAcceptedApplicant && !applicantConfirmed))
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    if (isOwner) {
-                                      await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'ownerConfirmed': true});
-                                    } else if (isAcceptedApplicant) {
-                                      await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'applicantConfirmed': true});
-                                    }
-                                    // Show review dialog immediately after confirmation
-                                    await _showReviewDialog(context, isOwner, doc.id, ownerId, acceptedApplicantId);
-                                    // If both confirmed, set status to Selesai
-                                    final updatedDoc = await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).get();
-                                    final updatedData = updatedDoc.data() as Map<String, dynamic>;
-                                    if (updatedData['ownerConfirmed'] == true && updatedData['applicantConfirmed'] == true) {
-                                      await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'status.$acceptedApplicantId': 'Selesai'});
-                                    }
-                                  },
-                                  child: Text('Selesai'),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        if (isOwner) {
+                                          await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'ownerConfirmed': true});
+                                        } else if (isAcceptedApplicant) {
+                                          await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'applicantConfirmed': true});
+                                        }
+                                        // Show review dialog immediately after confirmation
+                                        await _showReviewDialog(context, isOwner, doc.id, ownerId, acceptedApplicantId);
+                                        // If both confirmed, set status to Selesai
+                                        final updatedDoc = await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).get();
+                                        final updatedData = updatedDoc.data() as Map<String, dynamic>;
+                                        if (updatedData['ownerConfirmed'] == true && updatedData['applicantConfirmed'] == true) {
+                                          await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'status.$acceptedApplicantId': 'Selesai'});
+                                        }
+                                      },
+                                      child: Text('Selesai'),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    if ((isOwner ? acceptedApplicantId : ownerId) != null)
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ReportPage(
+                                                reportedUserId: isOwner ? acceptedApplicantId : ownerId,
+                                                reporterUserId: userId,
+                                                serviceId: doc.id,
+                                                isOwner: isOwner,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Text('Lapor'),
+                                      ),
+                                    if ((isOwner ? acceptedApplicantId : ownerId) == null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Text('Tiada pengguna untuk dilapor', style: TextStyle(color: Colors.orange)),
+                                      ),
+                                  ],
                                 ),
                             ],
                           ),

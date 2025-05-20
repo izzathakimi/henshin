@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'dart:ui';
 import 'splash/splash_widget.dart';
+import 'notifikasi_page.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -100,6 +101,7 @@ class HomePageState extends State<HomePage> {
     const RequestServicePage1Widget(),
     const ServiceInprogressPageWidget(),
     const RequestHistoryWidget(),
+    NotifikasiPage(),
   ];
 
   List<Widget> get screens {
@@ -131,6 +133,7 @@ class HomePageState extends State<HomePage> {
     'Tawar Pekerjaan',
     'Servis dalam Proses',
     'Senarai Pekerjaan Yang Ditawarkan',
+    'Notifikasi',
   ];
 
   final List<Map<String, dynamic>> _drawerItems = [
@@ -140,6 +143,7 @@ class HomePageState extends State<HomePage> {
     {'icon': Icons.build, 'title': 'Tawar Pekerjaan', 'index': 5},
     {'icon': Icons.timer, 'title': 'Servis Dalam Proses', 'index': 6},
     {'icon': Icons.history, 'title': 'Senarai Pekerjaan Yang Ditawarkan', 'index': 7},
+    {'icon': Icons.notifications, 'title': 'Notifikasi', 'index': 8},
   ];
 
   void _onItemTapped(int index) {
