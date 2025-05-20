@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile> {
     print('Fetching profile for userId: ' + (userId ?? 'null'));
     if (userId != null) {
       final doc = await FirebaseFirestore.instance
-          .collection('freelancers')
+          .collection('users')
           .doc(userId)
           .get();
       print('Document exists: \\${doc.exists}');
@@ -339,9 +339,9 @@ class _ProfileState extends State<Profile> {
     print('otherPartyId: ' + (otherPartyId?.toString() ?? 'null') + ', otherPartyEmail: ' + otherPartyEmail);
     return FutureBuilder<List<DocumentSnapshot>>(
       future: Future.wait([
-        FirebaseFirestore.instance.collection('freelancers').doc(ownerId).get(),
+        FirebaseFirestore.instance.collection('users').doc(ownerId).get(),
         if (applicantId != null)
-          FirebaseFirestore.instance.collection('freelancers').doc(applicantId).get(),
+          FirebaseFirestore.instance.collection('users').doc(applicantId).get(),
       ]),
       builder: (context, snap) {
         String ownerEmailFetched = ownerEmail;
@@ -429,7 +429,7 @@ class _ProfileState extends State<Profile> {
   Widget _buildPostCard(PostModel post) {
     final isCurrentUserPost = isCurrentUserProfile;
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('freelancers').doc(post.userId).snapshots(),
+      stream: FirebaseFirestore.instance.collection('users').doc(post.userId).snapshots(),
       builder: (context, snapshot) {
         String displayName = post.username ?? 'Anonymous';
         String? profilePicUrl = post.profilePicture;
@@ -588,7 +588,7 @@ class _ProfileState extends State<Profile> {
 
       if (updatedData.isNotEmpty) {
         await FirebaseFirestore.instance
-            .collection('freelancers')
+            .collection('users')
             .doc(user.uid)
             .update(updatedData);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -665,7 +665,7 @@ class _ProfileState extends State<Profile> {
       children: [
         StreamBuilder<DocumentSnapshot>(
           stream: FirebaseFirestore.instance
-              .collection('freelancers')
+              .collection('users')
               .doc(widget.userId ?? user?.uid)
               .snapshots(),
           builder: (context, snapshot) {

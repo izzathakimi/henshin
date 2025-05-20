@@ -186,7 +186,7 @@ class ServiceInprogressPageWidgetState
     final ids = userIds.where((id) => id != null).toList();
     if (ids.isEmpty) return [];
     final usersSnap = await FirebaseFirestore.instance
-        .collection('freelancers')
+        .collection('users')
         .where(FieldPath.documentId, whereIn: ids)
         .get();
     return usersSnap.docs.map((doc) {

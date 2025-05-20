@@ -53,7 +53,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
 
     try {
       await FirebaseFirestore.instance
-          .collection('freelancers')
+          .collection('users')
           .doc(user.uid)
           .set(freelancerData, SetOptions(merge: true));
 

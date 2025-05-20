@@ -34,9 +34,9 @@ class ApplicationState extends ChangeNotifier {
       final user = FirebaseAuth.instance.currentUser!;
       final imageUrl = await _uploadImage(imageBytes, imageName);
 
-      // Get user's data from freelancers collection
+      // Get user's data from users collection
       final userDoc = await FirebaseFirestore.instance
-          .collection('freelancers')
+          .collection('users')
           .doc(user.uid)
           .get();
       
@@ -115,7 +115,7 @@ class ApplicationState extends ChangeNotifier {
       
       // Update the user's profile picture URL in Firestore
       await FirebaseFirestore.instance
-          .collection('freelancers')
+          .collection('users')
           .doc(user.uid)
           .update({
         'profilePicture': downloadUrl,  // Changed back to profilePicture
