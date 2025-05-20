@@ -63,31 +63,8 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FutureBuilder<List<DocumentSnapshot>>(
-                        future: Future.wait([
-                          FirebaseFirestore.instance.collection('users').doc(data['reporterUserId']).get(),
-                          FirebaseFirestore.instance.collection('users').doc(data['reportedUserId']).get(),
-                        ]),
-                        builder: (context, snap) {
-                          String reporterName = data['reporterUserId'] ?? 'Tidak diketahui';
-                          String reportedName = data['reportedUserId'] ?? 'Tidak diketahui';
-                          if (snap.hasData) {
-                            final reporterData = snap.data![0].data() as Map<String, dynamic>?;
-                            final reportedData = snap.data![1].data() as Map<String, dynamic>?;
-                            if (reporterData != null && reporterData['name'] != null && (reporterData['name'] as String).isNotEmpty) reporterName = reporterData['name'];
-                            else reporterName = 'Tidak diketahui';
-                            if (reportedData != null && reportedData['name'] != null && (reportedData['name'] as String).isNotEmpty) reportedName = reportedData['name'];
-                            else reportedName = 'Tidak diketahui';
-                          }
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Pelapor: $reporterName'),
-                              Text('Dilapor: $reportedName'),
-                            ],
-                          );
-                        },
-                      ),
+                      Text('Pelapor: ${data['reporterUserName'] ?? data['reporterUserId'] ?? 'Tidak diketahui'}'),
+                      Text('Dilapor: ${data['reportedUserName'] ?? data['reportedUserId'] ?? 'Tidak diketahui'}'),
                       Text('Perkhidmatan: ${data['serviceId'] ?? '-'}'),
                       Text('Tarikh: ${data['timestamp'] != null ? (data['timestamp'] as Timestamp).toDate().toString() : '-'}'),
                       const SizedBox(height: 8),

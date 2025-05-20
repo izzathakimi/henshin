@@ -8,10 +8,12 @@ import 'dart:typed_data';
 
 class ReportPage extends StatefulWidget {
   final String? reportedUserId;
+  final String? reportedUserName;
   final String? reporterUserId;
+  final String? reporterUserName;
   final String? serviceId;
   final bool isOwner;
-  const ReportPage({Key? key, this.reportedUserId, this.reporterUserId, this.serviceId, required this.isOwner}) : super(key: key);
+  const ReportPage({Key? key, this.reportedUserId, this.reportedUserName, this.reporterUserId, this.reporterUserName, this.serviceId, required this.isOwner}) : super(key: key);
 
   @override
   State<ReportPage> createState() => _ReportPageState();
@@ -61,7 +63,9 @@ class _ReportPageState extends State<ReportPage> {
     }
     await FirebaseFirestore.instance.collection('reports').add({
       'reporterUserId': widget.reporterUserId,
+      'reporterUserName': widget.reporterUserName,
       'reportedUserId': widget.reportedUserId,
+      'reportedUserName': widget.reportedUserName,
       'serviceId': widget.serviceId,
       'description': _descController.text.trim(),
       'mediaUrl': mediaUrl,
