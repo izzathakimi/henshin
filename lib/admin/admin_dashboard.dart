@@ -6,6 +6,8 @@ import 'dart:ui';
 import '../splash/splash_widget.dart';
 import 'create_admin.dart';
 import '../common/Henshin_theme.dart';
+import 'akaun_pengguna_page.dart';
+import 'suspended_accounts_page.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -21,11 +23,15 @@ class AdminDashboardState extends State<AdminDashboard> {
   final List<String> _titles = [
     'Permohonan Perkhidmatan',
     'Cipta Pentadbir',
+    'Akaun Pengguna',
+    'Akaun Digantung',
   ];
 
   final List<Map<String, dynamic>> _drawerItems = [
     {'icon': Icons.work, 'title': 'Permohonan Perkhidmatan', 'index': 0},
-    {'icon': Icons.admin_panel_settings, 'title': 'Cipta Pentadbir', 'index': 1}, 
+    {'icon': Icons.admin_panel_settings, 'title': 'Cipta Pentadbir', 'index': 1},
+    {'icon': Icons.people, 'title': 'Akaun Pengguna', 'index': 2},
+    {'icon': Icons.block, 'title': 'Akaun Digantung', 'index': 3},
   ];
 
   void _onItemTapped(int index) {
@@ -192,27 +198,37 @@ class AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
+  Widget _buildUserAccounts() {
+    return const Center(
+      child: AkaunPenggunaPage(),
+    );
+  }
+
+  Widget _buildSuspendedAccounts() {
+    return const Center(
+      child: SuspendedAccountsPage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: AppBar(
-              centerTitle: true,
-              elevation: 0,
-              backgroundColor: Colors.white.withOpacity(0.2),
-              title: Text(
-                _titles[_selectedIndex],
-                style: GoogleFonts.ubuntu(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+      appBar: AppBar(
+        title: Text(
+          _titles[_selectedIndex],
+          style: GoogleFonts.ubuntu(
+            fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Colors.white.withOpacity(0.2),
+        centerTitle: true,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.red),
+            onPressed: _logout,
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Container(
@@ -228,58 +244,34 @@ class AdminDashboardState extends State<AdminDashboard> {
           ),
           child: Column(
             children: [
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    DrawerHeader(
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                      child: Text(
-                        'Admin Panel',
-                        style: GoogleFonts.ubuntu(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    for (var item in _drawerItems)
-                      _buildDrawerItem(
-                        icon: item['icon'],
-                        title: item['title'],
-                        index: item['index'],
-                        selectedIndex: _selectedIndex,
-                        onTap: _onItemTapped,
-                      ),
-                  ],
+              DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
                 ),
-              ),
-              const Divider(color: Colors.white30),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: _logout,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.logout, color: Colors.red),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Log Keluar',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
+                child: Text(
+                  'Admin Panel',
+                  style: GoogleFonts.ubuntu(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 32,
                   ),
                 ),
+              ),
+              ..._drawerItems.map((item) => ListTile(
+                leading: Icon(item['icon'], color: Colors.black),
+                title: Text(item['title'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                selected: _selectedIndex == item['index'],
+                selectedTileColor: Colors.blue.withOpacity(0.1),
+                onTap: () {
+                  _onItemTapped(item['index']);
+                  Navigator.pop(context);
+                },
+              )),
+              const Divider(color: Colors.white30),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text('Log Keluar', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                onTap: _logout,
               ),
             ],
           ),
@@ -293,46 +285,15 @@ class AdminDashboardState extends State<AdminDashboard> {
             colors: HenshinTheme.primaryGradient.map((color) => color.withOpacity(0.5)).toList(),
           ),
         ),
-        child: _selectedIndex == 0 ? _buildServiceRequests() : _buildCreateAdmin(),
-      ),
-    );
-  }
-
-  Widget _buildDrawerItem({
-    required IconData icon,
-    required String title,
-    required int index,
-    required int selectedIndex,
-    required Function(int) onTap,
-  }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: selectedIndex == index
-            ? Colors.blue.withOpacity(0.7)
-            : Colors.transparent,
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: selectedIndex == index ? Colors.white : null,
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: [
+            _buildServiceRequests(),
+            _buildCreateAdmin(),
+            _buildUserAccounts(),
+            _buildSuspendedAccounts(),
+          ],
         ),
-        title: Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: selectedIndex == index ? Colors.white : Colors.black,
-          ),
-        ),
-        selected: selectedIndex == index,
-        selectedColor: Colors.white,
-        selectedTileColor: Colors.transparent,
-        hoverColor: Colors.white.withOpacity(0.1),
-        onTap: () {
-          onTap(index);
-          Navigator.pop(context);
-        },
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'login_with_email_page/login_with_email_page_widget.dart';
 import 'splash/splash_widget.dart';  // Add this import
 import 'package:provider/provider.dart';
 import 'application_state.dart';
+import 'admin/suspended_user_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const SplashWidget(), // Changed from LoginWithEmailPageWidget
+      home: Consumer<ApplicationState>(
+        builder: (context, appState, _) {
+          if (appState.loggedIn && appState.isSuspended) {
+            return const SuspendedUserPage();
+          }
+          return const SplashWidget();
+        },
+      ),
     );
   }
 }
