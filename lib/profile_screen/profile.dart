@@ -237,26 +237,25 @@ class _ProfileState extends State<Profile> {
                   // Servis Selesai Section
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Text('Sejarah Perkhidmatan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
-                        if ((userData?['reportsReceived'] ?? 0) > 0) ...[
-                          const SizedBox(width: 12),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Nombor Laporan Diterima: ${userData?['reportsReceived'] ?? 0}',
-                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
+                    child: Text('Sejarah Perkhidmatan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
+                  if ((userData?['reportsReceived'] ?? 0) > 0)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Jumlah Laporan Diterima: ${userData?['reportsReceived'] ?? 0}',
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   if (completedServices.isEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),

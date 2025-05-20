@@ -21,8 +21,15 @@ class NotifikasiPage extends StatelessWidget {
             .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
-          final docs = snapshot.data!.docs;
+          print('Snapshot: state=${snapshot.connectionState}, error=${snapshot.error}, docs=${snapshot.data?.docs.length}');
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          final docs = snapshot.data?.docs ?? [];
           if (docs.isEmpty) return Center(child: Text('Tiada notifikasi.'));
           return ListView.builder(
             itemCount: docs.length,

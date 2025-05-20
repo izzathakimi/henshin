@@ -172,7 +172,7 @@ class ServiceInprogressPageWidgetState
                                           child: Text('Selesai'),
                                         ),
                                         const SizedBox(width: 8),
-                                        if ((isOwner ? acceptedApplicantId : ownerId) != null && !hasReport)
+                                        if ((isOwner ? acceptedApplicantId : ownerId) != null && (isOwner ? applicantName : ownerName) != null && !hasReport)
                                           ElevatedButton(
                                             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                                             onPressed: () {

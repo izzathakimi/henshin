@@ -9,7 +9,7 @@ class AdminReportsPage extends StatefulWidget {
 }
 
 class _AdminReportsPageState extends State<AdminReportsPage> {
-  Future<void> _handleReport(String reportId, String reportedUserId, String reporterUserId, bool verify) async {
+  Future<void> _handleReport(String reportId, String reportedUserId, String reporterUserId, bool verify, String? reporterUserName, String? reportedUserName) async {
     final reportRef = FirebaseFirestore.instance.collection('reports').doc(reportId);
     if (verify) {
       // Increment reportsReceived
@@ -23,19 +23,19 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
       // Send notifications
       await FirebaseFirestore.instance.collection('notifications').add({
         'userId': reporterUserId,
-        'message': 'Laporan yang anda lakukan ke atas pengguna @$reportedUserId telah dikenalpasti, Pengguna tersebut telah diberi amaran dan akan dikenakan tindakan lanjut jika mengulangi kesalahan pada masa akan datang',
+        'message': 'Laporan yang anda lakukan ke atas pengguna ${reportedUserName ?? reportedUserId} telah dikenalpasti, Pengguna tersebut telah diberi amaran dan akan dikenakan tindakan lanjut jika mengulangi kesalahan pada masa akan datang',
         'timestamp': FieldValue.serverTimestamp(),
       });
       await FirebaseFirestore.instance.collection('notifications').add({
         'userId': reportedUserId,
-        'message': 'Atas kesalahan anda terhadap Pengguna @$reporterUserId, anda telah diberi 1 amaran. Akaun anda berisiko untuk dipadam sekiranya anda melakukan kesalahan berkali-kali',
+        'message': 'Atas kesalahan anda terhadap Pengguna ${reporterUserName ?? reporterUserId}, anda telah diberi 1 amaran. Akaun anda berisiko untuk dipadam sekiranya anda melakukan kesalahan berkali-kali',
         'timestamp': FieldValue.serverTimestamp(),
       });
     } else {
       await reportRef.update({'status': 'rejected'});
       await FirebaseFirestore.instance.collection('notifications').add({
         'userId': reporterUserId,
-        'message': 'Laporan yang anda lakukan ke atas pengguna @$reportedUserId telah diperiksa, namun pihak kami mendapati bahawa pengguna tersebut tidak melakukan kesalahan seperti yang dimaklumkan.',
+        'message': 'Laporan yang anda lakukan ke atas pengguna ${reportedUserName ?? reportedUserId} telah diperiksa, namun pihak kami mendapati bahawa pengguna tersebut tidak melakukan kesalahan seperti yang dimaklumkan.',
         'timestamp': FieldValue.serverTimestamp(),
       });
     }
@@ -79,13 +79,13 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
                         Row(
                           children: [
                             ElevatedButton(
-                              onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], true),
+                              onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], true, data['reporterUserName'], data['reportedUserName']),
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                               child: Text('Sahkan'),
                             ),
                             const SizedBox(width: 8),
                             ElevatedButton(
-                              onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], false),
+                              onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], false, data['reporterUserName'], data['reportedUserName']),
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                               child: Text('Tolak'),
                             ),
