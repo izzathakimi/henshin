@@ -60,6 +60,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
             'email': textController1!.text,
             'role': 'user',
             'createdAt': FieldValue.serverTimestamp(),
+            'isSuspended': false,
           });
 
           // Navigate to freelancer page

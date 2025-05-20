@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../profile_screen/profile_screen.dart';
+import '../profile_screen/profile.dart';
 import '../common/henshin_theme.dart';
 
 class AkaunPenggunaPage extends StatefulWidget {
@@ -111,7 +111,6 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('users')
-                    .where('isSuspended', isEqualTo: false)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
@@ -122,11 +121,23 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  var users = snapshot.data!.docs.where((doc) {
-                    var data = doc.data() as Map<String, dynamic>;
-                    var name = data['name']?.toString().toLowerCase() ?? '';
-                    return name.contains(_searchQuery.toLowerCase());
+                  final query = _searchQuery.toLowerCase();
+
+                  final users = snapshot.data!.docs.where((doc) {
+                    final data = doc.data() as Map<String, dynamic>?;
+
+                    if (data == null) return false;
+                    if (data['role'] != 'user') return false;
+                    if (data['isSuspended'] == true) return false;
+
+                    final name = data['name'];
+                    if (name is! String) return false;
+
+                    return name.toLowerCase().contains(query);
                   }).toList();
+
+
+
 
                   if (users.isEmpty) {
                     return const Center(child: Text('Tiada pengguna dijumpai'));
@@ -135,15 +146,27 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                   return ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {
-                      var userData = users[index].data() as Map<String, dynamic>;
+                    print('DEBUG user data: ${users[index].data()}');
+
+                    final raw = users[index].data();
+                    if (raw == null || raw is! Map<String, dynamic>) {
+                      return const SizedBox.shrink();
+                    }
+                    final userData = Map<String, dynamic>.from(raw);
+
+                    // Defensive reading of potentially-null fields
+                    final userName = userData['name']?.toString() ?? 'Nama tidak tersedia';
+                    final userEmail = userData['email']?.toString() ?? '';
+                    
+
                       return Card(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 8.0,
                         ),
                         child: ListTile(
-                          title: Text(userData['name'] ?? 'Nama tidak tersedia'),
-                          subtitle: Text(userData['email'] ?? ''),
+                        title: Text(userName),
+                        subtitle: Text(userEmail),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -153,7 +176,7 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const ProfileScreen(),
+                                      builder: (context) => Profile(userId: users[index].id),
                                     ),
                                   );
                                 },
@@ -162,26 +185,28 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                               IconButton(
                                 icon: const Icon(Icons.block),
                                 onPressed: () async {
-                                  try {
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(users[index].id)
-                                        .update({'isSuspended': true});
-                                    
-                                    if (mounted) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Akaun telah digantung'),
-                                        ),
-                                      );
-                                    }
-                                  } catch (e) {
-                                    if (mounted) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Ralat telah berlaku'),
-                                        ),
-                                      );
+                                  final docRef = FirebaseFirestore.instance.collection('users').doc(users[index].id);
+                                  final docSnap = await docRef.get();
+                                  final data = docSnap.data();
+                                  if (docSnap.exists && data != null && data['role'] == 'user' && data['name'] is String) {
+                                    try {
+                                      await docRef.update({'isSuspended': true});
+                                      if (mounted) {
+                                        setState(() {}); // Force rebuild
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Akaun telah digantung'),
+                                          ),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Ralat telah berlaku'),
+                                          ),
+                                        );
+                                      }
                                     }
                                   }
                                 },

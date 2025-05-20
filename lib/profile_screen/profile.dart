@@ -123,10 +123,7 @@ class _ProfileState extends State<Profile> {
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+            Navigator.pop(context);
           },
           child: const Icon(
             Icons.keyboard_arrow_left_outlined,

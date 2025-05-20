@@ -46,6 +46,7 @@ class CreateAdminState extends State<CreateAdmin> {
           'email': _emailController.text,
           'role': 'admin',
           'createdAt': FieldValue.serverTimestamp(),
+          'isSuspended': false,
         });
 
         if (mounted) {
