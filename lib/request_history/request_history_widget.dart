@@ -4,6 +4,7 @@ import '../common/Henshin_theme.dart';
 import '../request_summary/request_summary_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../profile_screen/profile.dart';
+import '../home_page.dart';
 // Add this import for navigation to user profile
 // import '../user_profile/user_profile_page.dart'; // Uncomment and adjust path if you have a profile page
 
@@ -168,9 +169,10 @@ class RequestHistoryWidget extends StatelessWidget {
                                         Expanded(child: Text(applicantEmail)),
                                         TextButton(
                                           onPressed: () {
+                                            final client = context.findAncestorStateOfType<HomePageState>()?.client;
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (_) => Profile(userId: applicantId)),
+                                              MaterialPageRoute(builder: (_) => Profile(userId: applicantId, chatClient: client)),
                                             );
                                           },
                                           child: Text('Lihat'),

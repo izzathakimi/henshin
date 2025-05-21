@@ -15,6 +15,7 @@ import 'package:henshin/profile_screen/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../common/Henshin_theme.dart';
 import '../chat/chat_screen_direct.dart';
+import 'package:stream_chat/stream_chat.dart' as stream_chat;
 
 class PostModel {
   final String id;
@@ -61,7 +62,8 @@ class PostModel {
 
 class Profile extends StatefulWidget {
   final String? userId;
-  const Profile({super.key, this.userId});
+  final stream_chat.StreamChatClient? chatClient;
+  const Profile({super.key, this.userId, this.chatClient});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -399,7 +401,7 @@ class _ProfileState extends State<Profile> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => Profile(userId: otherPartyId)),
+                            MaterialPageRoute(builder: (_) => Profile(userId: otherPartyId, chatClient: widget.chatClient)),
                           );
                         },
                         child: Text(otherPartyEmail, style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
@@ -796,19 +798,31 @@ class _ProfileState extends State<Profile> {
     return '-';
   }
 
-  void _startDirectChat() {
-    // Find the StreamChatClient from the HomePageState
-    final homePageState = context.findAncestorStateOfType<HomePageState>();
-    if (homePageState == null) {
+  void _startDirectChat() async {
+    final client = widget.chatClient;
+    if (client == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Chat client not found.')),
       );
       return;
     }
-    final client = homePageState.client;
     final targetUserId = widget.userId;
     final targetUserName = userData?['name'] ?? 'User';
+    final targetUserImage = userData?['profilePicture'];
     if (targetUserId == null) return;
+
+    // Ensure the user exists in Stream Chat
+    await client.upsertUser(
+      stream_chat.User(
+        id: targetUserId,
+        name: targetUserName,
+        image: targetUserImage,
+        extraData: {
+          if (userData?['email'] != null) 'email': userData?['email'],
+        },
+      ),
+    );
+
     Navigator.push(
       context,
       MaterialPageRoute(

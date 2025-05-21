@@ -94,7 +94,7 @@ class HomePageState extends State<HomePage> {
 
   final List<Widget> _screens = [
     const HomeScreen(),              // Home (left)
-    const Profile(),                 // Profile (middle)
+    SizedBox.shrink(),               // Profile (middle, will be replaced in getter)
     const Center(child: CircularProgressIndicator()), // Chat (right, placeholder)
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
@@ -106,6 +106,7 @@ class HomePageState extends State<HomePage> {
 
   List<Widget> get screens {
     final screens = List<Widget>.from(_screens);
+    screens[1] = Profile(chatClient: client);
     if (_isChatInitialized) {
       screens[2] = Builder(
         builder: (context) => StreamChat(

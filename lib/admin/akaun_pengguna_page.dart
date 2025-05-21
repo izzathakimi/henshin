@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../profile_screen/profile.dart';
 import '../common/henshin_theme.dart';
+import '../home_page.dart';
 
 class AkaunPenggunaPage extends StatefulWidget {
   const AkaunPenggunaPage({Key? key}) : super(key: key);
@@ -169,10 +170,11 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                               IconButton(
                                 icon: const Icon(Icons.visibility),
                                 onPressed: () {
+                                  final client = context.findAncestorStateOfType<HomePageState>()?.client;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Profile(userId: users[index].id),
+                                      builder: (context) => Profile(userId: users[index].id, chatClient: client),
                                     ),
                                   );
                                 },
