@@ -16,6 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../common/Henshin_theme.dart';
 import '../chat/chat_screen_direct.dart';
 import 'package:stream_chat/stream_chat.dart' as stream_chat;
+import 'package:stream_chat/stream_chat.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class PostModel {
   final String id;
@@ -811,27 +813,33 @@ class _ProfileState extends State<Profile> {
     final targetUserImage = userData?['profilePicture'];
     if (targetUserId == null) return;
 
-    // Ensure the user exists in Stream Chat
-    await client.upsertUser(
-      stream_chat.User(
-        id: targetUserId,
-        name: targetUserName,
-        image: targetUserImage,
-        extraData: {
-          if (userData?['email'] != null) 'email': userData?['email'],
-        },
-      ),
-    );
+    try {
+      // Create a channel for direct messaging
+      final channel = client.channel('messaging', id: '${client.state.currentUser?.id}-$targetUserId', extraData: {
+        'members': [client.state.currentUser?.id, targetUserId],
+        'name': targetUserName,
+      });
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChatScreenDirect(
-          client: client,
-          targetUserId: targetUserId,
-          targetUserName: targetUserName,
+      // Create the channel
+      await channel.create();
+
+      // Navigate to the chat screen
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatScreenDirect(
+            client: client,
+            targetUserId: targetUserId,
+            targetUserName: targetUserName,
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error starting chat: $e')),
+      );
+    }
   }
 }
