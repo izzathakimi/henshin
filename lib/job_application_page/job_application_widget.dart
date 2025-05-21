@@ -16,13 +16,21 @@ class JobApplicationPageWidget extends StatefulWidget {
 
 class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
+        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5),
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () {
@@ -37,8 +45,33 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
             size: 24,
           ),
         ),
-        actions: const [],
-        centerTitle: true,
+        title: Container(
+          height: 40,
+          margin: const EdgeInsets.only(left: 0),
+          child: TextField(
+            controller: _searchController,
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+            style: HenshinTheme.bodyText1,
+            decoration: InputDecoration(
+              hintText: 'Cari kerja...',
+              hintStyle: HenshinTheme.bodyText1.copyWith(color: Colors.grey[600]),
+              prefixIcon: Icon(Icons.search, color: Colors.grey[600], size: 20),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
+              isDense: true,
+            ),
+          ),
+        ),
+        centerTitle: false,
         elevation: 0,
       ),
       body: Container(
@@ -75,7 +108,15 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                     final status = statusMap != null ? statusMap[userId] as String? : null;
                     final approved = data['approved'] == true;
                     final createdByEmail = data['createdByEmail'];
-                    return approved && (status == null || status == 'Kerja Tersedia') && createdByEmail != userEmail;
+                    final description = (data['description'] ?? '').toString().toLowerCase();
+                    final requirements = (data['requirements'] is List)
+                      ? (data['requirements'] as List).map((e) => e.toString().toLowerCase()).join(' ')
+                      : '';
+                    final query = _searchQuery.toLowerCase();
+                    final matchesQuery = query.isEmpty ||
+                      description.contains(query) ||
+                      requirements.contains(query);
+                    return approved && (status == null || status == 'Kerja Tersedia') && createdByEmail != userEmail && matchesQuery;
                   }).toList();
                   if (availableDocs.isEmpty) {
                     return Center(child: Text('Tiada kerja tersedia.'));
