@@ -14,7 +14,7 @@ import 'package:henshin/application_state.dart';
 import 'package:henshin/profile_screen/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../common/Henshin_theme.dart';
-import '../chat/chat_screen_direct.dart';
+import '../chat/chat_screen.dart';
 import 'package:stream_chat/stream_chat.dart' as stream_chat;
 import 'package:stream_chat/stream_chat.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
@@ -801,45 +801,18 @@ class _ProfileState extends State<Profile> {
   }
 
   void _startDirectChat() async {
-    final client = widget.chatClient;
-    if (client == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Chat client not found.')),
-      );
-      return;
-    }
     final targetUserId = widget.userId;
-    final targetUserName = userData?['name'] ?? 'User';
-    final targetUserImage = userData?['profilePicture'];
+    final targetUserEmail = userData?['email'] ?? 'User';
     if (targetUserId == null) return;
 
-    try {
-      // Create a channel for direct messaging
-      final channel = client.channel('messaging', id: '${client.state.currentUser?.id}-$targetUserId', extraData: {
-        'members': [client.state.currentUser?.id, targetUserId],
-        'name': targetUserName,
-      });
-
-      // Create the channel
-      await channel.create();
-
-      // Navigate to the chat screen
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatScreenDirect(
-            client: client,
-            targetUserId: targetUserId,
-            targetUserName: targetUserName,
-          ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatScreen(
+          otherUserId: targetUserId,
+          otherUserEmail: targetUserEmail,
         ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error starting chat: $e')),
-      );
-    }
+      ),
+    );
   }
 }

@@ -170,11 +170,10 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
                               IconButton(
                                 icon: const Icon(Icons.visibility),
                                 onPressed: () {
-                                  final client = context.findAncestorStateOfType<HomePageState>()?.client;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Profile(userId: users[index].id, chatClient: client),
+                                      builder: (context) => Profile(userId: users[index].id),
                                     ),
                                   );
                                 },

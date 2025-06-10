@@ -169,10 +169,9 @@ class RequestHistoryWidget extends StatelessWidget {
                                         Expanded(child: Text(applicantEmail)),
                                         TextButton(
                                           onPressed: () {
-                                            final client = context.findAncestorStateOfType<HomePageState>()?.client;
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (_) => Profile(userId: applicantId, chatClient: client)),
+                                              MaterialPageRoute(builder: (_) => Profile(userId: applicantId)),
                                             );
                                           },
                                           child: Text('Lihat'),

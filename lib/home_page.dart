@@ -24,78 +24,17 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late int _selectedIndex;
-  late StreamChatClient client;
-  late Channel _channel;
-  bool _isChatInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex ?? 0;
-    _initializeStreamChat();
-  }
-
-  Future<void> _initializeStreamChat() async {
-    try {
-      client = StreamChatClient(
-        'b67pax5b2wdq',
-        logLevel: Level.INFO,
-      );
-
-      final currentUser = firebase.FirebaseAuth.instance.currentUser;
-      if (currentUser != null) {
-        // First create the user
-        await client.connectUser(
-          User(
-            id: 'tutorial-flutter', // Use the same ID as the token
-            name: currentUser.displayName ?? 'User',
-            image: currentUser.photoURL,
-            extraData: {
-              'firebase_uid': currentUser.uid, // Store Firebase UID in extraData
-            },
-          ),
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZmx1dHRlciJ9.S-MJpoSwDiqyXpUURgO5wVqJ4vKlIVFLSEyrFYCOE1c',
-        );
-
-        // Create a general channel
-        _channel = client.channel('messaging', id: 'general', extraData: {
-          'name': 'General Chat',
-          'image': 'https://picsum.photos/100',
-          'members': ['tutorial-flutter'], // Use the same user ID
-        });
-        await _channel.watch();
-
-        // Create some example channels
-        await client.channel('messaging', id: 'support', extraData: {
-          'name': 'Support',
-          'image': 'https://picsum.photos/101',
-          'members': ['tutorial-flutter'],
-        }).watch();
-
-        await client.channel('messaging', id: 'announcements', extraData: {
-          'name': 'Announcements',
-          'image': 'https://picsum.photos/102',
-          'members': ['tutorial-flutter'],
-        }).watch();
-
-        setState(() {
-          _isChatInitialized = true;
-        });
-      }
-    } catch (e) {
-      print('Error initializing chat: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to initialize chat: $e')),
-        );
-      }
-    }
   }
 
   final List<Widget> _screens = [
     const HomeScreen(),              // Home (left)
     SizedBox.shrink(),               // Profile (middle, will be replaced in getter)
-    const Center(child: CircularProgressIndicator()), // Chat (right, placeholder)
+    Center(child: Text('Chat feature coming soon')), // Chat (right, placeholder)
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
     const RequestServicePage1Widget(),
@@ -106,22 +45,7 @@ class HomePageState extends State<HomePage> {
 
   List<Widget> get screens {
     final screens = List<Widget>.from(_screens);
-    screens[1] = Profile(chatClient: client);
-    if (_isChatInitialized) {
-      screens[2] = Builder(
-        builder: (context) => StreamChat(
-          client: client,
-          streamChatThemeData: StreamChatThemeData.light(),
-          child: StreamChannel(
-            channel: _channel,
-            child: ChatScreen(
-              client: client,
-              channel: _channel,
-            ),
-          ),
-        ),
-      );
-    }
+    screens[1] = Profile();
     return screens;
   }
 
@@ -155,9 +79,6 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _logout() async {
     try {
-      if (_isChatInitialized) {
-        await client.disconnectUser();
-      }
       await firebase.FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
