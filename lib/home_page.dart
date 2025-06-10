@@ -13,6 +13,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'dart:ui';
 import 'splash/splash_widget.dart';
 import 'notifikasi_page.dart';
+import 'chat/chat_list_screen.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -34,7 +35,7 @@ class HomePageState extends State<HomePage> {
   final List<Widget> _screens = [
     const HomeScreen(),              // Home (left)
     SizedBox.shrink(),               // Profile (middle, will be replaced in getter)
-    Center(child: Text('Chat feature coming soon')), // Chat (right, placeholder)
+    const ChatListScreen(),          // Chat (right)
     const JobApplicationPageWidget(),
     const JobProposalsPageWidget(),
     const RequestServicePage1Widget(),
