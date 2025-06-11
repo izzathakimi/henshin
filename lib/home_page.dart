@@ -73,6 +73,7 @@ class HomePageState extends State<HomePage> {
   ];
 
   void _onItemTapped(int index) {
+    print('DEBUG: Tapped index: $index');
     setState(() {
       _selectedIndex = index;
     });
@@ -102,6 +103,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('DEBUG: Current selected index: $_selectedIndex');
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),

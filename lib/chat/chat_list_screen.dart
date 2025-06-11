@@ -13,68 +13,81 @@ class ChatListScreen extends StatelessWidget {
       return const Center(child: Text('Please login first'));
     }
 
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('chats')
-          .where('participants', arrayContains: currentUser.uid)
-          .orderBy('lastMessageTime', descending: true)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    final uid = currentUser.uid;
 
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text('Tiada perbualan.'));
-        }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Ruang Pesan (${uid.substring(0, 6)}...)'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('chats')
+            .where('participants', arrayContains: uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('Tiada perbualan.'));
+          }
 
-        return ListView.builder(
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context, index) {
-            final doc = snapshot.data!.docs[index];
-            final data = doc.data() as Map<String, dynamic>;
-            final participants = List<String>.from(data['participants']);
-            final otherUserId = participants.firstWhere((id) => id != currentUser.uid);
+          // Debug: print all returned docs
+          for (var doc in snapshot.data!.docs) {
+            print('CHAT DOC: ${doc.id} => ${doc.data()}');
+          }
 
-            return FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('users').doc(otherUserId).get(),
-              builder: (context, userSnapshot) {
-                if (!userSnapshot.hasData) {
-                  return const SizedBox();
-                }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              final doc = snapshot.data!.docs[index];
+              final data = doc.data() as Map<String, dynamic>;
+              final participants = List<String>.from(data['participants']);
+              final otherUserId = participants.firstWhere((id) => id != uid);
 
-                final userData = userSnapshot.data!.data() as Map<String, dynamic>?;
-                final otherUserName = userData?['name'] ?? 'Unknown User';
-                final otherUserEmail = userData?['email'] ?? '';
+              return FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance.collection('users').doc(otherUserId).get(),
+                builder: (context, userSnapshot) {
+                  if (!userSnapshot.hasData) {
+                    return const SizedBox();
+                  }
 
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    child: Text(otherUserName[0].toUpperCase()),
-                  ),
-                  title: Text(otherUserName),
-                  subtitle: Text(
-                    data['lastMessage'] ?? 'No messages yet',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                          otherUserId: otherUserId,
-                          otherUserEmail: otherUserEmail,
+                  final userData = userSnapshot.data!.data() as Map<String, dynamic>?;
+                  final otherUserName = userData?['name'] ?? 'Unknown User';
+                  final otherUserEmail = userData?['email'] ?? '';
+
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      child: Text(otherUserName[0].toUpperCase()),
+                    ),
+                    title: Text(otherUserName),
+                    subtitle: Text(
+                      data['lastMessage'] ?? 'No messages yet',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                            otherUserId: otherUserId,
+                            otherUserEmail: otherUserEmail,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          },
-        );
-      },
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 } 
