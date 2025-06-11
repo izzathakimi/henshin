@@ -107,7 +107,7 @@ class _ProfileState extends State<Profile> {
       setState(() {
         userData = doc.data();
         _nameController.text = userData?['name'] ?? '';
-        _phoneController.text = userData?['phone number'] ?? '';
+        _phoneController.text = userData?['phone number'] != null ? userData!['phone number'].toString() : '';
         _specialtyController.text = userData?['specialty'] ?? '';
         _stateController.text = userData?['state'] ?? '';
         _cityController.text = userData?['city'] ?? '';
@@ -218,7 +218,7 @@ class _ProfileState extends State<Profile> {
                                 const Icon(Icons.phone, size: 16, color: Colors.black54),
                                 const SizedBox(width: 4),
                                 Text(
-                                  userData?['phone number'] ?? '-',
+                                  userData?['phone number'] != null ? userData!['phone number'].toString() : '-',
                                   style: GoogleFonts.ubuntu(
                                     textStyle: const TextStyle(fontSize: 16),
                                   ),
@@ -623,7 +623,7 @@ class _ProfileState extends State<Profile> {
         updatedData['name'] = name;
       }
       if (phone.isNotEmpty) {
-        updatedData['phone number'] = phone;
+        updatedData['phone number'] = int.tryParse(phone) ?? phone;
       }
       if (specialty.isNotEmpty) {
         updatedData['specialty'] = specialty;
@@ -764,7 +764,7 @@ class _ProfileState extends State<Profile> {
   void _showEditDialog() {
     // Set the current values to the controllers before showing the dialog
     _nameController.text = userData?['name'] ?? '';
-    _phoneController.text = userData?['phone number'] ?? '';
+    _phoneController.text = userData?['phone number'] != null ? userData!['phone number'].toString() : '';
     _specialtyController.text = userData?['specialty'] ?? '';
     _stateController.text = userData?['state'] ?? '';
     _cityController.text = userData?['city'] ?? '';
@@ -785,6 +785,8 @@ class _ProfileState extends State<Profile> {
                 const SizedBox(height: 8),
                 TextField(
                   controller: _phoneController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(labelText: 'Nombor Telefon'),
                 ),
                 const SizedBox(height: 8),

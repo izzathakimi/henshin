@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import '../freelancer_page2/freelancer_page2_widget.dart';
 // import '../home_screen/home_screen.dart';  // Import your home screen widget
 // import '../home_screen/home_page.dart';  // Import your home page widget
@@ -43,9 +44,19 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
       return;
     }
 
+    int? phoneInt;
+    try {
+      phoneInt = int.parse(textController2!.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nombor telefon mesti nombor sahaja')),
+      );
+      return;
+    }
+
     final freelancerData = {
       'name': textController1!.text,
-      'phone number': textController2!.text,
+      'phone number': phoneInt,
       'specialty': textController3!.text,
       'state': textController4!.text,
       'city': textController5!.text,
@@ -58,7 +69,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
           .set(freelancerData, SetOptions(merge: true));
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Freelancer information saved successfully')),
+        const SnackBar(content: Text('Maklumat berjaya disimpan')),
       );
 
       // Replace the current route with HomePage instead of HomeScreen
@@ -67,7 +78,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving freelancer information: $e')),
+        SnackBar(content: Text('Ralat menyimpan maklumat: $e')),
       );
     }
   }
@@ -181,7 +192,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                       padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
                       child: TextFormField(
                         controller: textController2,
-                        obscureText: false,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: 'No. Telefon',
                           hintStyle: HenshinTheme.bodyText1.override(
@@ -213,7 +224,19 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
                           color: Colors.black87,
                           useGoogleFonts: false,
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Perlu diisi';
+                          }
+                          if (!RegExp(r'^\d{9,12}\$').hasMatch(val)) {
+                            return 'Nombor telefon tidak sah';
+                          }
+                          return null;
+                        },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       ),
                     ),
                     Padding(

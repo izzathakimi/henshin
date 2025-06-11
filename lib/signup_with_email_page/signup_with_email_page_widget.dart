@@ -205,8 +205,13 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                             useGoogleFonts: false,
                           ),
                           validator: (val) {
-                            if (val!.isEmpty) {
-                              return 'Required';
+                            if (val == null || val.isEmpty) {
+                              return 'Perlu diisi';
+                            }
+                            // Simple email regex
+                            final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+                            if (!emailRegex.hasMatch(val)) {
+                              return 'Format emel tidak sah';
                             }
                             return null;
                           },
@@ -262,7 +267,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
                           ),
                           validator: (val) {
                             if (val!.isEmpty) {
-                              return 'Required';
+                              return 'Perlu diisi';
                             }
                             return null;
                           },
