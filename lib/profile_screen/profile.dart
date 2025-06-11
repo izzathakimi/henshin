@@ -179,63 +179,94 @@ class _ProfileState extends State<Profile> {
                   // Profile info section
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildProfilePicture(),
-                        const SizedBox(height: 16),
-                        Text(
-                          userData?['name'] ?? 'Tiada Nama',
-                          style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: const Color(0x66757575)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildProfilePicture(),
+                            const SizedBox(height: 16),
+                            Text(
+                              userData?['name'] ?? 'Tiada Nama',
+                              style: GoogleFonts.ubuntu(
+                                textStyle: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                          ),
+                            const SizedBox(height: 8),
+                            Text(
+                              '${userData?['city'] ?? '-'}, ${userData?['state'] ?? '-'}',
+                              style: GoogleFonts.ubuntu(
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.phone, size: 16, color: Colors.black54),
+                                const SizedBox(width: 4),
+                                Text(
+                                  userData?['phone number'] ?? '-',
+                                  style: GoogleFonts.ubuntu(
+                                    textStyle: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            if (userData?['specialty'] != null && (userData?['specialty'] as String).isNotEmpty)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.star, size: 16, color: Colors.black54),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    userData?['specialty'],
+                                    style: GoogleFonts.ubuntu(
+                                      textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            if (userData?['email'] != null && (userData?['email'] as String).isNotEmpty)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.email, size: 16, color: Colors.black54),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    userData?['email'],
+                                    style: GoogleFonts.ubuntu(
+                                      textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            const SizedBox(height: 16),
+                            if (isCurrentUserProfile)
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: _showEditDialog,
+                                child: const Text('Ubah Maklumat'),
+                              ),
+                          ],
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${userData?['city'] ?? '-'}, ${userData?['state'] ?? '-'}',
-                          style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          userData?['phone number'] ?? '-',
-                          style: GoogleFonts.ubuntu(
-                            textStyle: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        if (userData?['specialty'] != null && (userData?['specialty'] as String).isNotEmpty)
-                          Text(
-                            userData?['specialty'],
-                            style: GoogleFonts.ubuntu(
-                              textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
-                            ),
-                          ),
-                        if (userData?['email'] != null && (userData?['email'] as String).isNotEmpty)
-                          Text(
-                            userData?['email'],
-                            style: GoogleFonts.ubuntu(
-                              textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
-                            ),
-                          ),
-                        const SizedBox(height: 16),
-                        if (isCurrentUserProfile)
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              foregroundColor: Colors.white,
-                            ),
-                            onPressed: _showEditDialog,
-                            child: const Text('Ubah Maklumat'),
-                          ),
-                      ],
+                      ),
                     ),
                   ),
                   // Servis Selesai Section

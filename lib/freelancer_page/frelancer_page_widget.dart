@@ -47,7 +47,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
       'name': textController1!.text,
       'phone number': textController2!.text,
       'specialty': textController3!.text,
-      'country': textController4!.text,
+      'state': textController4!.text,
       'city': textController5!.text,
     };
 
@@ -77,7 +77,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () async {
@@ -85,7 +85,7 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
           },
           child: const Icon(
             Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
+            color: Colors.white,
             size: 24,
           ),
         ),
@@ -93,427 +93,280 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
         centerTitle: true,
         elevation: 0,
       ),
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 135),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                          child: Text(
-                            'Freelancer Information',
-                            style: HenshinTheme.title2,
-                          ),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF4A90E2), Color(0xFF50E3C2)],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                      child: Text(
+                        'Maklumat Peribadi',
+                        textAlign: TextAlign.center,
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          useGoogleFonts: false,
                         ),
                       ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                          child: Text(
-                            'Personal (1 of 4 steps)',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
-                              color: const Color(0x96303030),
-                              useGoogleFonts: false,
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 8, 32, 0),
+                      child: Text(
+                        '',
+                        textAlign: TextAlign.center,
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: const Color(0x96303030),
+                          useGoogleFonts: false,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 0),
+                      child: TextFormField(
+                        controller: textController1,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Nama Penuh',
+                          hintStyle: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            color: Colors.grey[400],
+                            useGoogleFonts: false,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 1,
                             ),
+                            borderRadius: BorderRadius.circular(25),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                        ),
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.black87,
+                          useGoogleFonts: false,
                         ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
-                    child: Row(
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
+                      child: TextFormField(
+                        controller: textController2,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'No. Telefon',
+                          hintStyle: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            color: Colors.grey[400],
+                            useGoogleFonts: false,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                        ),
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.black87,
+                          useGoogleFonts: false,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
+                      child: TextFormField(
+                        controller: textController3,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Kepakaran',
+                          hintStyle: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            color: Colors.grey[400],
+                            useGoogleFonts: false,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                        ),
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.black87,
+                          useGoogleFonts: false,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
+                      child: TextFormField(
+                        controller: textController4,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Negeri',
+                          hintStyle: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            color: Colors.grey[400],
+                            useGoogleFonts: false,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                        ),
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.black87,
+                          useGoogleFonts: false,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(32, 16, 32, 0),
+                      child: TextFormField(
+                        controller: textController5,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Bandar',
+                          hintStyle: HenshinTheme.bodyText1.override(
+                            fontFamily: 'NatoSansKhmer',
+                            color: Colors.grey[400],
+                            useGoogleFonts: false,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                        ),
+                        style: HenshinTheme.bodyText1.override(
+                          fontFamily: 'NatoSansKhmer',
+                          color: Colors.black87,
+                          useGoogleFonts: false,
+                        ),
+                      ),
+                    ),
+                    Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                            child: Text(
-                              'Name',
-                              style: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                useGoogleFonts: false,
+                            padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 32, 32),
+                            child: FFButtonWidget(
+                              onPressed: saveFreelancerInfo,
+                              text: 'Simpan',
+                              options: FFButtonOptions(
+                                width: 130,
+                                height: 45,
+                                color: HenshinTheme.primaryColor,
+                                textStyle: HenshinTheme.subtitle2.override(
+                                  fontFamily: 'NatoSansKhmer',
+                                  color: Colors.white,
+                                  useGoogleFonts: false,
+                                ),
+                                borderSide: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: 36,
                               ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                          child: TextFormField(
-                            controller: textController1,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'eg. Ali Bin Abu',
-                              hintStyle: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                color: const Color(0x98303030),
-                                useGoogleFonts: false,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            style: HenshinTheme.bodyText1,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                   Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                          child: Text(
-                            'Phone Number',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                          child: TextFormField(
-                            controller: textController2,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText:
-                                  'eg. +60123456789',
-                              hintStyle: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                color: const Color(0x98303030),
-                                useGoogleFonts: false,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            style: HenshinTheme.bodyText1,
-                            maxLines: 2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                          child: Text(
-                            'Specialty',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                          child: TextFormField(
-                            controller: textController3,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText:
-                                  'eg. Specialising in housekeeping and cleaning...',
-                              hintStyle: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                color: const Color(0x98303030),
-                                useGoogleFonts: false,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            style: HenshinTheme.bodyText1,
-                            maxLines: 2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                          child: Text(
-                            'Country',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                          child: TextFormField(
-                            controller: textController4,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'Malaysia',
-                              hintStyle: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                color: const Color(0x98303030),
-                                useGoogleFonts: false,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            style: HenshinTheme.bodyText1,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
-                          child: Text(
-                            'City',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                          child: TextFormField(
-                            controller: textController5,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'Ulu Kinta',
-                              hintStyle: HenshinTheme.bodyText1.override(
-                                fontFamily: 'NatoSansKhmer',
-                                color: const Color(0x98303030),
-                                useGoogleFonts: false,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0x65757575),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            style: HenshinTheme.bodyText1,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Align(
-            alignment: const AlignmentDirectional(-1, 1),
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0),
-                  topLeft: Radius.circular(18),
-                  topRight: Radius.circular(18),
+                    Expanded(child: SizedBox()),
+                  ],
                 ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Container(
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(18),
-                          topRight: Radius.circular(18),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        16, 0, 16, 32),
-                                    child: FFButtonWidget(
-                                      onPressed: saveFreelancerInfo,
-                                      text: 'Save',
-                                      options: FFButtonOptions(
-                                        width: 130,
-                                        height: 45,
-                                        color: HenshinTheme.primaryColor,
-                                        textStyle:
-                                            HenshinTheme.subtitle2.override(
-                                          fontFamily: 'NatoSansKhmer',
-                                          color: Colors.white,
-                                          useGoogleFonts: false,
-                                        ),
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
-                                        borderRadius: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
