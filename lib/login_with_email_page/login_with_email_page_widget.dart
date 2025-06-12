@@ -133,7 +133,7 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          'Ubah kerjaya anda bersama kamir!',
+                          'Ubah kerjaya anda bersama kami!',
                           textAlign: TextAlign.center,
                           style: HenshinTheme.bodyText1.override(
                             fontFamily: 'NatoSansKhmer',

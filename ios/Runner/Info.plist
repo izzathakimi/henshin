@@ -50,5 +50,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>GMSApiKey</key>
+	<string>AIzaSyBpVfQNJd3FNo362iGW5Ens4-bSfzzamekS</string>
 </dict>
 </plist>

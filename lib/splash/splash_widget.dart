@@ -51,8 +51,8 @@ class SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixi
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final logoSize = screenSize.width < screenSize.height
-        ? screenSize.width * 0.7
-        : screenSize.height * 0.7;
+        ? screenSize.width * 0.4
+        : screenSize.height * 0.4;
 
     return Scaffold(
       body: Container(
@@ -65,7 +65,7 @@ class SplashWidgetState extends State<SplashWidget> with TickerProviderStateMixi
         ),
         child: Center(
           child: Image.asset(
-            'assets/images/RuralHubLogo.png',
+            'assets/images/rh2.png',
             width: logoSize,
             height: logoSize,
             fit: BoxFit.contain,

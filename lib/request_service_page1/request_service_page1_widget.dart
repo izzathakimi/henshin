@@ -8,6 +8,7 @@ import '../common/Henshin_widgets.dart';
 import '../request_summary/request_summary_widget.dart';
 import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../secrets.dart';
 
 class RequestServicePage1Widget extends StatefulWidget {
   const RequestServicePage1Widget({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _requirementsController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
   String _selectedPaymentRate = 'Per Jam';
   File? _image;
   final picker = ImagePicker();
@@ -52,6 +54,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
     double price = double.tryParse(_priceController.text) ?? 0;
     List<String> requirements = _requirementsController.text.split('\n');
     String description = _descriptionController.text;
+    String location = _locationController.text;
     String? imageUrl;
     final user = FirebaseAuth.instance.currentUser;
     String? userEmail = user?.email;
@@ -66,6 +69,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
         'paymentRate': _selectedPaymentRate,
         'requirements': requirements,
         'description': description,
+        'location': location,
         'timestamp': FieldValue.serverTimestamp(),
         'imageUrl': imageUrl,
         'createdByEmail': userEmail,
@@ -88,7 +92,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
     } catch (e) {
       print('Error saving to Firestore: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to save data: $e')),
+        SnackBar(content: Text('Ralat: $e')),
       );
     }
   }
@@ -256,6 +260,25 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             maxLines: 5,
                             decoration: InputDecoration(
                               hintText: 'Senaraikan butiran yang perlu diberi perhatian',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Lokasi',
+                            style: HenshinTheme.bodyText1.override(
+                              fontFamily: 'NatoSansKhmer',
+                              fontWeight: FontWeight.bold,
+                              useGoogleFonts: false,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          TextField(
+                            controller: _locationController,
+                            decoration: InputDecoration(
+                              hintText: 'Masukkan lokasi anda',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
