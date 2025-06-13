@@ -18,6 +18,7 @@ class JobApplicationPageWidget extends StatefulWidget {
 class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _locationSearchController = TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -33,6 +34,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
   @override
   void dispose() {
     _searchController.dispose();
+    _locationSearchController.dispose();
     super.dispose();
   }
 
@@ -40,51 +42,51 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5),
-        automaticallyImplyLeading: false,
-        // leading: InkWell(
-        //   onTap: () {
-        //     Navigator.pushReplacement(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => const HomePage()),
-        //     );
-        //   },
-        //   child: const Icon(
-        //     Icons.keyboard_arrow_left_outlined,
-        //     color: Colors.black,
-        //     size: 24,
-        //   ),
-        // ),
-        title: Container(
-          height: 40,
-          margin: const EdgeInsets.only(left: 0),
-          child: TextField(
-            controller: _searchController,
-            onChanged: (value) {
-              setState(() {
-                _searchQuery = value;
-              });
-            },
-            style: HenshinTheme.bodyText1,
-            decoration: InputDecoration(
-              hintText: 'Cari kerja...',
-              hintStyle: HenshinTheme.bodyText1.copyWith(color: Colors.grey[600]),
-              prefixIcon: Icon(Icons.search, color: Colors.grey[600], size: 20),
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide.none,
-              ),
-              isDense: true,
-            ),
-          ),
-        ),
-        centerTitle: false,
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5),
+      //   automaticallyImplyLeading: false,
+      //   // leading: InkWell(
+      //   //   onTap: () {
+      //   //     Navigator.pushReplacement(
+      //   //       context,
+      //   //       MaterialPageRoute(builder: (context) => const HomePage()),
+      //   //     );
+      //   //   },
+      //   //   child: const Icon(
+      //   //     Icons.keyboard_arrow_left_outlined,
+      //   //     color: Colors.black,
+      //   //     size: 24,
+      //   //   ),
+      //   // ),
+      //   title: Container(
+      //     height: 40,
+      //     margin: const EdgeInsets.only(left: 0),
+      //     child: TextField(
+      //       controller: _searchController,
+      //       onChanged: (value) {
+      //         setState(() {
+      //           _searchQuery = value;
+      //         });
+      //       },
+      //       style: HenshinTheme.bodyText1,
+      //       decoration: InputDecoration(
+      //         hintText: 'Cari kerja...',
+      //         hintStyle: HenshinTheme.bodyText1.copyWith(color: Colors.grey[600]),
+      //         prefixIcon: Icon(Icons.search, color: Colors.grey[600], size: 20),
+      //         filled: true,
+      //         fillColor: Colors.white,
+      //         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+      //         border: OutlineInputBorder(
+      //           borderRadius: BorderRadius.circular(20),
+      //           borderSide: BorderSide.none,
+      //         ),
+      //         isDense: true,
+      //       ),
+      //     ),
+      //   ),
+      //   centerTitle: false,
+      //   elevation: 0,
+      // ),
       body: Container(
         decoration:  BoxDecoration(
           gradient: LinearGradient(
@@ -96,50 +98,77 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            // Search bar for job title/description
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Cari kerja...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+            ),
+            // Search bar for location
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              child: TextField(
+                controller: _locationSearchController,
+                decoration: InputDecoration(
+                  hintText: 'Cari lokasi...',
+                  prefixIcon: Icon(Icons.location_on),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('service_requests').orderBy('timestamp', descending: true).snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('service_requests')
+                    .where('approved', isEqualTo: true)
+                    .orderBy('timestamp', descending: true)
+                    .snapshots(),
                 builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: \\${snapshot.error}'));
+                  }
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Center(child: Text('Tiada kerja tersedia.'));
-                  }
-                  final user = FirebaseAuth.instance.currentUser;
-                  if (user == null) {
-                    return Center(child: Text('Sila log masuk.'));
-                  }
-                  final userId = user.uid;
-                  final userEmail = user.email;
-                  // Only show jobs NOT posted by the current user
-                  final availableDocs = snapshot.data!.docs.where((doc) {
+                  final docs = snapshot.data?.docs ?? [];
+                  final searchQuery = _searchController.text.trim().toLowerCase();
+                  final locationQuery = _locationSearchController.text.trim().toLowerCase();
+                  final filteredDocs = docs.where((doc) {
                     final data = doc.data() as Map<String, dynamic>;
-                    final statusMap = data['status'] as Map<String, dynamic>?;
-                    final status = statusMap != null ? statusMap[userId] as String? : null;
-                    final approved = data['approved'] == true;
-                    final createdByEmail = data['createdByEmail'];
-                    final description = (data['description'] ?? '').toString().toLowerCase();
-                    final requirements = (data['requirements'] is List)
-                      ? (data['requirements'] as List).map((e) => e.toString().toLowerCase()).join(' ')
-                      : '';
-                    final query = _searchQuery.toLowerCase();
-                    final matchesQuery = query.isEmpty ||
-                      description.contains(query) ||
-                      requirements.contains(query);
-                    return approved && (status == null || status == 'Kerja Tersedia') && createdByEmail != userEmail && matchesQuery;
+                    final title = (data['description'] ?? '').toString().toLowerCase();
+                    final location = (data['location'] ?? '').toString().toLowerCase();
+                    final matchesTitle = searchQuery.isEmpty || title.contains(searchQuery);
+                    final matchesLocation = locationQuery.isEmpty || location.contains(locationQuery);
+                    return matchesTitle && matchesLocation;
                   }).toList();
-                  if (availableDocs.isEmpty) {
-                    return Center(child: Text('Tiada kerja tersedia.'));
-                  }
                   return ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemCount: availableDocs.length,
+                    itemCount: filteredDocs.length,
                     itemBuilder: (context, index) {
-                      final doc = availableDocs[index];
+                      final doc = filteredDocs[index];
                       final data = doc.data() as Map<String, dynamic>;
                       final statusMap = data['status'] as Map<String, dynamic>?;
-                      final status = statusMap != null ? statusMap[userId] as String? : null;
+                      final status = statusMap != null ? statusMap[FirebaseAuth.instance.currentUser?.uid] as String? : null;
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         child: Container(
@@ -243,7 +272,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                               child: ElevatedButton(
                                                 onPressed: () async {
                                                   await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({
-                                                    'status.$userId': 'Dimohon',
+                                                    'status.$FirebaseAuth.instance.currentUser?.uid': 'Dimohon',
                                                   });
                                                 },
                                                 style: ElevatedButton.styleFrom(

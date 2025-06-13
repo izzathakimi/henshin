@@ -164,6 +164,16 @@ class AdminDashboardState extends State<AdminDashboard> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
+                              // Send notification to the user who created the request
+                              final createdByUid = data['createdByUid'];
+                              if (createdByUid != null) {
+                                await _firestore.collection('notifications').add({
+                                  'userId': createdByUid,
+                                  'message': 'Harap Maaf, Tawaran anda telah ditolak, Sila Pastikan semua maklumat diisi dengan lengkap',
+                                  'timestamp': FieldValue.serverTimestamp(),
+                                });
+                              }
+                              // Delete the service request after sending notification
                               await _firestore.collection('service_requests').doc(doc.id).delete();
                             },
                             style: ElevatedButton.styleFrom(

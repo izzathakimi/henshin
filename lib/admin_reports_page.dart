@@ -90,7 +90,19 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
                       const SizedBox(height: 8),
                       Text('Pelapor: ${data['reporterUserName'] ?? data['reporterUserId'] ?? 'Tidak diketahui'}', style: HenshinTheme.bodyText1),
                       Text('Dilapor: ${data['reportedUserName'] ?? data['reportedUserId'] ?? 'Tidak diketahui'}', style: HenshinTheme.bodyText1),
-                      Text('Perkhidmatan: ${data['serviceId'] ?? '-'}', style: HenshinTheme.bodyText1),
+                      FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance.collection('service_requests').doc(data['serviceId']).get(),
+                        builder: (context, serviceSnap) {
+                          String serviceName = data['serviceId'] ?? '-';
+                          if (serviceSnap.hasData && serviceSnap.data!.exists) {
+                            final serviceData = serviceSnap.data!.data() as Map<String, dynamic>?;
+                            if (serviceData != null && serviceData['description'] != null) {
+                              serviceName = serviceData['description'];
+                            }
+                          }
+                          return Text('Perkhidmatan: $serviceName', style: HenshinTheme.bodyText1);
+                        },
+                      ),
                       Text('Tarikh: ${data['timestamp'] != null ? (data['timestamp'] as Timestamp).toDate().toString() : '-'}', style: HenshinTheme.bodyText1),
                       const SizedBox(height: 8),
                       Text('Kesalahan:', style: HenshinTheme.bodyText1.copyWith(fontWeight: FontWeight.bold)),

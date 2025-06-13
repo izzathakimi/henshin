@@ -119,11 +119,27 @@ class RequestHistoryWidget extends StatelessWidget {
                       children: [
                         ListTile(
                           contentPadding: const EdgeInsets.all(16),
-                          title: Text(
-                            data['description'] ?? 'No description',
-                            style: HenshinTheme.subtitle1,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data['description'] ?? 'No description',
+                                style: HenshinTheme.subtitle1,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                (data['approved'] == true)
+                                  ? 'Status: Disahkan'
+                                  : 'Status: Dalam Proses Pengesahan',
+                                style: TextStyle(
+                                  color: data['approved'] == true ? Colors.green : Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
