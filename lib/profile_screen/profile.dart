@@ -554,13 +554,14 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 4, top: 2, bottom: 8),
-                child: Text(
-                  '"${applicantReview['review']}"',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+              if ((applicantReview['review'] ?? '').trim().isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4, top: 2, bottom: 8),
+                  child: Text(
+                    '"${applicantReview['review']}"',
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+                  ),
                 ),
-              ),
             ],
             // Ulasan Penerima
             if (ownerReview != null) ...[
@@ -578,13 +579,14 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 4, top: 2),
-                child: Text(
-                  '"${ownerReview['review']}"',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+              if ((ownerReview['review'] ?? '').trim().isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4, top: 2),
+                  child: Text(
+                    '"${ownerReview['review']}"',
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+                  ),
                 ),
-              ),
             ],
           ],
         ),

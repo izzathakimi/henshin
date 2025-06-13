@@ -23,44 +23,15 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   String _selectedPaymentRate = 'Per Jam';
-  File? _image;
-  final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      }
-    });
-  }
-
-  Future<String?> uploadImage(File image) async {
-    try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference storageReference = FirebaseStorage.instance.ref().child('images/$fileName');
-      UploadTask uploadTask = storageReference.putFile(image);
-      await uploadTask;
-      return await storageReference.getDownloadURL();
-    } catch (e) {
-      print('Error uploading image: $e');
-      return null;
-    }
-  }
 
   void navigateToSummary() async {
     double price = double.tryParse(_priceController.text) ?? 0;
     List<String> requirements = _requirementsController.text.split('\n');
     String description = _descriptionController.text;
     String location = _locationController.text;
-    String? imageUrl;
     final user = FirebaseAuth.instance.currentUser;
     String? userEmail = user?.email;
     String? userUid = user?.uid;
-    if (_image != null) {
-      imageUrl = await uploadImage(_image!);
-    }
 
     try {
       await FirebaseFirestore.instance.collection('service_requests').add({
@@ -70,7 +41,6 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
         'description': description,
         'location': location,
         'timestamp': FieldValue.serverTimestamp(),
-        'imageUrl': imageUrl,
         'createdByEmail': userEmail,
         'createdByUid': userUid,
         'approved': false,
@@ -168,43 +138,54 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF2F7FE),
-                      borderRadius: BorderRadius.circular(18),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.07),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Service Name
                           Text(
                             'Nama Perkhidmatan/Pekerjaan',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
+                            style: HenshinTheme.bodyText1.copyWith(
                               fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 8),
                           TextField(
                             controller: _descriptionController,
-                            maxLines: 3,
+                            maxLines: 2,
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.work_outline),
                               hintText: 'Terangkan secara ringkas apa yang anda perlukan',
+                              filled: true,
+                              fillColor: Colors.grey[100],
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 18),
+                          // Price
                           Text(
                             'Upah (RM)',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
+                            style: HenshinTheme.bodyText1.copyWith(
                               fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -212,30 +193,31 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                             controller: _priceController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.attach_money),
                               hintText: 'Masukkan upah pekerjaan yang akan ditawarkan',
-                              // prefixText: 'RM',
+                              filled: true,
+                              fillColor: Colors.grey[100],
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 18),
+                          // Payment Rate
                           Text(
                             'Kadar Bayaran',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
+                            style: HenshinTheme.bodyText1.copyWith(
                               fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 8),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.grey.shade400,
-                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.grey[100],
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -243,6 +225,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                                 value: _selectedPaymentRate,
                                 isExpanded: true,
                                 underline: Container(),
+                                icon: Icon(Icons.arrow_drop_down),
                                 items: <String>['Per Jam', 'Per Hari']
                                     .map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
@@ -258,43 +241,50 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 18),
+                          // Requirements
                           Text(
                             'Butiran Pekerjaan',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              useGoogleFonts: false,
+                            style: HenshinTheme.bodyText1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 8),
                           TextField(
                             controller: _requirementsController,
-                            maxLines: 5,
+                            maxLines: 4,
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.list_alt),
                               hintText: 'Senaraikan butiran yang perlu diberi perhatian',
+                              filled: true,
+                              fillColor: Colors.grey[100],
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 18),
+                          // Location
                           Text(
                             'Lokasi',
-                            style: HenshinTheme.bodyText1.override(
-                              fontFamily: 'NatoSansKhmer',
+                            style: HenshinTheme.bodyText1.copyWith(
                               fontWeight: FontWeight.bold,
-                              useGoogleFonts: false,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 8),
                           TextField(
                             controller: _locationController,
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.location_on_outlined),
                               hintText: 'Masukkan lokasi anda',
+                              filled: true,
+                              fillColor: Colors.grey[100],
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
                               ),
                             ),
                           ),
@@ -304,37 +294,40 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   child: FFButtonWidget(
                     onPressed: navigateToSummary,
                     text: 'Pasang Iklan',
                     options: FFButtonOptions(
                       width: double.infinity,
-                      height: 50,
+                      height: 56,
                       color: HenshinTheme.primaryColor,
                       textStyle: HenshinTheme.subtitle2.override(
                         fontFamily: 'NatoSansKhmer',
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                         useGoogleFonts: false,
                       ),
                       borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1,
                       ),
-                      borderRadius: 18,
+                      borderRadius: 28,
+                      elevation: 4,
                     ),
                   ),
                 ),
-                Center(
-                  child: Text(
-                    'Anda tidak akan dicaj sekarang',
-                    style: HenshinTheme.bodyText1.override(
-                      fontFamily: 'NatoSansKhmer',
-                      color: const Color(0xCF303030),
-                      useGoogleFonts: false,
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: Text(
+                //     'Anda tidak akan dicaj sekarang',
+                //     style: HenshinTheme.bodyText1.override(
+                //       fontFamily: 'NatoSansKhmer',
+                //       color: const Color(0xCF303030),
+                //       useGoogleFonts: false,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

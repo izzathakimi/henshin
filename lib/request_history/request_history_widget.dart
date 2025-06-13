@@ -114,175 +114,271 @@ class RequestHistoryWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16),
-                      title: Text(
-                        data['description'] ?? 'No description',
-                        style: HenshinTheme.subtitle1,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Text(
-                            'RM ${(data['price'] ?? 0.0).toStringAsFixed(2)}',
-                            style: HenshinTheme.bodyText1.copyWith(
-                              color: HenshinTheme.primaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          contentPadding: const EdgeInsets.all(16),
+                          title: Text(
+                            data['description'] ?? 'No description',
+                            style: HenshinTheme.subtitle1,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          if (timestamp != null)
-                            Text(
-                              '${timestamp.day}/${timestamp.month}/${timestamp.year}',
-                              style: HenshinTheme.bodyText2.copyWith(
-                                color: Colors.grey[600],
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 8),
+                              Text(
+                                'RM ${(data['price'] ?? 0.0).toStringAsFixed(2)}',
+                                style: HenshinTheme.bodyText1.copyWith(
+                                  color: HenshinTheme.primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          // APPLICANTS SECTION
-                          if (applicantIds.isNotEmpty) ...[
-                            const SizedBox(height: 8),
-                            Text('Pemohon:', style: HenshinTheme.bodyText1.copyWith(fontWeight: FontWeight.bold)),
-                            FutureBuilder<List<Map<String, dynamic>>>(
-                              future: _fetchApplicants(applicantIds),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                                    child: LinearProgressIndicator(),
-                                  );
-                                }
-                                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Text('Tiada pemohon.', style: HenshinTheme.bodyText2);
-                                }
-                                final applicants = snapshot.data!;
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: applicants.map((app) {
-                                    final applicantId = app['id'];
-                                    final applicantEmail = app['email'] ?? applicantId;
-                                    final status = (statusMap != null && statusMap[applicantId] != null) ? statusMap[applicantId] : null;
-                                    if (status != 'Dimohon') return SizedBox.shrink();
-                                    return Row(
-                                      children: [
-                                        Expanded(child: Text(applicantEmail)),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (_) => Profile(userId: applicantId)),
-                                            );
-                                          },
-                                          child: Text('Lihat'),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            await FirebaseFirestore.instance
-                                                .collection('service_requests')
-                                                .doc(doc.id)
-                                                .update({'status.$applicantId': 'Diterima'});
-                                          },
-                                          child: Text('Terima'),
-                                        ),
-                                      ],
+                              if (timestamp != null)
+                                Text(
+                                  '${timestamp.day}/${timestamp.month}/${timestamp.year}',
+                                  style: HenshinTheme.bodyText2.copyWith(
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              // APPLICANTS SECTION
+                              if (applicantIds.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text('Pemohon:', style: HenshinTheme.bodyText1.copyWith(fontWeight: FontWeight.bold)),
+                                FutureBuilder<List<Map<String, dynamic>>>(
+                                  future: _fetchApplicants(applicantIds),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return const Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                                        child: LinearProgressIndicator(),
+                                      );
+                                    }
+                                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                      return Text('Tiada pemohon.', style: HenshinTheme.bodyText2);
+                                    }
+                                    final applicants = snapshot.data!;
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: applicants.map((app) {
+                                        final applicantId = app['id'];
+                                        final applicantEmail = app['email'] ?? applicantId;
+                                        final status = (statusMap != null && statusMap[applicantId] != null) ? statusMap[applicantId] : null;
+                                        if (status != 'Dimohon') return SizedBox.shrink();
+                                        return Row(
+                                          children: [
+                                            Expanded(flex: 2, child: Text(applicantEmail)),
+                                            const SizedBox(width: 8),
+                                            Expanded(
+                                              flex: 1,
+                                              child: OutlinedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(builder: (_) => Profile(userId: applicantId)),
+                                                  );
+                                                },
+                                                style: OutlinedButton.styleFrom(
+                                                  side: BorderSide(color: HenshinTheme.primaryColor, width: 2),
+                                                  foregroundColor: HenshinTheme.primaryColor,
+                                                  backgroundColor: Colors.white,
+                                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                                child: const Text('Lihat'),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Expanded(
+                                              flex: 1,
+                                              child: ElevatedButton(
+                                                onPressed: () async {
+                                                  await FirebaseFirestore.instance
+                                                      .collection('service_requests')
+                                                      .doc(doc.id)
+                                                      .update({'status.$applicantId': 'Diterima'});
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: HenshinTheme.primaryColor,
+                                                  foregroundColor: Colors.white,
+                                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                                child: const Text('Terima'),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }).toList(),
                                     );
-                                  }).toList(),
-                                );
-                              },
-                            ),
-                          ],
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () async {
-                              final descController = TextEditingController(text: data['description'] ?? '');
-                              final priceController = TextEditingController(text: (data['price'] ?? '').toString());
-                              final paymentRateController = TextEditingController(text: data['paymentRate'] ?? '');
-                              final result = await showDialog<bool>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Edit Permintaan'),
-                                    content: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          TextField(
-                                            controller: descController,
-                                            decoration: const InputDecoration(labelText: 'Deskripsi'),
+                                  },
+                                ),
+                              ],
+                            ],
+                          ),
+                          trailing: null,
+                        ),
+                        const SizedBox(height: 12),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    // edit logic (reuse your existing edit logic here)
+                                    final descController = TextEditingController(text: data['description'] ?? '');
+                                    final priceController = TextEditingController(text: (data['price'] ?? '').toString());
+                                    final paymentRateController = TextEditingController(text: data['paymentRate'] ?? '');
+                                    final result = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Edit Permintaan'),
+                                          content: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                TextField(
+                                                  controller: descController,
+                                                  decoration: const InputDecoration(labelText: 'Deskripsi'),
+                                                ),
+                                                TextField(
+                                                  controller: priceController,
+                                                  decoration: const InputDecoration(labelText: 'Harga'),
+                                                  keyboardType: TextInputType.number,
+                                                ),
+                                                TextField(
+                                                  controller: paymentRateController,
+                                                  decoration: const InputDecoration(labelText: 'Kadar Bayaran'),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          TextField(
-                                            controller: priceController,
-                                            decoration: const InputDecoration(labelText: 'Harga'),
-                                            keyboardType: TextInputType.number,
-                                          ),
-                                          TextField(
-                                            controller: paymentRateController,
-                                            decoration: const InputDecoration(labelText: 'Kadar Bayaran'),
+                                          actions: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: OutlinedButton(
+                                                    onPressed: () => Navigator.pop(context, false),
+                                                    style: OutlinedButton.styleFrom(
+                                                      side: BorderSide(color: Colors.blue, width: 2),
+                                                      foregroundColor: Colors.blue,
+                                                      backgroundColor: Colors.white,
+                                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                                      textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                    ),
+                                                    child: const Text('Batal'),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Expanded(
+                                                  child: ElevatedButton(
+                                                    onPressed: () => Navigator.pop(context, true),
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: Colors.blue,
+                                                      foregroundColor: Colors.white,
+                                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                                      textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                    ),
+                                                    child: const Text('Simpan'),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    if (result == true) {
+                                      await FirebaseFirestore.instance
+                                          .collection('service_requests')
+                                          .doc(doc.id)
+                                          .update({
+                                        'description': descController.text,
+                                        'price': double.tryParse(priceController.text) ?? 0.0,
+                                        'paymentRate': paymentRateController.text,
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    foregroundColor: Colors.white,
+                                    shape: const StadiumBorder(),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  child: const Text('Ubah'),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    // delete logic (reuse your existing delete logic here)
+                                    final confirm = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Padam Permintaan'),
+                                        content: const Text('Anda pasti mahu memadam permintaan ini?'),
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: OutlinedButton(
+                                                  onPressed: () => Navigator.pop(context, false),
+                                                  style: OutlinedButton.styleFrom(
+                                                    side: BorderSide(color: Colors.blue, width: 2),
+                                                    foregroundColor: Colors.blue,
+                                                    backgroundColor: Colors.white,
+                                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                  ),
+                                                  child: const Text('Batal'),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Expanded(
+                                                child: ElevatedButton(
+                                                  onPressed: () => Navigator.pop(context, true),
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.redAccent,
+                                                    foregroundColor: Colors.white,
+                                                    shape: const StadiumBorder(),
+                                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                  ),
+                                                  child: const Text('Padam'),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context, false),
-                                        child: const Text('Batal'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context, true),
-                                        child: const Text('Simpan'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                              if (result == true) {
-                                await FirebaseFirestore.instance
-                                    .collection('service_requests')
-                                    .doc(doc.id)
-                                    .update({
-                                  'description': descController.text,
-                                  'price': double.tryParse(priceController.text) ?? 0.0,
-                                  'paymentRate': paymentRateController.text,
-                                });
-                              }
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () async {
-                              final confirm = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Padam Permintaan'),
-                                  content: const Text('Anda pasti mahu memadam permintaan ini?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, false),
-                                      child: const Text('Batal'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, true),
-                                      child: const Text('Padam'),
-                                    ),
-                                  ],
+                                    );
+                                    if (confirm == true) {
+                                      await FirebaseFirestore.instance
+                                          .collection('service_requests')
+                                          .doc(doc.id)
+                                          .delete();
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.redAccent,
+                                    foregroundColor: Colors.white,
+                                    shape: const StadiumBorder(),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  child: const Text('Padam'),
                                 ),
-                              );
-                              if (confirm == true) {
-                                await FirebaseFirestore.instance
-                                    .collection('service_requests')
-                                    .doc(doc.id)
-                                    .delete();
-                              }
-                            },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 );
