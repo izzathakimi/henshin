@@ -17,7 +17,8 @@ import 'chat/chat_list_screen.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
-  const HomePage({super.key, this.initialIndex});
+  final String? searchQuery;
+  const HomePage({super.key, this.initialIndex, this.searchQuery});
 
   @override
   HomePageState createState() => HomePageState();
@@ -47,6 +48,10 @@ class HomePageState extends State<HomePage> {
   List<Widget> get screens {
     final screens = List<Widget>.from(_screens);
     screens[1] = Profile();
+    print('DEBUG: HomePage searchQuery: ${widget.searchQuery}');
+    if (widget.searchQuery != null) {
+      screens[3] = JobApplicationPageWidget(searchQuery: widget.searchQuery ?? '');
+    }
     return screens;
   }
 

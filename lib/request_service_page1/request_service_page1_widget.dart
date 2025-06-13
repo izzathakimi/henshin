@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../common/Henshin_theme.dart';
 import '../common/Henshin_widgets.dart';
-import '../request_summary/request_summary_widget.dart';
 import '../home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../secrets.dart';
@@ -77,18 +76,33 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
         'approved': false,
       });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RequestSummaryWidget(
-            price: price,
-            paymentRate: _selectedPaymentRate,
-            requirements: requirements,
-            description: description,
-            imageUrl: imageUrl ?? '',
-          ),
-        ),
-      );
+      // Show success popup
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Berjaya!', style: HenshinTheme.title3),
+              content: Text(
+                'Perkhidmatan anda telah disimpan! Iklan akan dipaparkan setelah diluluskan oleh admin.',
+                style: HenshinTheme.bodyText1,
+              ),
+              actions: [
+                TextButton(
+                  child: Text('Balik ke Halaman Utama', style: HenshinTheme.subtitle2),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close dialog
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     } catch (e) {
       print('Error saving to Firestore: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -101,23 +115,23 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-    appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
-        leading: IconButton(
-          icon: const Icon(Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-            ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-        ),
-        // title: const Text('Request Service'),
-        // elevation: 0,
-      ),
+    // appBar: AppBar(
+    //     backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5), // Added opacity
+    //     leading: IconButton(
+    //       icon: const Icon(Icons.keyboard_arrow_left_outlined,
+    //         color: Colors.black,
+    //         size: 24,
+    //         ),
+    //       onPressed: () {
+    //         Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(builder: (context) => const HomePage()),
+    //         );
+    //       },
+    //     ),
+    //     // title: const Text('Request Service'),
+    //     // elevation: 0,
+    //   ),
       // Add gradient background
       body: Container(
         decoration:  BoxDecoration(
@@ -293,7 +307,7 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                   padding: const EdgeInsets.all(16),
                   child: FFButtonWidget(
                     onPressed: navigateToSummary,
-                    text: 'Teruskan ke Ringkasan',
+                    text: 'Pasang Iklan',
                     options: FFButtonOptions(
                       width: double.infinity,
                       height: 50,

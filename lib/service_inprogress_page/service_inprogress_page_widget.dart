@@ -25,27 +25,27 @@ class ServiceInprogressPageWidgetState
     final userId = user?.uid;
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor:
-            HenshinTheme.primaryColor.withOpacity(0.5),
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-        actions: const [],
-        centerTitle: true,
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor:
+      //       HenshinTheme.primaryColor.withOpacity(0.5),
+      //   automaticallyImplyLeading: false,
+      //   leading: InkWell(
+      //     onTap: () {
+      //       Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const HomePage()),
+      //       );
+      //     },
+      //     child: const Icon(
+      //       Icons.keyboard_arrow_left_outlined,
+      //       color: Colors.black,
+      //       size: 24,
+      //     ),
+      //   ),
+      //   actions: const [],
+      //   centerTitle: true,
+      //   elevation: 0,
+      // ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -138,10 +138,20 @@ class ServiceInprogressPageWidgetState
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(data['description'] ?? 'Servis', style: HenshinTheme.bodyText2.override(fontFamily: 'NatoSansKhmer', fontWeight: FontWeight.bold, useGoogleFonts: false)),
+                                  Text(
+                                    data['description'] ?? 'Servis',
+                                    style: HenshinTheme.bodyText2.override(
+                                      fontFamily: 'NatoSansKhmer',
+                                      fontWeight: FontWeight.bold,
+                                      useGoogleFonts: false,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                   const SizedBox(height: 8),
                                   Text('Pemohon: $ownerName', style: HenshinTheme.bodyText1),
                                   Text('Penerima: $applicantName', style: HenshinTheme.bodyText1),
+                                  if (data['location'] != null && (data['location'] as String).trim().isNotEmpty)
+                                    Text('Lokasi: ${data['location']}', style: HenshinTheme.bodyText1),
                                   const SizedBox(height: 8),
                                   Text('Status: Dalam Progres', style: HenshinTheme.bodyText1.copyWith(color: Colors.blue)),
                                   if (waitingMsg.isNotEmpty)
@@ -150,54 +160,75 @@ class ServiceInprogressPageWidgetState
                                       child: Text(waitingMsg, style: TextStyle(color: Colors.orange)),
                                     ),
                                   const SizedBox(height: 8),
-                                  if ((isOwner && !ownerConfirmed) || (isAcceptedApplicant && !applicantConfirmed))
-                                    Row(
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            if (isOwner) {
-                                              await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'ownerConfirmed': true});
-                                            } else if (isAcceptedApplicant) {
-                                              await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'applicantConfirmed': true});
-                                            }
-                                            // Show review dialog immediately after confirmation
-                                            await _showReviewDialog(context, isOwner, doc.id, ownerId, acceptedApplicantId);
-                                            // If both confirmed, set status to Selesai
-                                            final updatedDoc = await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).get();
-                                            final updatedData = updatedDoc.data() as Map<String, dynamic>;
-                                            if (updatedData['ownerConfirmed'] == true && updatedData['applicantConfirmed'] == true) {
-                                              await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'status.$acceptedApplicantId': 'Selesai'});
-                                            }
-                                          },
-                                          child: Text('Selesai'),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        if ((isOwner ? acceptedApplicantId : ownerId) != null && (isOwner ? applicantName : ownerName) != null && !hasReport)
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => ReportPage(
-                                                    reportedUserId: isOwner ? acceptedApplicantId : ownerId,
-                                                    reportedUserName: isOwner ? applicantName : ownerName,
-                                                    reporterUserId: userId,
-                                                    reporterUserName: isOwner ? ownerName : applicantName,
-                                                    serviceId: doc.id,
-                                                    isOwner: isOwner,
-                                                  ),
-                                                ),
-                                              );
+                                  // Action buttons row
+                                  Row(
+                                    children: [
+                                      if ((isOwner && !ownerConfirmed) || (isAcceptedApplicant && !applicantConfirmed))
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              if (isOwner) {
+                                                await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'ownerConfirmed': true});
+                                              } else if (isAcceptedApplicant) {
+                                                await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'applicantConfirmed': true});
+                                              }
+                                              // Show review dialog immediately after confirmation
+                                              await _showReviewDialog(context, isOwner, doc.id, ownerId, acceptedApplicantId);
+                                              // If both confirmed, set status to Selesai
+                                              final updatedDoc = await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).get();
+                                              final updatedData = updatedDoc.data() as Map<String, dynamic>;
+                                              if (updatedData['ownerConfirmed'] == true && updatedData['applicantConfirmed'] == true) {
+                                                await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({'status.$acceptedApplicantId': 'Selesai'});
+                                              }
                                             },
-                                            child: Text('Lapor'),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color(0xFF4A90E2),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(12),
+                                              ),
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
+                                            ),
+                                            child: const Text('Selesai', style: TextStyle(color: Colors.white)),
                                           ),
-                                        if (hasReport)
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
-                                            child: Text('Laporan Telah Dibuat', style: TextStyle(color: Colors.green)),
+                                        ),
+                                      if (((isOwner || isAcceptedApplicant) && !hasReport))
+                                        ...[
+                                          if ((isOwner && !ownerConfirmed) || (isAcceptedApplicant && !applicantConfirmed))
+                                            const SizedBox(width: 12),
+                                          Expanded(
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color(0xFFFF6B6B),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                ),
+                                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => ReportPage(
+                                                      reportedUserId: isOwner ? acceptedApplicantId : ownerId,
+                                                      reportedUserName: isOwner ? applicantName : ownerName,
+                                                      reporterUserId: userId,
+                                                      reporterUserName: isOwner ? ownerName : applicantName,
+                                                      serviceId: doc.id,
+                                                      isOwner: isOwner,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: const Text('Lapor', style: TextStyle(color: Colors.white)),
+                                            ),
                                           ),
-                                      ],
+                                        ],
+                                    ],
+                                  ),
+                                  if (hasReport)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text('Laporan Telah Dibuat', style: TextStyle(color: Colors.green)),
                                     ),
                                 ],
                               ),

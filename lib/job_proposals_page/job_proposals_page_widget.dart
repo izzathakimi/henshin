@@ -19,26 +19,26 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5),
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-        actions: const [],
-        centerTitle: true,
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5),
+      //   automaticallyImplyLeading: false,
+      //   leading: InkWell(
+      //     onTap: () {
+      //       Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const HomePage()),
+      //       );
+      //     },
+      //     child: const Icon(
+      //       Icons.keyboard_arrow_left_outlined,
+      //       color: Colors.black,
+      //       size: 24,
+      //     ),
+      //   ),
+      //   actions: const [],
+      //   centerTitle: true,
+      //   elevation: 0,
+      // ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -143,6 +143,16 @@ class JobProposalsPageWidgetState extends State<JobProposalsPageWidget> {
                                     fontSize: 13,
                                   ),
                                 ),
+                                if (data['location'] != null && (data['location'] as String).trim().isNotEmpty)
+                                  Text(
+                                    'Lokasi: ${data['location']}',
+                                    style: HenshinTheme.bodyText1.override(
+                                      fontFamily: 'NatoSansKhmer',
+                                      color: Colors.black54,
+                                      useGoogleFonts: false,
+                                      fontSize: 13,
+                                    ),
+                                  ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'Harga: RM${data['price'] ?? '-'} (${data['paymentRate'] ?? ''})',

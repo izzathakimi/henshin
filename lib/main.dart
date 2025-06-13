@@ -8,6 +8,12 @@ import 'application_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+  };
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Center(child: Text('Something went wrong!\n${details.exceptionAsString()}'));
+  };
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

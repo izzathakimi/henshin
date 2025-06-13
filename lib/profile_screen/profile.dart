@@ -88,6 +88,8 @@ class _ProfileState extends State<Profile> {
     return widget.userId == null || widget.userId == currentUser?.uid;
   }
 
+  int _currentReviewIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -121,38 +123,39 @@ class _ProfileState extends State<Profile> {
     final userId = widget.userId ?? user?.uid;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-        actions: [
-          if (!isCurrentUserProfile)
-            Container(
-              margin: const EdgeInsets.only(right: 8, top: 6, bottom: 6),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
+      appBar: isCurrentUserProfile
+          ? null
+          : AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              automaticallyImplyLeading: false,
+              leading: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.keyboard_arrow_left_outlined,
+                  color: Colors.black,
+                  size: 24,
+                ),
               ),
-              child: IconButton(
-                icon: const Icon(Icons.chat, color: Colors.white),
-                onPressed: _startDirectChat,
-                tooltip: 'Chat',
-              ),
+              actions: [
+                Container(
+                  margin: const EdgeInsets.only(right: 8, top: 6, bottom: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.chat, color: Colors.white),
+                    onPressed: _startDirectChat,
+                    tooltip: 'Chat',
+                  ),
+                ),
+              ],
+              centerTitle: true,
             ),
-        ],
-        centerTitle: true,
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -269,35 +272,107 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                  // Servis Selesai Section
+                  // Before Sejarah Perkhidmatan section
+                  const SizedBox(height: 24),
+                  // Divider for separation
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text('Sejarah Perkhidmatan', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+                    padding: EdgeInsets.symmetric(horizontal: 32.0),
+                    child: Divider(
+                      color: Colors.black12,
+                      thickness: 1.2,
+                    ),
                   ),
-                  if ((userData?['reportsReceived'] ?? 0) > 0)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                      child: Container(
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          'Jumlah Laporan Diterima: ${userData?['reportsReceived'] ?? 0}',
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 16),
+                  // Sejarah Perkhidmatan section with background
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.06),
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text('Sejarah Pengguna', style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold)),
+                            ),
+                            if ((userData?['reportsReceived'] ?? 0) > 0)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    'Jumlah Laporan Diterima: ${userData?['reportsReceived'] ?? 0}',
+                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            Builder(
+                              builder: (context) {
+                                if (completedServices.isEmpty) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    child: Text('Tiada sejarah perkhidmatan.'),
+                                  );
+                                } else {
+                                  final total = completedServices.length;
+                                  final current = _currentReviewIndex.clamp(0, total - 1);
+                                  return Column(
+                                    children: [
+                                      _buildCompletedServiceCard(completedServices[current], userId),
+                                      if (total > 1)
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            if (current > 0)
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _currentReviewIndex--;
+                                                  });
+                                                },
+                                                child: const Text('Sebelumnya'),
+                                              ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: Text('${current + 1} / $total'),
+                                            ),
+                                            if (current < total - 1)
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _currentReviewIndex++;
+                                                  });
+                                                },
+                                                child: const Text('Seterusnya'),
+                                              ),
+                                          ],
+                                        ),
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  if (completedServices.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text('Tiada sejarah perkhidmatan.'),
-                    )
-                  else
-                    ...completedServices.map((doc) => _buildCompletedServiceCard(doc, userId)).toList(),
+                  ),
                   // Posts Section
                   Padding(
                     padding: const EdgeInsets.all(16.0),

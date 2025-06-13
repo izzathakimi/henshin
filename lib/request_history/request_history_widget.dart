@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/Henshin_theme.dart';
-import '../request_summary/request_summary_widget.dart';
+// import '../request_summary/request_summary_widget.dart'; // Remove this line since RequestSummaryWidget is no longer used
 import 'package:firebase_auth/firebase_auth.dart';
 import '../profile_screen/profile.dart';
 import '../home_page.dart';
@@ -283,22 +283,6 @@ class RequestHistoryWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RequestSummaryWidget(
-                              price: data['price'] ?? 0.0,
-                              requirements: List<String>.from(data['requirements'] ?? []),
-                              description: data['description'] ?? '',
-                              imageUrl: data['imageUrl'] ?? '',
-                              paymentRate: data['paymentRate'] ?? '',
-                              dateTime: timestamp,
-                              requestId: doc.id,
-                            ),
-                          ),
-                        );
-                      },
                     ),
                   ),
                 );

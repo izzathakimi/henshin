@@ -7,7 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import '../common/Henshin_theme.dart';
 
 class JobApplicationPageWidget extends StatefulWidget {
-  const JobApplicationPageWidget({super.key});
+  final String? searchQuery;
+  const JobApplicationPageWidget({super.key, this.searchQuery});
 
   @override
   JobApplicationPageWidgetState createState() =>
@@ -18,6 +19,16 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    print('DEBUG: JobApplicationPageWidget searchQuery: \\${widget.searchQuery}');
+    if (widget.searchQuery != null && widget.searchQuery!.isNotEmpty) {
+      _searchController.text = widget.searchQuery!;
+      _searchQuery = widget.searchQuery!;
+    }
+  }
 
   @override
   void dispose() {
@@ -32,19 +43,19 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
       appBar: AppBar(
         backgroundColor: HenshinTheme.primaryColor.withOpacity(0.5),
         automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
+        // leading: InkWell(
+        //   onTap: () {
+        //     Navigator.pushReplacement(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => const HomePage()),
+        //     );
+        //   },
+        //   child: const Icon(
+        //     Icons.keyboard_arrow_left_outlined,
+        //     color: Colors.black,
+        //     size: 24,
+        //   ),
+        // ),
         title: Container(
           height: 40,
           margin: const EdgeInsets.only(left: 0),
@@ -195,6 +206,17 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                         ),
                                       ),
                                       const SizedBox(height: 4),
+                                      if (data['location'] != null && (data['location'] as String).trim().isNotEmpty)
+                                        Text(
+                                          'Lokasi: ${data['location']}',
+                                          style: HenshinTheme.bodyText1.override(
+                                            fontFamily: 'NatoSansKhmer',
+                                            color: Colors.black54,
+                                            useGoogleFonts: false,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      const SizedBox(height: 4),
                                       Text(
                                         'Harga: RM${data['price'] ?? '-'} (${data['paymentRate'] ?? ''})',
                                         style: HenshinTheme.bodyText1,
@@ -217,20 +239,22 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                           ),
                                           const Spacer(),
                                           if (status == null || status == 'Kerja Tersedia')
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({
-                                                  'status.$userId': 'Dimohon',
-                                                });
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: HenshinTheme.primaryColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(12),
+                                            Expanded(
+                                              child: ElevatedButton(
+                                                onPressed: () async {
+                                                  await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({
+                                                    'status.$userId': 'Dimohon',
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: const Color(0xFF4A90E2),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                  ),
+                                                  padding: const EdgeInsets.symmetric(vertical: 12),
                                                 ),
-                                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                                                child: const Text('Mohon', style: TextStyle(color: Colors.white)),
                                               ),
-                                              child: const Text('Mohon'),
                                             ),
                                         ],
                                       ),

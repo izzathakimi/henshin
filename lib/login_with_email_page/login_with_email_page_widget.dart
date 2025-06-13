@@ -37,8 +37,12 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
   }
 
   Future<void> _signIn() async {
+    print('DEBUG: _signIn called');
+    print('DEBUG: Email: \\${textController1?.text}');
+    print('DEBUG: Password: (length: \\${textController2?.text.length})');
     if (formKey.currentState!.validate()) {
       try {
+        print('DEBUG: Form validated, attempting Firebase signInWithEmailAndPassword');
         showSnackbar(context, 'Sedang log masuk...', loading: true);
 
         UserCredential userCredential =
@@ -46,44 +50,57 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
           email: textController1!.text,
           password: textController2!.text,
         );
+        print('DEBUG: signInWithEmailAndPassword success: user=${userCredential.user?.uid}');
 
         if (userCredential.user != null) {
+          print('DEBUG: Fetching user doc from Firestore for uid: \\${userCredential.user!.uid}');
           // Get user role from Firestore
           DocumentSnapshot userDoc = await _firestore
               .collection('users')
               .doc(userCredential.user!.uid)
               .get();
+          print('DEBUG: Firestore userDoc.exists = \\${userDoc.exists}');
 
           if (userDoc.exists) {
             String role = userDoc.get('role') as String;
-            
+            print('DEBUG: User role: \\${role}');
             // Navigate based on role
             if (role == 'admin') {
+              print('DEBUG: Navigating to AdminDashboard');
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const AdminDashboard()),
                 (route) => false,
               );
+              print('DEBUG: Navigation to AdminDashboard done');
             } else {
+              print('DEBUG: Navigating to HomePage');
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const HomePage()),
                 (route) => false,
               );
+              print('DEBUG: Navigation to HomePage done');
             }
           } else {
+            print('DEBUG: User doc not found in Firestore');
             showSnackbar(context, 'User data not found. Please contact support.');
           }
         }
       } on FirebaseAuthException catch (e) {
+        print('DEBUG: FirebaseAuthException: code=\\${e.code}, message=\\${e.message}');
         if (e.code == 'user-not-found') {
           showSnackbar(context, 'No user found for that email.');
         } else if (e.code == 'wrong-password') {
           showSnackbar(context, 'Wrong password provided for that user.');
         } else {
-          showSnackbar(context, 'Error: ${e.message}');
+          showSnackbar(context, 'Error: \\${e.message}');
         }
-      } catch (e) {
-        showSnackbar(context, 'An error occurred. Please try again.');
+      } catch (e, stack) {
+        print('LOGIN ERROR: \\${e}');
+        print('STACKTRACE: \\${stack}');
+        showSnackbar(context, 'An error occurred: \\${e}');
       }
+    } else {
+      print('DEBUG: Form validation failed');
     }
   }
 
