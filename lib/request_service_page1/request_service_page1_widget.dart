@@ -24,7 +24,18 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
   final TextEditingController _locationController = TextEditingController();
   String _selectedPaymentRate = 'Per Jam';
 
+  String? _descError, _priceError, _requirementsError, _locationError;
+
   void navigateToSummary() async {
+    setState(() {
+      _descError = _descriptionController.text.trim().isEmpty ? 'Sila isi nama perkhidmatan.' : null;
+      _priceError = _priceController.text.trim().isEmpty ? 'Sila isi upah.' : null;
+      _requirementsError = _requirementsController.text.trim().isEmpty ? 'Sila isi butiran pekerjaan.' : null;
+      _locationError = _locationController.text.trim().isEmpty ? 'Sila isi lokasi.' : null;
+    });
+    if (_descError != null || _priceError != null || _requirementsError != null || _locationError != null) {
+      return;
+    }
     double price = double.tryParse(_priceController.text) ?? 0;
     List<String> requirements = _requirementsController.text.split('\n');
     String description = _descriptionController.text;
@@ -179,6 +190,11 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               ),
                             ),
                           ),
+                          if (_descError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 4),
+                              child: Text(_descError!, style: TextStyle(color: Colors.red, fontSize: 13)),
+                            ),
                           const SizedBox(height: 18),
                           // Price
                           Text(
@@ -203,6 +219,11 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               ),
                             ),
                           ),
+                          if (_priceError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 4),
+                              child: Text(_priceError!, style: TextStyle(color: Colors.red, fontSize: 13)),
+                            ),
                           const SizedBox(height: 18),
                           // Payment Rate
                           Text(
@@ -265,6 +286,11 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               ),
                             ),
                           ),
+                          if (_requirementsError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 4),
+                              child: Text(_requirementsError!, style: TextStyle(color: Colors.red, fontSize: 13)),
+                            ),
                           const SizedBox(height: 18),
                           // Location
                           Text(
@@ -288,6 +314,11 @@ class RequestServicePage1WidgetState extends State<RequestServicePage1Widget> {
                               ),
                             ),
                           ),
+                          if (_locationError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 4),
+                              child: Text(_locationError!, style: TextStyle(color: Colors.red, fontSize: 13)),
+                            ),
                         ],
                       ),
                     ),
