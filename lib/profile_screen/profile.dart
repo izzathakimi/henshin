@@ -339,28 +339,32 @@ class _ProfileState extends State<Profile> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            if (current > 0)
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _currentReviewIndex--;
-                                                  });
-                                                },
-                                                child: const Text('Sebelumnya'),
+                                            // Back button
+                                            ElevatedButton(
+                                              onPressed: current > 0 ? () => setState(() => _currentReviewIndex--) : null,
+                                              style: ElevatedButton.styleFrom(
+                                                shape: const CircleBorder(),
+                                                padding: const EdgeInsets.all(8),
+                                                backgroundColor: current > 0 ? Colors.blue[700] : Colors.grey[300],
+                                                elevation: 2,
                                               ),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                              child: Text('${current + 1} / $total'),
+                                              child: const Icon(Icons.chevron_left, color: Colors.white),
                                             ),
-                                            if (current < total - 1)
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _currentReviewIndex++;
-                                                  });
-                                                },
-                                                child: const Text('Seterusnya'),
+                                            const SizedBox(width: 8),
+                                            // Page indicator
+                                            Text('${current + 1} / $total', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                            const SizedBox(width: 8),
+                                            // Next button
+                                            ElevatedButton(
+                                              onPressed: current < total - 1 ? () => setState(() => _currentReviewIndex++) : null,
+                                              style: ElevatedButton.styleFrom(
+                                                shape: const CircleBorder(),
+                                                padding: const EdgeInsets.all(8),
+                                                backgroundColor: current < total - 1 ? Colors.blue[700] : Colors.grey[300],
+                                                elevation: 2,
                                               ),
+                                              child: const Icon(Icons.chevron_right, color: Colors.white),
+                                            ),
                                           ],
                                         ),
                                     ],
@@ -461,92 +465,130 @@ class _ProfileState extends State<Profile> {
     final label = isOwner ? 'Penerima: ' : 'Pemohon: ';
     // Debug print
     print('otherPartyId: ' + (otherPartyId?.toString() ?? 'null') + ', otherPartyEmail: ' + otherPartyEmail);
-    return FutureBuilder<List<DocumentSnapshot>>(
-      future: Future.wait([
-        FirebaseFirestore.instance.collection('users').doc(ownerId).get(),
-        if (applicantId != null)
-          FirebaseFirestore.instance.collection('users').doc(applicantId).get(),
-      ]),
-      builder: (context, snap) {
-        String ownerEmailFetched = ownerEmail;
-        String applicantEmailFetched = '';
-        if (snap.hasData) {
-          final ownerData = snap.data![0].data() as Map<String, dynamic>?;
-          if (ownerData != null && ownerData['email'] != null && ownerData['email'].toString().isNotEmpty) {
-            ownerEmailFetched = ownerData['email'];
-          } else if (ownerId != null) {
-            ownerEmailFetched = ownerId;
-          }
-          if (applicantId != null && snap.data!.length > 1) {
-            final applicantData = snap.data![1].data() as Map<String, dynamic>?;
-            if (applicantData != null && applicantData['email'] != null && applicantData['email'].toString().isNotEmpty) {
-              applicantEmailFetched = applicantData['email'];
-            } else {
-              applicantEmailFetched = applicantId;
-            }
-          }
-        }
-        final isOwner = userId == ownerId;
-        final otherPartyId = isOwner ? applicantId : ownerId;
-        final otherPartyEmail = isOwner ? applicantEmailFetched : ownerEmailFetched;
-        final label = isOwner ? 'Penerima: ' : 'Pemohon: ';
-        return Card(
-          margin: const EdgeInsets.all(8.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Service label and name
+            Text(
+              isApplicant
+                ? 'Kerja Yang Ditawarkan:'
+                : 'Kerja Yang Dilakukan:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue[900],
+              ),
+            ),
+            Text(
+              data['description'] ?? 'Servis',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Other party info
+            Row(
               children: [
-                Text(data['description'] ?? 'Servis', style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                Text('Status: Selesai', style: TextStyle(color: Colors.green)),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-                    if (otherPartyId != null && otherPartyEmail.isNotEmpty)
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => Profile(userId: otherPartyId, chatClient: widget.chatClient)),
-                          );
-                        },
-                        child: Text(otherPartyEmail, style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
-                      )
-                    else
-                      Text(otherPartyEmail),
-                  ],
+                Text(
+                  label,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
-                if (finishedTimestamp != null)
-                  Text('Tarikh Selesai: ' + _formatTimestamp(finishedTimestamp)),
-                if (ownerReview != null) ...[
-                  const SizedBox(height: 8),
-                  Text('Ulasan Pemohon:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber),
-                      Text('${ownerReview['rating'] ?? '-'}'),
-                    ],
-                  ),
-                  Text(ownerReview['review'] ?? ''),
-                ],
-                if (applicantReview != null) ...[
-                  const SizedBox(height: 8),
-                  Text('Ulasan Penerima:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber),
-                      Text('${applicantReview['rating'] ?? '-'}'),
-                    ],
-                  ),
-                  Text(applicantReview['review'] ?? ''),
-                ],
+                FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance.collection('users').doc(otherPartyId).get(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text('Memuatkan...');
+                    }
+                    final userData = snapshot.data!.data() as Map<String, dynamic>?;
+                    final otherUserName = userData?['name'] ?? 'Nama tidak tersedia';
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Profile(userId: otherPartyId),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        otherUserName,
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
-          ),
-        );
-      },
+            const SizedBox(height: 4),
+            // Completion date
+            Text(
+              'Tarikh Selesai: ${finishedTimestamp != null ? _formatTimestamp(finishedTimestamp) : '-'}',
+              style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+            ),
+            const SizedBox(height: 16),
+            // Ulasan Pemohon
+            if (applicantReview != null) ...[
+              Row(
+                children: [
+                  Text(
+                    'Ulasan Pemohon:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.star, color: Colors.amber, size: 20),
+                  Text(
+                    '${applicantReview['rating']}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 4, top: 2, bottom: 8),
+                child: Text(
+                  '"${applicantReview['review']}"',
+                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+                ),
+              ),
+            ],
+            // Ulasan Penerima
+            if (ownerReview != null) ...[
+              Row(
+                children: [
+                  Text(
+                    'Ulasan Penerima:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.star, color: Colors.amber, size: 20),
+                  Text(
+                    '${ownerReview['rating']}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 4, top: 2),
+                child: Text(
+                  '"${ownerReview['review']}"',
+                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 

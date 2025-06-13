@@ -22,52 +22,68 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Padam Akaun'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Sila masukkan kata laluan admin untuk mengesahkan:'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                hintText: 'Kata laluan admin',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ],
+        content: const Text(
+          'Teruskan Memadam Akaun Pengguna Ini?',
+          style: TextStyle(fontSize: 16),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Batal'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              // Verify admin password here
-              // For now, we'll just delete the account
-              try {
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(userId)
-                    .delete();
-                
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Akaun telah dipadam')),
-                  );
-                }
-              } catch (e) {
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Ralat telah berlaku')),
-                  );
-                }
-              }
-            },
-            child: const Text('Padam'),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.red, width: 2),
+                    foregroundColor: Colors.red,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  child: const Text('Batal'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userId)
+                          .delete();
+                      if (mounted) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Akaun telah dipadam')),
+                        );
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Ralat telah berlaku')),
+                        );
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  child: const Text(
+                    'Padam',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -77,9 +93,9 @@ class _AkaunPenggunaPageState extends State<AkaunPenggunaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Akaun Pengguna'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Akaun Pengguna'),
+      // ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

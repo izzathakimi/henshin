@@ -88,11 +88,13 @@ class LoginWithEmailPageWidgetState extends State<LoginWithEmailPageWidget> {
       } on FirebaseAuthException catch (e) {
         print('DEBUG: FirebaseAuthException: code=\\${e.code}, message=\\${e.message}');
         if (e.code == 'user-not-found') {
-          showSnackbar(context, 'No user found for that email.');
+          showSnackbar(context, 'Tiada Akaun dengan Email Ini');
         } else if (e.code == 'wrong-password') {
-          showSnackbar(context, 'Wrong password provided for that user.');
+          showSnackbar(context, 'Salah Kata Laluan');
+        } else if (e.code == 'invalid-credential') {
+          showSnackbar(context, 'Kata laluan atau email tidak sah.');
         } else {
-          showSnackbar(context, 'Error: \\${e.message}');
+          showSnackbar(context, 'Ralat log masuk. Sila cuba lagi.');
         }
       } catch (e, stack) {
         print('LOGIN ERROR: \\${e}');

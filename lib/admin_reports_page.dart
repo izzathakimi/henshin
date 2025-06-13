@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../common/Henshin_theme.dart';
 
 class AdminReportsPage extends StatefulWidget {
   const AdminReportsPage({Key? key}) : super(key: key);
@@ -44,52 +45,132 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Laporan Pengguna')),
-      body: StreamBuilder<QuerySnapshot>(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: HenshinTheme.primaryGradient
+              .map((color) => color.withOpacity(0.5))
+              .toList(),
+        ),
+      ),
+      child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('reports').orderBy('timestamp', descending: true).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
           final docs = snapshot.data!.docs;
           if (docs.isEmpty) return Center(child: Text('Tiada laporan.'));
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             itemCount: docs.length,
             itemBuilder: (context, i) {
               final data = docs[i].data() as Map<String, dynamic>;
-              return Card(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              return Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: const Color(0x4D757575)),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Pelapor: ${data['reporterUserName'] ?? data['reporterUserId'] ?? 'Tidak diketahui'}'),
-                      Text('Dilapor: ${data['reportedUserName'] ?? data['reportedUserId'] ?? 'Tidak diketahui'}'),
-                      Text('Perkhidmatan: ${data['serviceId'] ?? '-'}'),
-                      Text('Tarikh: ${data['timestamp'] != null ? (data['timestamp'] as Timestamp).toDate().toString() : '-'}'),
+                      Text(
+                        'Laporan #${i + 1}',
+                        style: HenshinTheme.bodyText2.override(
+                          fontFamily: 'NatoSansKhmer',
+                          fontWeight: FontWeight.bold,
+                          useGoogleFonts: false,
+                          fontSize: 20,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text('Kesalahan: ${data['description'] ?? '-'}'),
+                      Text('Pelapor: ${data['reporterUserName'] ?? data['reporterUserId'] ?? 'Tidak diketahui'}', style: HenshinTheme.bodyText1),
+                      Text('Dilapor: ${data['reportedUserName'] ?? data['reportedUserId'] ?? 'Tidak diketahui'}', style: HenshinTheme.bodyText1),
+                      Text('Perkhidmatan: ${data['serviceId'] ?? '-'}', style: HenshinTheme.bodyText1),
+                      Text('Tarikh: ${data['timestamp'] != null ? (data['timestamp'] as Timestamp).toDate().toString() : '-'}', style: HenshinTheme.bodyText1),
+                      const SizedBox(height: 8),
+                      Text('Kesalahan:', style: HenshinTheme.bodyText1.copyWith(fontWeight: FontWeight.bold)),
+                      Text(data['description'] ?? '-', style: HenshinTheme.bodyText1),
                       if (data['mediaUrl'] != null)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Image.network(data['mediaUrl'], height: 120),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              data['mediaUrl'],
+                              height: 120,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      Text('Status: ${data['status'] ?? 'pending'}', style: TextStyle(color: data['status'] == 'verified' ? Colors.green : data['status'] == 'rejected' ? Colors.red : Colors.orange)),
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: data['status'] == 'verified' 
+                              ? Colors.green.withOpacity(0.1)
+                              : data['status'] == 'rejected'
+                                  ? Colors.red.withOpacity(0.1)
+                                  : Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Status: ' + (
+                            data['status'] == 'verified'
+                              ? 'Disahkan'
+                              : data['status'] == 'rejected'
+                                ? 'Ditolak'
+                                : (data['status'] ?? 'pending')
+                          ),
+                          style: TextStyle(
+                            color: data['status'] == 'verified'
+                                ? Colors.green
+                                : data['status'] == 'rejected'
+                                    ? Colors.red
+                                    : Colors.orange,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                       if (data['status'] == 'pending')
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], true, data['reporterUserName'], data['reportedUserName']),
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                              child: Text('Sahkan'),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton(
-                              onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], false, data['reporterUserName'], data['reportedUserName']),
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                              child: Text('Tolak'),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], true, data['reporterUserName'], data['reportedUserName']),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF4A90E2),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: const Text('Sahkan', style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () => _handleReport(docs[i].id, data['reportedUserId'], data['reporterUserId'], false, data['reporterUserName'], data['reportedUserName']),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFFF6B6B),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: const Text('Tolak', style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                     ],
                   ),

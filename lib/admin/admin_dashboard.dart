@@ -161,24 +161,40 @@ class AdminDashboardState extends State<AdminDashboard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextButton(
-                          onPressed: () async {
-                            await _firestore.collection('service_requests').doc(doc.id).delete();
-                          },
-                          child: const Text('Tolak'),
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await _firestore.collection('service_requests').doc(doc.id).update({
-                              'approved': true,
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.white,
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await _firestore.collection('service_requests').doc(doc.id).delete();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text('Tolak', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                           ),
-                          child: const Text('Terima'),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await _firestore.collection('service_requests').doc(doc.id).update({
+                                'approved': true,
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text('Terima', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          ),
                         ),
                       ],
                     ),
@@ -238,34 +254,58 @@ class AdminDashboardState extends State<AdminDashboard> {
           ),
           child: Column(
             children: [
-              DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                child: Text(
-                  'Admin Panel',
-                  style: GoogleFonts.ubuntu(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 32,
-                  ),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    DrawerHeader(
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      child: Text(
+                        'Panel Admin',
+                        style: GoogleFonts.ubuntu(
+                          color: Colors.white,
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    for (var item in _drawerItems)
+                      _buildDrawerItem(
+                        icon: item['icon'],
+                        title: item['title'],
+                        index: item['index'],
+                        selectedIndex: _selectedIndex,
+                        onTap: _onItemTapped,
+                      ),
+                  ],
                 ),
               ),
-              ..._drawerItems.map((item) => ListTile(
-                leading: Icon(item['icon'], color: Colors.black),
-                title: Text(item['title'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                selected: _selectedIndex == item['index'],
-                selectedTileColor: Colors.blue.withOpacity(0.1),
-                onTap: () {
-                  _onItemTapped(item['index']);
-                  Navigator.pop(context);
-                },
-              )),
               const Divider(color: Colors.white30),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.red),
-                title: const Text('Log Keluar', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                onTap: _logout,
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: _logout,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.logout, color: Colors.red),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Log Keluar',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -288,6 +328,45 @@ class AdminDashboardState extends State<AdminDashboard> {
             AdminReportsPage(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required int index,
+    required int selectedIndex,
+    required Function(int) onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: selectedIndex == index
+            ? Colors.blue.withOpacity(0.7)
+            : Colors.transparent,
+      ),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: selectedIndex == index ? Colors.white : null,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: selectedIndex == index ? Colors.white : Colors.black,
+          ),
+        ),
+        selected: selectedIndex == index,
+        selectedColor: Colors.white,
+        selectedTileColor: Colors.transparent,
+        hoverColor: Colors.white.withOpacity(0.1),
+        onTap: () {
+          onTap(index);
+          Navigator.pop(context);
+        },
       ),
     );
   }

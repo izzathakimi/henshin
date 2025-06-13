@@ -22,21 +22,38 @@ class ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
     textController = TextEditingController();
   }
 
-  Future<void> checkEmail(String email) async {
-    try {
-      List<String> signInMethods =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+  Future<void> sendResetEmail() async {
+    final email = textController?.text.trim() ?? '';
+    setState(() {
+      errorMessage = null;
+    });
+    if (email.isEmpty) {
       setState(() {
-        errorMessage =
-            signInMethods.isEmpty ? 'Tiada akaun wujud dengan e-mel ini' : null;
+        errorMessage = 'Sila masukkan e-mel anda';
       });
+      return;
+    }
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('E-mel tetapan semula kata laluan telah dihantar! Sila semak peti masuk dan folder spam anda.'),
+        ),
+      );
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       setState(() {
         if (e.code == 'invalid-email') {
           errorMessage = 'Format e-mel tidak sah';
+        } else if (e.code == 'user-not-found') {
+          errorMessage = 'Tiada akaun wujud dengan e-mel ini';
         } else {
-          errorMessage = 'Sila masukkan e-mel yang sah';
+          errorMessage = e.message ?? 'Ralat telah berlaku';
         }
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Ralat telah berlaku';
       });
     }
   }
@@ -76,15 +93,16 @@ class ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Row(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 0),
                   child: Text(
                     'Lupa Kata Laluan',
+                    textAlign: TextAlign.center,
                     style: HenshinTheme.bodyText1.override(
                       fontFamily: 'NatoSansKhmer',
-                      fontSize: 18,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       useGoogleFonts: false,
                     ),
@@ -124,7 +142,13 @@ class ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                       child: TextFormField(
                         controller: textController,
                         obscureText: false,
-                        onChanged: (value) => checkEmail(value),
+                        onChanged: (value) {
+                          if (errorMessage != null) {
+                            setState(() {
+                              errorMessage = null;
+                            });
+                          }
+                        },
                         decoration: InputDecoration(
                           hintText: 'Alamat E-mail',
                           errorText: errorMessage,
@@ -166,39 +190,7 @@ class ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(32, 45, 32, 0),
                     child: FFButtonWidget(
-                      onPressed: () async {
-                        if (textController!.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Sila masukkan e-mel anda')),
-                          );
-                          return;
-                        }
-
-                        if (errorMessage != null) {
-                          return;
-                        }
-
-                        try {
-                          final email = textController!.text.trim();
-                          await FirebaseAuth.instance
-                              .sendPasswordResetEmail(email: email);
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'E-mel tetapan semula kata laluan telah dihantar! Sila semak peti masuk dan folder spam anda.'),
-                            ),
-                          );
-                          Navigator.pop(context);
-                        } on FirebaseAuthException catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content:
-                                    Text(e.message ?? 'Ralat telah berlaku')),
-                          );
-                        }
-                      },
+                      onPressed: sendResetEmail,
                       text: 'Hantar',
                       options: FFButtonOptions(
                         width: 130,
