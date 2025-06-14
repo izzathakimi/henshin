@@ -9,7 +9,6 @@ import 'service_inprogress_page/service_inprogress_page_widget.dart';
 import 'request_history/request_history_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'dart:ui';
 import 'splash/splash_widget.dart';
 import 'notifikasi_page.dart';

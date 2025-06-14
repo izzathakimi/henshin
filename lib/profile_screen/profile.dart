@@ -15,9 +15,6 @@ import 'package:henshin/profile_screen/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../common/Henshin_theme.dart';
 import '../chat/chat_screen.dart';
-import 'package:stream_chat/stream_chat.dart' as stream_chat;
-import 'package:stream_chat/stream_chat.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class PostModel {
   final String id;
@@ -64,8 +61,7 @@ class PostModel {
 
 class Profile extends StatefulWidget {
   final String? userId;
-  final stream_chat.StreamChatClient? chatClient;
-  const Profile({super.key, this.userId, this.chatClient});
+  const Profile({super.key, this.userId});
 
   @override
   State<Profile> createState() => _ProfileState();

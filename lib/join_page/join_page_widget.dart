@@ -87,7 +87,7 @@ class JoinPageWidgetState extends State<JoinPageWidget>
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                 child: Image.asset(
-                  'assets/images/app_launcher_icon.png',
+                  'assets/images/rh2.png',
                   width: 140,
                   height: 140,
                   fit: BoxFit.fitHeight,

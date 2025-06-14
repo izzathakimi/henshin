@@ -1,12 +1,12 @@
 // Project-level build.gradle
 buildscript {
-    ext.kotlin_version = '2.0.21'
+    ext.kotlin_version = '1.9.0'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath 'com.google.gms:google-services:4.3.15'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -18,9 +18,26 @@ allprojects {
         mavenCentral()
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-        kotlinOptions {
-            jvmTarget = "1.8"
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+        
+        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+        
+        tasks.withType(JavaCompile).configureEach {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+            options.compilerArgs += ['-Xlint:deprecation']
         }
     }
 }
