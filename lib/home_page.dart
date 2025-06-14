@@ -14,6 +14,7 @@ import 'dart:ui';
 import 'splash/splash_widget.dart';
 import 'notifikasi_page.dart';
 import 'chat/chat_list_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   final int? initialIndex;
@@ -161,13 +162,21 @@ class HomePageState extends State<HomePage> {
                       ),
                     ),
                     for (var item in _drawerItems)
-                      _buildDrawerItem(
-                        icon: item['icon'],
-                        title: item['title'],
-                        index: item['index'],
-                        selectedIndex: _selectedIndex,
-                        onTap: _onItemTapped,
-                      ),
+                      item['index'] == 8 // Notifikasi
+                        ? _buildNotifikasiDrawerItem(
+                            icon: item['icon'],
+                            title: item['title'],
+                            index: item['index'],
+                            selectedIndex: _selectedIndex,
+                            onTap: _onItemTapped,
+                          )
+                        : _buildDrawerItem(
+                            icon: item['icon'],
+                            title: item['title'],
+                            index: item['index'],
+                            selectedIndex: _selectedIndex,
+                            onTap: _onItemTapped,
+                          ),
                   ],
                 ),
               ),
@@ -282,6 +291,80 @@ class HomePageState extends State<HomePage> {
           Navigator.pop(context);
         },
       ),
+    );
+  }
+
+  Widget _buildNotifikasiDrawerItem({
+    required IconData icon,
+    required String title,
+    required int index,
+    required int selectedIndex,
+    required Function(int) onTap,
+  }) {
+    final user = firebase.FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // fallback to normal item if not logged in
+      return _buildDrawerItem(
+        icon: icon,
+        title: title,
+        index: index,
+        selectedIndex: selectedIndex,
+        onTap: onTap,
+      );
+    }
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('notifications')
+          .where('userId', isEqualTo: user.uid)
+          .where('isRead', isEqualTo: false)
+          .snapshots(),
+      builder: (context, snapshot) {
+        bool hasUnread = snapshot.hasData && snapshot.data!.docs.isNotEmpty;
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: selectedIndex == index
+                ? Colors.blue.withOpacity(0.7)
+                : Colors.transparent,
+          ),
+          child: ListTile(
+            leading: Icon(
+              icon,
+              color: selectedIndex == index ? Colors.white : null,
+            ),
+            title: Row(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: selectedIndex == index ? Colors.white : Colors.black,
+                  ),
+                ),
+                if (hasUnread)
+                  Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    width: 10,
+                    height: 10,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+              ],
+            ),
+            selected: selectedIndex == index,
+            selectedColor: Colors.white,
+            selectedTileColor: Colors.transparent,
+            hoverColor: Colors.white.withOpacity(0.1),
+            onTap: () {
+              onTap(index);
+              Navigator.pop(context);
+            },
+          ),
+        );
+      },
     );
   }
 }
