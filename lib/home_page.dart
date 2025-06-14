@@ -27,11 +27,14 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late int _selectedIndex;
+  String? _currentUserId;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex ?? 0;
+    final user = firebase.FirebaseAuth.instance.currentUser;
+    _currentUserId = user?.uid;
   }
 
   final List<Widget> _screens = [
@@ -224,31 +227,28 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            child: BottomNavigationBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.chat),
-                  label: '',
-                ),
-              ],
-              currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
-              selectedItemColor: Colors.blue.withOpacity(0.7),
-              unselectedItemColor: Colors.black,
-              onTap: _onItemTapped,
-            ),
+            child: _currentUserId == null
+                ? _buildBottomNavBar(false)
+                : StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('chats')
+                        .where('participants', arrayContains: _currentUserId)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      bool hasUnread = false;
+                      if (snapshot.hasData) {
+                        for (var doc in snapshot.data!.docs) {
+                          final data = doc.data() as Map<String, dynamic>;
+                          final isReadMap = data['isRead'] as Map<String, dynamic>? ?? {};
+                          if (isReadMap[_currentUserId] != true) {
+                            hasUnread = true;
+                            break;
+                          }
+                        }
+                      }
+                      return _buildBottomNavBar(hasUnread);
+                    },
+                  ),
           ),
         ),
       ),
@@ -365,6 +365,52 @@ class HomePageState extends State<HomePage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildBottomNavBar(bool hasUnread) {
+    return BottomNavigationBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: '',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              const Icon(Icons.chat),
+              if (hasUnread)
+                Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                    width: 12,
+                    height: 12,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          label: '',
+        ),
+      ],
+      currentIndex: _selectedIndex < 3 ? _selectedIndex : 0,
+      selectedItemColor: Colors.blue.withOpacity(0.7),
+      unselectedItemColor: Colors.black,
+      onTap: _onItemTapped,
     );
   }
 }
