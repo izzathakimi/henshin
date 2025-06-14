@@ -50,6 +50,8 @@ class ChatListScreen extends StatelessWidget {
                 final data = doc.data() as Map<String, dynamic>;
                 final participants = List<String>.from(data['participants']);
                 final otherUserId = participants.firstWhere((id) => id != uid);
+                final isReadMap = data['isRead'] as Map<String, dynamic>? ?? {};
+                final isRead = isReadMap[uid] == true;
 
                 return FutureBuilder<DocumentSnapshot>(
                   future: FirebaseFirestore.instance.collection('users').doc(otherUserId).get(),
@@ -67,7 +69,10 @@ class ChatListScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(18),
-                        onTap: () {
+                        onTap: () async {
+                          await FirebaseFirestore.instance.collection('chats').doc(doc.id).update({
+                            'isRead.$uid': true,
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -109,12 +114,28 @@ class ChatListScreen extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        otherUserName,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              otherUserName,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          if (!isRead)
+                                            Container(
+                                              margin: const EdgeInsets.only(left: 8),
+                                              width: 10,
+                                              height: 10,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.red,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
