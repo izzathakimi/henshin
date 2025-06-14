@@ -26,11 +26,13 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
         'userId': reporterUserId,
         'message': 'Laporan yang anda lakukan ke atas pengguna ${reportedUserName ?? reportedUserId} telah dikenalpasti, Pengguna tersebut telah diberi amaran dan akan dikenakan tindakan lanjut jika mengulangi kesalahan pada masa akan datang',
         'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
       });
       await FirebaseFirestore.instance.collection('notifications').add({
         'userId': reportedUserId,
         'message': 'Atas kesalahan anda terhadap Pengguna ${reporterUserName ?? reporterUserId}, anda telah diberi 1 amaran. Akaun anda berisiko untuk dipadam sekiranya anda melakukan kesalahan berkali-kali',
         'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
       });
     } else {
       await reportRef.update({'status': 'rejected'});
@@ -38,6 +40,7 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
         'userId': reporterUserId,
         'message': 'Laporan yang anda lakukan ke atas pengguna ${reportedUserName ?? reportedUserId} telah diperiksa, namun pihak kami mendapati bahawa pengguna tersebut tidak melakukan kesalahan seperti yang dimaklumkan.',
         'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
       });
     }
     setState(() {});
