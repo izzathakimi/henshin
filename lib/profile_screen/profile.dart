@@ -231,10 +231,15 @@ class _ProfileState extends State<Profile> {
                                 children: [
                                   const Icon(Icons.star, size: 16, color: Colors.black54),
                                   const SizedBox(width: 4),
-                                  Text(
-                                    userData?['specialty'],
-                                    style: GoogleFonts.ubuntu(
-                                      textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                                  Flexible(
+                                    child: Text(
+                                      userData?['specialty'],
+                                      style: GoogleFonts.ubuntu(
+                                        textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      softWrap: false,
                                     ),
                                   ),
                                 ],
@@ -245,10 +250,15 @@ class _ProfileState extends State<Profile> {
                                 children: [
                                   const Icon(Icons.email, size: 16, color: Colors.black54),
                                   const SizedBox(width: 4),
-                                  Text(
-                                    userData?['email'],
-                                    style: GoogleFonts.ubuntu(
-                                      textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                                  Flexible(
+                                    child: Text(
+                                      userData?['email'],
+                                      style: GoogleFonts.ubuntu(
+                                        textStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      softWrap: false,
                                     ),
                                   ),
                                 ],

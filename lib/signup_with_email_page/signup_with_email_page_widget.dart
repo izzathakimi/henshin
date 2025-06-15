@@ -62,7 +62,7 @@ class SignupWithEmailPageWidgetState extends State<SignupWithEmailPageWidget> {
             'createdAt': FieldValue.serverTimestamp(),
           });
 
-          // Navigate to freelancer page
+          // Navigate to home page
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const FreelancerPageWidget()),
             (route) => false,

@@ -145,7 +145,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Center(child: Text('Error: \\${snapshot.error}'));
+                    return Center(child: Text('Error: ${snapshot.error}'));
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -153,14 +153,26 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                   final docs = snapshot.data?.docs ?? [];
                   final searchQuery = _searchController.text.trim().toLowerCase();
                   final locationQuery = _locationSearchController.text.trim().toLowerCase();
+                  final currentUserId = FirebaseAuth.instance.currentUser?.uid;
+                  
                   final filteredDocs = docs.where((doc) {
                     final data = doc.data() as Map<String, dynamic>;
                     final title = (data['description'] ?? '').toString().toLowerCase();
                     final location = (data['location'] ?? '').toString().toLowerCase();
+                    final createdByUid = data['createdByUid'] as String?;
+                    final statusMap = data['status'] as Map<String, dynamic>?;
+                    final status = statusMap != null ? statusMap[currentUserId] as String? : null;
+                    
+                    // Only show jobs not created by current user and with status "Kerja Tersedia"
+                    final isNotCreatedByUser = createdByUid != currentUserId;
+                    final isAvailable = status == null || status == 'Kerja Tersedia';
+                    
                     final matchesTitle = searchQuery.isEmpty || title.contains(searchQuery);
                     final matchesLocation = locationQuery.isEmpty || location.contains(locationQuery);
-                    return matchesTitle && matchesLocation;
+                    
+                    return isNotCreatedByUser && isAvailable && matchesTitle && matchesLocation;
                   }).toList();
+                  
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: filteredDocs.length,
@@ -168,7 +180,7 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                       final doc = filteredDocs[index];
                       final data = doc.data() as Map<String, dynamic>;
                       final statusMap = data['status'] as Map<String, dynamic>?;
-                      final status = statusMap != null ? statusMap[FirebaseAuth.instance.currentUser?.uid] as String? : null;
+                      final status = statusMap != null ? statusMap[currentUserId] as String? : null;
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         child: Container(
@@ -271,9 +283,15 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                             Expanded(
                                               child: ElevatedButton(
                                                 onPressed: () async {
-                                                  await FirebaseFirestore.instance.collection('service_requests').doc(doc.id).update({
-                                                    'status.$FirebaseAuth.instance.currentUser?.uid': 'Dimohon',
-                                                  });
+                                                  final currentUser = FirebaseAuth.instance.currentUser;
+                                                  if (currentUser != null) {
+                                                    await FirebaseFirestore.instance
+                                                        .collection('service_requests')
+                                                        .doc(doc.id)
+                                                        .update({
+                                                      'status.${currentUser.uid}': 'Dimohon',
+                                                    });
+                                                  }
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor: const Color(0xFF4A90E2),

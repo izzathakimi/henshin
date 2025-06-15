@@ -92,11 +92,16 @@ class ChatScreenState extends State<ChatScreen> {
     };
 
     try {
-      await _firestore.collection('chats').doc(_chatId).update({
+      // Update isRead status for both users
+      final updates = {
         'messages': FieldValue.arrayUnion([message]),
         'lastMessage': message['text'],
         'lastMessageTime': FieldValue.serverTimestamp(),
-      });
+      };
+      updates['isRead.${currentUser.uid}'] = true;  // Set current user's messages as read
+      updates['isRead.${widget.otherUserId}'] = false;  // Set other user's messages as unread
+      
+      await _firestore.collection('chats').doc(_chatId).update(updates);
       _messageController.clear();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -145,6 +150,14 @@ class ChatScreenState extends State<ChatScreen> {
                             }
                             final data = snapshot.data!.data() as Map<String, dynamic>;
                             final messages = List<Map<String, dynamic>>.from(data['messages'] ?? []);
+                            
+                            // Mark messages as read when opening the chat
+                            if (messages.isNotEmpty) {
+                              _firestore.collection('chats').doc(_chatId).update({
+                                'isRead.${currentUser.uid}': true,
+                              });
+                            }
+                            
                             return ListView.builder(
                               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                               itemCount: messages.length,
