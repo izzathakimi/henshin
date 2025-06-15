@@ -200,10 +200,13 @@ class HomeScreen extends StatelessWidget {
                                     child: Text('Tiada kerja terkini.'),
                                   );
                                 }
-                                // Filter out jobs posted by the current user
+                                // Filter out jobs posted by the current user and check status
                                 final jobs = snapshot.data!.docs.where((doc) {
                                   final data = doc.data() as Map<String, dynamic>;
-                                  return data['createdByEmail'] != currentUser?.email;
+                                  final statusMap = data['status'] as Map<String, dynamic>?;
+                                  final status = statusMap != null ? statusMap[currentUser?.uid] as String? : null;
+                                  final isAvailable = status == null || status == 'Kerja Tersedia';
+                                  return data['createdByUid'] != currentUser?.uid && isAvailable;
                                 }).take(3).toList();
                                 if (jobs.isEmpty) {
                                   return const Padding(
