@@ -87,23 +87,23 @@ class FreelancerPageWidgetState extends State<FreelancerPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () async {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_left_outlined,
-            color: Colors.white,
-            size: 24,
-          ),
-        ),
-        actions: const [],
-        centerTitle: true,
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   automaticallyImplyLeading: false,
+      //   leading: InkWell(
+      //     onTap: () async {
+      //       Navigator.pop(context);
+      //     },
+      //     child: const Icon(
+      //       Icons.keyboard_arrow_left_outlined,
+      //       color: Colors.white,
+      //       size: 24,
+      //     ),
+      //   ),
+      //   actions: const [],
+      //   centerTitle: true,
+      //   elevation: 0,
+      // ),
       extendBodyBehindAppBar: true,
       body: Container(
         decoration: const BoxDecoration(

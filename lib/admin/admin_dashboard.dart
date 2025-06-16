@@ -29,7 +29,7 @@ class AdminDashboardState extends State<AdminDashboard> {
 
   final List<Map<String, dynamic>> _drawerItems = [
     {'icon': Icons.work, 'title': 'Permohonan Perkhidmatan', 'index': 0},
-    {'icon': Icons.admin_panel_settings, 'title': 'Cipta Pentadbir', 'index': 1},
+    // {'icon': Icons.admin_panel_settings, 'title': 'Cipta Pentadbir', 'index': 1}, // Temporarily hidden for presentation
     {'icon': Icons.people, 'title': 'Akaun Pengguna', 'index': 2},
     {'icon': Icons.report, 'title': 'Laporan Pengguna', 'index': 3},
   ];

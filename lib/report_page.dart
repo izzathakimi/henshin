@@ -119,9 +119,9 @@ class _ReportPageState extends State<ReportPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                 onPressed: _isLoading ? null : _submitReport,
-                child: _isLoading ? CircularProgressIndicator() : Text('Hantar Laporan'),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: _isLoading ? CircularProgressIndicator() : Text('Hantar Laporan', style: TextStyle(color: Colors.white)),
               ),
             ),
           ],
