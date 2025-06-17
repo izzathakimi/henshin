@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../profile_screen/profile.dart';
+
 // import '../common/Henshin_theme.dart';
 
 class JobApplicationPageWidget extends StatefulWidget {
@@ -279,7 +281,32 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                             ),
                                           ),
                                           const Spacer(),
-                                          if (status == null || status == 'Kerja Tersedia')
+                                        ],
+                                      ),
+                                      // New row for buttons
+                                      if (status == null || status == 'Kerja Tersedia')
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(builder: (_) => Profile(userId: data['createdByUid'])),
+                                                  );
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.blue, // Or HenshinTheme.primaryColor
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(16),
+                                                  ),
+                                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                                child: const Text('Lihat', style: TextStyle(color: Colors.white)),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 12),
                                             Expanded(
                                               child: ElevatedButton(
                                                 onPressed: () async {
@@ -294,17 +321,18 @@ class JobApplicationPageWidgetState extends State<JobApplicationPageWidget> {
                                                   }
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: const Color(0xFF4A90E2),
+                                                  backgroundColor: Colors.white,
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderRadius: BorderRadius.circular(16),
                                                   ),
-                                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
                                                 ),
-                                                child: const Text('Mohon', style: TextStyle(color: Colors.white)),
+                                                child: const Text('Mohon', style: TextStyle(color: Colors.blue)),
                                               ),
                                             ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),
                                     ],
                                   ),
                                 ),

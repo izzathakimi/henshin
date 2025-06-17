@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
+      debugShowCheckedModeBanner: false,
       home: Consumer<ApplicationState>(
         builder: (context, appState, _) {
           return const SplashWidget();
