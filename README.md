@@ -80,29 +80,28 @@ Download the latest release: [v2.1](https://github.com/izzathakimi/henshin/relea
 - Data management options
 
 ## Demo
-[Click Here](https://drive.google.com/file/d/16Byy0uySTTJJ45Hg9cVGZ9QSC2WHZcvL/view?usp=drive_link)
+RuralHub Mobile Application User Manual: [Click Here](https://drive.google.com/file/d/16Byy0uySTTJJ45Hg9cVGZ9QSC2WHZcvL/view?usp=drive_link)
 
 ### Authentication Flow
-<img src="assets/demo/First.jpg" alt="Login, Register, Forgot password, Add Details">
+<img src="assets/demo/Authentication.jpg" alt="Login, Register, Forgot password, Navigation Bar">
 
 Login, register, forgot password and profile details screens
 
 ### Main Application Screens
-<img src="assets/demo/Second.jpg" alt="Home Page, Community Forum, Chat Page and Sidebar">
+<img src="assets/demo/ApplicationScreens.jpg" alt="Home Page, Profile Page, Chat Page and Notification Page">
 
-Key application interfaces showing the home page with job listings, community forum for discussions, messaging system, and navigation sidebar
+Key application interfaces showing the home page with recent job listings, buttons for checking applied job status and offered job status, Profile page with account history and posts, messaging system, and notification page.
 
 ### Service Management Screens
-<img src="assets/demo/Third.jpg" alt="Profile, Request Gig, Gigs Available, Job Application">
+<img src="assets/demo/JobPage.jpg" alt="Job Listing, Job Application, Job Offering, Job Management">
 
-Core service interfaces displaying user profile management, gig request system, available jobs listing, and the job application process in Malay language for better accessibility
+Core service interfaces displaying user job request system, available jobs listing, and the job application process in Malay language for better accessibility
 
 ## Support
-- Email: njmdnyusof.work@gmail.com
-- Community forum
-- Video tutorials
+- Email: izzathakimi0204@gmail.com
+- Video tutorials (Outdated)
 - [Video Demonstration](https://drive.google.com/file/d/1DZTsQfl9j8VxcaiaYoL35buBXUqAVnZI/view?usp=sharing)
 
 ---
 
-Built with ❤️ for rural Malaysia hehe tq
+Built with ❤️ for rural Malaysia
