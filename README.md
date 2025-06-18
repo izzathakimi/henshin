@@ -1,8 +1,8 @@
-# Henshin
-> A Malaysian Freelance Marketplace Focusing on Rural Communities
+# RuralHub
+> A Malaysian Local Job Marketplace Focusing on Rural Communities
 
 ## Overview
-Henshin is a revolutionary freelance marketplace platform connecting skilled rural Malaysian workers with employment opportunities, fostering economic growth in underserved areas.
+RuralHub is a revolutionary job marketplace platform connecting skilled rural Malaysian workers with employment opportunities, fostering economic growth in underserved areas.
 
 ## Mission
 Empowering rural Malaysian communities through an accessible digital platform for showcasing skills, finding work opportunities, and building sustainable livelihoods.
@@ -10,27 +10,20 @@ Empowering rural Malaysian communities through an accessible digital platform fo
 ## Features
 
 ### Core Functionality
-- **Service Marketplace**: Post and find local service opportunities
+- **Job Marketplace**: Post and find local job opportunities
 - **Rural-Friendly Platform**: Implementing Malay Language UI
 - **Simplified UX**: Intuitive interface for all technical skill levels
 
-### For Service Providers
-- Customizable professional profiles
-- Digital portfolio management
-
 ### For Clients
-- Detailed service request system
+- Detailed job request system
 - Real-time progress tracking
 - Multi-image upload support
-- Built-in price negotiation tools
+- Feedback system
 
 ### Community Tools
-- Real-time chat system
-- Discussion forums
+- Chat system
 - Job proposal system
-- Push notifications
 
-## Technical Requirements
 
 ### Supported Platforms
 - **Android**: Version 5.0 (Lollipop) or higher
@@ -40,10 +33,9 @@ Empowering rural Malaysian communities through an accessible digital platform fo
 - Storage: 60MB minimum
 - Network: 3G connection or better
 - Valid email/phone for registration
-- Location services enabled
 
 ### Installation
-Download the latest release: [v1.1](https://github.com/MalakaPunche/henshin/releases/tag/v1.1)
+Download the latest release: [v2.1](https://github.com/izzathakimi/henshin/releases/tag/v2.0)
 
 ## Getting Started
 
@@ -88,6 +80,8 @@ Download the latest release: [v1.1](https://github.com/MalakaPunche/henshin/rele
 - Data management options
 
 ## Demo
+[Open User Manual](file:///C:/Users/User/henshin/RuralHub%20Mobile%20Application%20User%20Manual.docx)
+
 
 ### Authentication Flow
 <img src="assets/demo/First.jpg" alt="Login, Register, Forgot password, Add Details">
