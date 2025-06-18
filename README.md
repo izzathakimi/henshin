@@ -80,7 +80,7 @@ Download the latest release: [v2.1](https://github.com/izzathakimi/henshin/relea
 - Data management options
 
 ## Demo
-[Open User Manual] https://drive.google.com/file/d/16Byy0uySTTJJ45Hg9cVGZ9QSC2WHZcvL/view?usp=drive_link
+[Click Here](https://drive.google.com/file/d/16Byy0uySTTJJ45Hg9cVGZ9QSC2WHZcvL/view?usp=drive_link)
 
 ### Authentication Flow
 <img src="assets/demo/First.jpg" alt="Login, Register, Forgot password, Add Details">
